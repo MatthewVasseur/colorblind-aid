@@ -14,49 +14,55 @@ import Vision
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
-    // SCENE
+    // Mark: - Properties
     @IBOutlet var sceneView: ARSCNView!
-    let bubbleDepth : Float = 0.01 // the 'depth' of 3D text
-    var latestPrediction : String = "…" // a variable containing the latest CoreML prediction
+    @IBOutlet weak var debugTextView: UITextView!
+    
+    
+    let bubbleDepth: Float = 0.01 // the 'depth' of 3D text
+    var latestPrediction: String = "…" // a variable containing the latest CoreML prediction
     
     // COREML
     var visionRequests = [VNRequest]()
     let dispatchQueueML = DispatchQueue(label: "com.hw.dispatchqueueml") // A Serial Queue
-    @IBOutlet weak var debugTextView: UITextView!
+    
+    // MARK: - UIViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Set the view's delegate
-        sceneView.delegate = self
+        
+        // Set up the scene and scene view
+        let scene = SCNScene()
+        sceneView.scene = scene
         
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
-        
-        // Create a new scene
-        let scene = SCNScene()
-        
-        // Set the scene to the view
-        sceneView.scene = scene
-        
         // Enable Default Lighting - makes the 3D text a bit poppier.
         sceneView.autoenablesDefaultLighting = true
+        // Enable debug options
+        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+        
+        // Set the view's delegate
+        sceneView.delegate = self
         
         //////////////////////////////////////////////////
-        // Tap Gesture Recognizer
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognize:)))
-        view.addGestureRecognizer(tapGesture)
+//        // Tap Gesture Recognizer
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognize:)))
+//        view.addGestureRecognizer(tapGesture)
         
         //////////////////////////////////////////////////
         
         // Set up Vision Model
-        guard let selectedModel = try? VNCoreMLModel(for: Inceptionv3().model) else { // (Optional) This can be replaced with other models on https://developer.apple.com/machine-learning/
+        guard let selectedModel = try? VNCoreMLModel(for: Inceptionv3().model) else {
+            // (Optional) This can be replaced with other models on https://developer.apple.com/machine-learning/
             fatalError("Could not load model. Ensure model has been drag and dropped (copied) to XCode Project from https://developer.apple.com/machine-learning/ . Also ensure the model is part of a target (see: https://stackoverflow.com/questions/45884085/model-is-not-part-of-any-target-add-the-model-to-a-target-to-enable-generation ")
         }
         
         // Set up Vision-CoreML Request
         let classificationRequest = VNCoreMLRequest(model: selectedModel, completionHandler: classificationCompleteHandler)
-        classificationRequest.imageCropAndScaleOption = VNImageCropAndScaleOption.centerCrop // Crop from centre of images and scale to appropriate size.
+        classificationRequest.imageCropAndScaleOption = VNImageCropAndScaleOption.centerCrop
+        // Crop from centre of images and scale to appropriate size.
         visionRequests = [classificationRequest]
         
         // Begin Loop to Update CoreML
@@ -68,6 +74,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
+        
         // Enable plane detection
         configuration.planeDetection = .horizontal
         
@@ -87,6 +94,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Release any cached data, images, etc that aren't in use.
     }
 
+    
+    
     // MARK: - ARSCNViewDelegate
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
@@ -95,71 +104,99 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
+    /*
+     // Override to create and configure nodes for anchors added to the view's session.
+     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+     let node = SCNNode()
+     
+     return node
+     }
+     */
+    
+    func session(_ session: ARSession, didFailWithError error: Error) {
+        // Present an error message to the user
+        
+    }
+    
+    func sessionWasInterrupted(_ session: ARSession) {
+        // Inform the user that the session has been interrupted, for example, by presenting an overlay
+        
+    }
+    
+    func sessionInterruptionEnded(_ session: ARSession) {
+        // Reset tracking and/or remove existing anchors if consistent tracking is required
+        
+    }
+    
     // MARK: - Status Bar: Hide
     override var prefersStatusBarHidden : Bool {
         return true
     }
     
-    // MARK: - Interaction
+    // MARK: - Actions
     
-    @objc func handleTap(gestureRecognize: UITapGestureRecognizer) {
-        // HIT TEST : REAL WORLD
-        // Get Screen Centre
-        let screenCentre : CGPoint = CGPoint(x: self.sceneView.bounds.midX, y: self.sceneView.bounds.midY)
+    @IBAction func handleTap(gestureRecognize: UITapGestureRecognizer) {
         
-        let arHitTestResults : [ARHitTestResult] = sceneView.hitTest(screenCentre, types: [.featurePoint]) // Alternatively, we could use '.existingPlaneUsingExtent' for more grounded hit-test-points.
+        // Get nearest object to center screen to color lable
+        //        let touchLocation = sender.location(in: self.sceneView)
+        let screenCentre = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
+        let arHitTestResults = sceneView.hitTest(screenCentre, types: [.featurePoint])
+        // Alternatively, we could use '.existingPlaneUsingExtent' for more grounded hit-test-points.
+        
         
         if let closestResult = arHitTestResults.first {
+            
             // Get Coordinates of HitTest
-            let transform : matrix_float4x4 = closestResult.worldTransform
-            let worldCoord : SCNVector3 = SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
+            let transform = closestResult.worldTransform
+            let worldCoord = SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
             
             // Create 3D Text
-            let node : SCNNode = createNewBubbleParentNode(latestPrediction)
+            let node = createNewBubbleParentNode(latestPrediction)
             sceneView.scene.rootNode.addChildNode(node)
             node.position = worldCoord
         }
     }
     
-    func createNewBubbleParentNode(_ text : String) -> SCNNode {
+    // MARK: - Methods
+    
+    private func createNewBubbleParentNode(_ text: String) -> SCNNode {
         // Warning: Creating 3D Text is susceptible to crashing. To reduce chances of crashing; reduce number of polygons, letters, smoothness, etc.
         
-        // TEXT BILLBOARD CONSTRAINT
+        // Text billboard constraint
         let billboardConstraint = SCNBillboardConstraint()
         billboardConstraint.freeAxes = SCNBillboardAxis.Y
         
-        // BUBBLE-TEXT
+        // Create the bubble text
         let bubble = SCNText(string: text, extrusionDepth: CGFloat(bubbleDepth))
-        var font = UIFont(name: "Futura", size: 0.15)
-        font = font?.withTraits(traits: .traitBold)
-        bubble.font = font
+        bubble.font = UIFont(name: "Futura", size: 0.15)?.withTraits(traits: .traitBold)
         bubble.alignmentMode = kCAAlignmentCenter
         bubble.firstMaterial?.diffuse.contents = UIColor.orange
         bubble.firstMaterial?.specular.contents = UIColor.white
         bubble.firstMaterial?.isDoubleSided = true
-        // bubble.flatness // setting this too low can cause crashes.
         bubble.chamferRadius = CGFloat(bubbleDepth)
+        // bubble.flatness // setting this too low can cause crashes.
         
-        // BUBBLE NODE
-        let (minBound, maxBound) = bubble.boundingBox
+        // Create the bubble node
         let bubbleNode = SCNNode(geometry: bubble)
         // Centre Node - to Centre-Bottom point
+        let (minBound, maxBound) = bubble.boundingBox
         bubbleNode.pivot = SCNMatrix4MakeTranslation( (maxBound.x - minBound.x)/2, minBound.y, bubbleDepth/2)
+        
         // Reduce default text size
         bubbleNode.scale = SCNVector3Make(0.2, 0.2, 0.2)
         
-        // CENTRE POINT NODE
+        // Create the sphere node
         let sphere = SCNSphere(radius: 0.005)
         sphere.firstMaterial?.diffuse.contents = UIColor.cyan
         let sphereNode = SCNNode(geometry: sphere)
         
-        // BUBBLE PARENT NODE
-        let bubbleNodeParent = SCNNode()
-        bubbleNodeParent.addChildNode(bubbleNode)
-        bubbleNodeParent.addChildNode(sphereNode)
-        bubbleNodeParent.constraints = [billboardConstraint]
+        // Create the parent node
+        let parentNode = SCNNode()
+        parentNode.addChildNode(bubbleNode)
+        parentNode.addChildNode(sphereNode)
+        parentNode.constraints = [billboardConstraint]
         
-        return bubbleNodeParent
+        return parentNode
     }
     
     // MARK: - CoreML Vision Handling
@@ -239,10 +276,4 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
 }
 
-extension UIFont {
-    // Based on: https://stackoverflow.com/questions/4713236/how-do-i-set-bold-and-italic-on-uilabel-of-iphone-ipad
-    func withTraits(traits:UIFontDescriptorSymbolicTraits...) -> UIFont {
-        let descriptor = self.fontDescriptor.withSymbolicTraits(UIFontDescriptorSymbolicTraits(traits))
-        return UIFont(descriptor: descriptor!, size: 0)
-    }
-}
+
