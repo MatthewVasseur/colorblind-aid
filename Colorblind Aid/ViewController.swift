@@ -47,11 +47,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.delegate = self
         
         //////////////////////////////////////////////////
-//        // Tap Gesture Recognizer
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognize:)))
-//        view.addGestureRecognizer(tapGesture)
-        
-        //////////////////////////////////////////////////
         
         // Set up Vision Model
         guard let selectedModel = try? VNCoreMLModel(for: Inceptionv3().model) else {
@@ -94,8 +89,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Release any cached data, images, etc that aren't in use.
     }
 
-    
-    
     // MARK: - ARSCNViewDelegate
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
@@ -136,13 +129,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // MARK: - Actions
     
     @IBAction func handleTap(gestureRecognize: UITapGestureRecognizer) {
-        
         // Get nearest object to center screen to color lable
         //        let touchLocation = sender.location(in: self.sceneView)
         let screenCentre = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
         let arHitTestResults = sceneView.hitTest(screenCentre, types: [.featurePoint])
         // Alternatively, we could use '.existingPlaneUsingExtent' for more grounded hit-test-points.
-        
         
         if let closestResult = arHitTestResults.first {
             
@@ -231,39 +222,68 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             .map({ "\($0.identifier) \(String(format:"- %.2f", $0.confidence))" })
             .joined(separator: "\n")
         
-        
         DispatchQueue.main.async {
             // Print Classifications
-            print(classifications)
-            print("--")
+//            print(classifications)
+//            print("--")
             
             // Display Debug Text on screen
-            var debugText:String = ""
-            debugText += classifications
-            self.debugTextView.text = debugText
+//            var debugText:String = ""
+//            debugText += classifications
+//            self.debugTextView.text = debugText
             
             // Store the latest prediction
             var objectName:String = "…"
             objectName = classifications.components(separatedBy: "-")[0]
             objectName = objectName.components(separatedBy: ",")[0]
             self.latestPrediction = objectName
-            
         }
     }
     
     func updateCoreML() {
         ///////////////////////////
         // Get Camera Image as RGB
-        let pixbuff : CVPixelBuffer? = (sceneView.session.currentFrame?.capturedImage)
-        if pixbuff == nil { return }
-        let ciImage = CIImage(cvPixelBuffer: pixbuff!)
+        guard let pixbuff = (sceneView.session.currentFrame?.capturedImage) else {
+            return
+        }
+        let ciImage = CIImage(cvPixelBuffer: pixbuff)
+        
+        let context = CIContext(options: nil)
+        let cgImage = context.createCGImage(ciImage, from: ciImage.extent)
+        let uiImage = UIImage(cgImage: cgImage!)
+        
+        let pixelData = cgImage?.dataProvider?.data
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        
+        let pixelInfo: Int = ((Int(uiImage.size.width) * Int(0)) + Int(0)) * 4
+        
+        let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
+        let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+        let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
+        //        let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
+        
+        //        let color = UIColor(red: r, green: g, blue: b, alpha: a)
+        let colorText = String(format: "Red: %3.2f, Green: %3.2f, Blue: %3.2f", r, g, b)
+        print(colorText)
+        
+        DispatchQueue.main.async {
+            // Display Debug Text on screen
+            var debugText = ""
+            debugText += colorText
+            self.debugTextView.text = debugText
+        }
+        
+        // Store the latest prediction
+        self.latestPrediction = colorText
+        
         // Note: Not entirely sure if the ciImage is being interpreted as RGB, but for now it works with the Inception model.
         // Note2: Also uncertain if the pixelBuffer should be rotated before handing off to Vision (VNImageRequestHandler) - regardless, for now, it still works well with the Inception model.
         
         ///////////////////////////
         // Prepare CoreML/Vision Request
         let imageRequestHandler = VNImageRequestHandler(ciImage: ciImage, options: [:])
-        // let imageRequestHandler = VNImageRequestHandler(cgImage: cgImage!, orientation: myOrientation, options: [:]) // Alternatively; we can convert the above to an RGB CGImage and use that. Also UIInterfaceOrientation can inform orientation values.
+        // let imageRequestHandler = VNImageRequestHandler(cgImage: cgImage!, orientation: myOrientation, options: [:])
+        // Alternatively; we can convert the above to an RGB CGImage and use that. Also UIInterfaceOrientation can inform orientation values.
         
         ///////////////////////////
         // Run Image Request
