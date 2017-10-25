@@ -181,7 +181,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             // Store the latest prediction
             //            self.latestPrediction = colorText
 
-            //print(pixel.toXYZ())
+            print(pixel.toXYZ())
             print( String(format: "x: %3.2f, y: %3.2f, z: %3.2f", x, y, 1-x-y))
             print(colorText)
 
