@@ -225,6 +225,9 @@
                                 <exclude reference="gkP-u4-FDg"/>
                                 <exclude reference="PU3-3o-Yef"/>
                             </mask>
+                            <mask key="constraints">
+                                <exclude reference="0s6-9x-DKU"/>
+                            </mask>
                         </variation>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="5E4-GT-z9B" appends="YES" id="0P9-Ij-bAN"/>

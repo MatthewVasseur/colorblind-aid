@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import os.log
 import FirebaseAuth
 import GoogleSignIn
 
-class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDelegate {
+class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDelegate, GIDSignInUIDelegate {
     
     // MARK: - Properties
     @IBOutlet weak var emailTextField: UITextField!
@@ -32,7 +33,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
         super.viewDidLoad()
         
         // Set the background to subtle dots
-        view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "subtleDots"))
+//        view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "subtleDots"))
         
         // Style buttons' disabled state
         signUpButton.setTitleColor(UIColor.lightGray, for: .disabled)
@@ -50,7 +51,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
         
         // GID Instance
         GIDSignIn.sharedInstance().uiDelegate = self
-        GIDSignIn.sharedInstance().signIn()
+        GIDSignIn.sharedInstance().delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -102,6 +103,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
         // ...
         if let error = error {
             // ...
+            print("hi")
             return
         }
         
@@ -109,7 +111,17 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
         // ...
         
-        Auth.auth().signIn(with: credential) { (user, error) in
+        // Disable fields while signing in and loading
+        updateButtonStates(false)
+        resetPasswordButton.isEnabled = false
+        updateTextFieldStates(false)
+        
+        // Start the activity indicator
+        showActivityIndicator()
+        
+        Auth.auth().signIn(with: credential) {
+            (user, error) in
+            
             if let error = error {
                 // Set the error label
                 // print(error.localizedDescription)
@@ -125,8 +137,10 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
                 
                 return
             }
+            
             // User is signed in
             // ...
+            self.signIn(user!)
         }
     }
     
@@ -134,128 +148,88 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
         // Perform any operations when the user disconnects from app here.
         // ...
     }
+//
+//    @IBAction func didTapSignUp(_ sender: AnyObject) {
+//        // Create account with given credentials (do nothing if email or password are blank)
+//        guard let email = emailTextField.text, let password = passwordTextField.text else {
+//            return
+//        }
+//        
+//        // Disable fields while signing up
+//        updateTextFieldStates(false)
+//        updateButtonStates(false)
+//        
+//        // Start the activity indicator
+//        showActivityIndicator()
+//
+//        FIRAuth.auth()?.createUser(withEmail: email, password: password) {
+//            (user, error) in
+//            if let error = error {
+//                // Set the error label
+//                // print(error.localizedDescription)
+//                self.setErrorLabel(FIRAuthErrorCode(rawValue: error._code))
+//
+//                // Enable fields before returning
+//                self.updateButtonStates(true)
+//                self.resetPasswordButton.isEnabled = true
+//                self.updateTextFieldStates(true)
+//
+//                // Stop the activity indicator
+//                self.hideActivityIndicator()
+//
+//                return
+//            }
+//
+//            // Create user in database & set display name
+//            self.setDisplayName(user!)
+//            Constants.firebase.usersRef.child(user!.uid).child("books").setValue(true)
+//        }
+//
+//        // Clear Password field
+//        passwordTextField.text = ""
+//    }
     
-    @IBAction func didTapSignIn(_ sender: AnyObject) {
-        // Sign In with credentials (do nothing if email or password are blank)
-        guard let email = emailTextField.text, let password = passwordTextField.text else {
-            return
-        }
-        
-        // Disable fields while signing in and loading
-        updateButtonStates(false)
-        resetPasswordButton.isEnabled = false
-        updateTextFieldStates(false)
-        
-        // Start the activity indicator
-        showActivityIndicator()
-        
-        // Authenticate through Firebase
-        Auth.auth().signIn(withEmail: email, password: password) {
-            (user, error) in
-            if let error = error {
-                // Set the error label
-                // print(error.localizedDescription)
-                self.setErrorLabel(FIRAuthErrorCode(rawValue: error._code))
-                
-                // Enable fields before returning
-                self.updateButtonStates(true)
-                self.resetPasswordButton.isEnabled = true
-                self.updateTextFieldStates(true)
-                
-                // Stop the activity indicator
-                self.hideActivityIndicator()
-                
-                return
-            }
-            
-            self.signIn(user!)
-        }
-        
-        // Clear Password field
-        passwordTextField.text = ""
-    }
-    
-    @IBAction func didTapSignUp(_ sender: AnyObject) {
-        // Create account with given credentials (do nothing if email or password are blank)
-        guard let email = emailTextField.text, let password = passwordTextField.text else {
-            return
-        }
-        
-        // Disable fields while signing up
-        updateTextFieldStates(false)
-        updateButtonStates(false)
-        
-        // Start the activity indicator
-        showActivityIndicator()
-        
-        FIRAuth.auth()?.createUser(withEmail: email, password: password) {
-            (user, error) in
-            if let error = error {
-                // Set the error label
-                // print(error.localizedDescription)
-                self.setErrorLabel(FIRAuthErrorCode(rawValue: error._code))
-                
-                // Enable fields before returning
-                self.updateButtonStates(true)
-                self.resetPasswordButton.isEnabled = true
-                self.updateTextFieldStates(true)
-                
-                // Stop the activity indicator
-                self.hideActivityIndicator()
-                
-                return
-            }
-            
-            // Create user in database & set display name
-            self.setDisplayName(user!)
-            Constants.firebase.usersRef.child(user!.uid).child("books").setValue(true)
-        }
-        
-        // Clear Password field
-        passwordTextField.text = ""
-    }
-    
-    @IBAction func didRequestPasswordReset(_ sender: AnyObject) {
-        // Send a password reset email through alert prompt (do nothing if email is blank)
-        let prompt = UIAlertController(title: "Reset Password", message: nil, preferredStyle: .alert)
-        
-        // Send a password reset email action
-        let resetAction = UIAlertAction(title: "Reset", style: .default, handler: {
-            (action) in
-            guard let userInput = prompt.textFields![0].text, !userInput.isEmpty else {
-                return
-            }
-            FIRAuth.auth()?.sendPasswordReset(withEmail: userInput) {
-                (error) in
-                if let error = error {
-                    // Set the error label
-                    // print(error.localizedDescription)
-                    self.setErrorLabel(FIRAuthErrorCode(rawValue: error._code))
-                    return
-                }
-                
-                // Set error label to success confirmation
-                self.errorLabel.text = "Password Reset Sent"
-                self.errorLabel.textColor = Constants.colors.success
-            }
-        })
-        
-        // Cancel (i.e. do nothing) action
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        // Add and style text field for the email
-        prompt.addTextField(configurationHandler: {
-            (textField) in
-            textField.keyboardType = .emailAddress
-            textField.clearButtonMode = .always
-            textField.font = UIFont.systemFont(ofSize: 14.0)
-            textField.placeholder = "Enter Email"
-        })
-        prompt.addAction(resetAction)
-        prompt.addAction(cancelAction)
-        
-        present(prompt, animated: true, completion: nil)
-    }
+//    @IBAction func didRequestPasswordReset(_ sender: AnyObject) {
+//        // Send a password reset email through alert prompt (do nothing if email is blank)
+//        let prompt = UIAlertController(title: "Reset Password", message: nil, preferredStyle: .alert)
+//        
+//        // Send a password reset email action
+//        let resetAction = UIAlertAction(title: "Reset", style: .default, handler: {
+//            (action) in
+//            guard let userInput = prompt.textFields![0].text, !userInput.isEmpty else {
+//                return
+//            }
+//            FIRAuth.auth()?.sendPasswordReset(withEmail: userInput) {
+//                (error) in
+//                if let error = error {
+//                    // Set the error label
+//                    // print(error.localizedDescription)
+//                    self.setErrorLabel(FIRAuthErrorCode(rawValue: error._code))
+//                    return
+//                }
+//                
+//                // Set error label to success confirmation
+//                self.errorLabel.text = "Password Reset Sent"
+//                self.errorLabel.textColor = Constants.colors.success
+//            }
+//        })
+//        
+//        // Cancel (i.e. do nothing) action
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//        
+//        // Add and style text field for the email
+//        prompt.addTextField(configurationHandler: {
+//            (textField) in
+//            textField.keyboardType = .emailAddress
+//            textField.clearButtonMode = .always
+//            textField.font = UIFont.systemFont(ofSize: 14.0)
+//            textField.placeholder = "Enter Email"
+//        })
+//        prompt.addAction(resetAction)
+//        prompt.addAction(cancelAction)
+//        
+//        present(prompt, animated: true, completion: nil)
+//    }
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -274,7 +248,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
             //            }
             
             //            bookTableViewController.books = loadedBooks
-            AppState.sharedInstance.currentUser?.books = loadedBooks
+            
             break
             
         default:
@@ -283,77 +257,67 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
     }
     
     // MARK: - Private Methods
-    private func signIn(_ user: FIRUser?) {
+    private func signIn(_ user: User?) {
         // Cannot sign in without a user
         guard let user = user else {
             os_log("Need a user to sign in!", log: .default, type: .debug)
             return
         }
         
-        // Find user in database and load information and books
-        loadedBooks.removeAll() // Reset loaded books
-        loadBooksDG.enter()
-        Constants.firebase.usersRef.child(user.uid).observeSingleEvent(of: .value, with: loadUser)
+        // Clear Password field & Error label
+        self.passwordTextField.text = ""
+        self.setErrorLabel()
         
-        // Perform sign in segue once user's books have loaded
-        loadBooksDG.notify(queue: .main, execute: {
-            AppState.sharedInstance.isSignedIn = true
-            
-            // Clear Password field & Error label
-            self.passwordTextField.text = ""
-            self.setErrorLabel()
-            
-            // Enable fields before segue
-            self.updateButtonStates(true)
-            self.resetPasswordButton.isEnabled = true
-            self.updateTextFieldStates(true)
-            
-            self.hideActivityIndicator() // Hide the activity view after loading
-            self.performSegue(withIdentifier: "SignIn", sender: nil)
-        })
+        // Enable fields before segue
+        self.updateButtonStates(true)
+        self.resetPasswordButton.isEnabled = true
+        self.updateTextFieldStates(true)
+        
+        self.hideActivityIndicator() // Hide the activity view after loading
+        //self.performSegue(withIdentifier: "SignIn", sender: nil)
     }
     
-    private func setDisplayName(_ user: FIRUser) {
-        // Set the users display name to be their email without domain
-        let changeRequest = user.profileChangeRequest()
-        changeRequest.displayName = user.email!.components(separatedBy: "@")[0]
-        changeRequest.commitChanges() {
-            (error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            self.signIn(FIRAuth.auth()?.currentUser)
-        }
-    }
+//    private func setDisplayName(_ user: FIRUser) {
+//        // Set the users display name to be their email without domain
+//        let changeRequest = user.profileChangeRequest()
+//        changeRequest.displayName = user.email!.components(separatedBy: "@")[0]
+//        changeRequest.commitChanges() {
+//            (error) in
+//            if let error = error {
+//                print(error.localizedDescription)
+//                return
+//            }
+//            self.signIn(FIRAuth.auth()?.currentUser)
+//        }
+//    }
     
-    // Helper method to look a user's information and books from database
-    private func loadUser(snapshot: FIRDataSnapshot) -> Void {
-        // Safely unwrap snapshot's value
-        guard let value = snapshot.value as? [String: AnyObject] else {
-            fatalError("User does not exist.")
-            //            return
-        }
-        
-        // Get user's info and save in shared instance
-        AppState.sharedInstance.currentUser = User(snapshot: snapshot)
-        
-        // Read user's books using dispatch group
-        if let booksIDs = value["books"] as? [String] {
-            for bookID in booksIDs {
-                loadBooksDG.enter()
-                Constants.firebase.booksRef.child(bookID).observeSingleEvent(of: .value, with: { (snapshot) in
-                    guard let book = Book(snapshot: snapshot) else {
-                        os_log("Unable to read the book for a User object.", log: .default, type: .debug)
-                        return
-                    }
-                    self.loadedBooks.append(book)
-                    self.loadBooksDG.leave() // Firebase has finished getting the book
-                })
-            }
-        }
-        loadBooksDG.leave()
-    }
+//    // Helper method to look a user's information and books from database
+//    private func loadUser(snapshot: FIRDataSnapshot) -> Void {
+//        // Safely unwrap snapshot's value
+//        guard let value = snapshot.value as? [String: AnyObject] else {
+//            fatalError("User does not exist.")
+//            //            return
+//        }
+//
+//        // Get user's info and save in shared instance
+//        AppState.sharedInstance.currentUser = User(snapshot: snapshot)
+//
+//        // Read user's books using dispatch group
+//        if let booksIDs = value["books"] as? [String] {
+//            for bookID in booksIDs {
+//                loadBooksDG.enter()
+//                Constants.firebase.booksRef.child(bookID).observeSingleEvent(of: .value, with: { (snapshot) in
+//                    guard let book = Book(snapshot: snapshot) else {
+//                        os_log("Unable to read the book for a User object.", log: .default, type: .debug)
+//                        return
+//                    }
+//                    self.loadedBooks.append(book)
+//                    self.loadBooksDG.leave() // Firebase has finished getting the book
+//                })
+//            }
+//        }
+//        loadBooksDG.leave()
+//    }
     
     // MARK: Button state and error label handlers
     private func updateButtonStates(_ state: Bool) {
@@ -367,7 +331,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
         passwordTextField.isEnabled = state
     }
     
-    private func setErrorLabel(_ error: FIRAuthErrorCode? = nil) {
+    private func setErrorLabel(_ error: AuthErrorCode? = nil) {
         var errorText: String = ""
         
         guard let error = error else {
@@ -376,27 +340,27 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
         }
         
         switch (error) {
-        case .errorCodeUserNotFound, .errorCodeWrongPassword:
+        case .userNotFound, .wrongPassword:
             errorText = "Incorrect Email/Password"
             break
             
-        case .errorCodeUserDisabled:
+        case .userDisabled:
             errorText = "Account Disabled"
             break
             
-        case .errorCodeInvalidEmail, .errorCodeEmailAlreadyInUse:
+        case .invalidEmail, .emailAlreadyInUse:
             errorText = "Ineligible Email"
             break
             
-        case .errorCodeWeakPassword:
+        case .weakPassword:
             errorText = "Password Too Short"
             break
             
-        case .errorCodeOperationNotAllowed:
+        case .operationNotAllowed:
             errorText = "Contact Administrator"
             break
             
-        case .errorCodeNetworkError:
+        case .networkError:
             errorText = Constants.texts.networkConnectionError
             break
             
