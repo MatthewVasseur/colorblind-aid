@@ -11,37 +11,21 @@ import os.log
 import FirebaseAuth
 import GoogleSignIn
 
-class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDelegate, GIDSignInUIDelegate {
+class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate {
     
     // MARK: - Properties
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
-    
-    @IBOutlet weak var signInButton: UIButton!
-    @IBOutlet weak var signUpButton: UIButton!
-    @IBOutlet weak var resetPasswordButton: UIButton!
     
     @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var loadingContainerView: UIView!
-    
-    @IBOutlet weak var keyboardConstraint: NSLayoutConstraint!
     
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Set the background to subtle dots
-//        view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "subtleDots"))
-        
-        // Style buttons' disabled state
-        signUpButton.setTitleColor(UIColor.lightGray, for: .disabled)
-        resetPasswordButton.setTitleColor(UIColor.lightGray, for: .disabled)
-        
-        // Set text field delegates
-        emailTextField.delegate = self
-        passwordTextField.delegate = self
+        view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "subtleDots"))
         
         // Clear the error label
         setErrorLabel()
@@ -55,99 +39,100 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        updateButtonStates(false)
         
         if let user = Auth.auth().currentUser {
-            updateTextFieldStates(false)
+            
             showActivityIndicator()
             
             signIn(user)
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        // Establish observers to watch keyboard show and hide
-        NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        // Remove observers watching keyboard
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    // MARK: - UITextFieldDelegate
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        // Disable sign in button while email/password are empty
-        updateButtonStates(emailTextField.hasText && passwordTextField.hasText)
-        
-        if (textField === emailTextField) {
-            passwordTextField.becomeFirstResponder()
-        }
-    }
-    
-    // MARK: - Actions
-    @IBAction func endEditing(_ sender: UITapGestureRecognizer) {
-        // Exit text editing when tapping outside field/view
-        emailTextField.endEditing(true)
-        passwordTextField.endEditing(true)
-    }
-    
+    // MARK: GIDSignInDelegate
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
-        // ...
+        
         if let error = error {
-            // ...
-            print("hi")
+            print("Couldn't sign in, Error: \(error.localizedDescription)")
             return
         }
         
-        guard let authentication = user.authentication else { return }
-        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-        // ...
-        
-        // Disable fields while signing in and loading
-        updateButtonStates(false)
-        resetPasswordButton.isEnabled = false
-        updateTextFieldStates(false)
+        print("Attempting to Sign In User: \(user.profile.email!)")
         
         // Start the activity indicator
         showActivityIndicator()
         
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+        
+        // Firebase then authenticates user
         Auth.auth().signIn(with: credential) {
             (user, error) in
             
             if let error = error {
-                // Set the error label
-                // print(error.localizedDescription)
+                print("Firebase Auth Error: \(error)")
                 self.setErrorLabel(AuthErrorCode(rawValue: error._code))
-                
-                // Enable fields before returning
-                self.updateButtonStates(true)
-                self.resetPasswordButton.isEnabled = true
-                self.updateTextFieldStates(true)
-                
-                // Stop the activity indicator
-                self.hideActivityIndicator()
+                self.signOutGoogleAndFirebase()
                 
                 return
             }
             
-            // User is signed in
-            // ...
-            self.signIn(user!)
+            // SEGUE etc.
+            print(" signed in!")
+        }
+        // ...
+    }
+    
+    // Signs out of both google and firebase authentication, also hides potential launchView
+    func signOutGoogleAndFirebase() {
+        hideActivityIndicator()
+        
+        GIDSignIn.sharedInstance().signOut()
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
         }
     }
     
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        // Perform any operations when the user disconnects from app here.
-        // ...
-    }
+    // MARK: - Actions
+    
+//    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+//        // ...
+//        if let error = error {
+//            // ...
+//            print("hi")
+//            return
+//        }
+//        
+//        guard let authentication = user.authentication else { return }
+//        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+//        // ...
+//        
+//        // Start the activity indicator
+//        showActivityIndicator()
+//        
+//        Auth.auth().signIn(with: credential) {
+//            (user, error) in
+//            
+//            if let error = error {
+//                // Set the error label
+//                // print(error.localizedDescription)
+//                self.setErrorLabel(AuthErrorCode(rawValue: error._code))
+//   
+//                // Stop the activity indicator
+//                self.hideActivityIndicator()
+//                
+//                return
+//            }
+//            
+//            // User is signed in
+//            // ...
+//            self.signIn(user!)
+//        }
+//    }
+//    
+
 //
 //    @IBAction func didTapSignUp(_ sender: AnyObject) {
 //        // Create account with given credentials (do nothing if email or password are blank)
@@ -264,14 +249,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
             return
         }
         
-        // Clear Password field & Error label
-        self.passwordTextField.text = ""
+        // Clear Error label
         self.setErrorLabel()
-        
-        // Enable fields before segue
-        self.updateButtonStates(true)
-        self.resetPasswordButton.isEnabled = true
-        self.updateTextFieldStates(true)
         
         self.hideActivityIndicator() // Hide the activity view after loading
         //self.performSegue(withIdentifier: "SignIn", sender: nil)
@@ -319,18 +298,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
 //        loadBooksDG.leave()
 //    }
     
-    // MARK: Button state and error label handlers
-    private func updateButtonStates(_ state: Bool) {
-        signInButton.isEnabled = state
-        signUpButton.isEnabled = state
-        
-        signInButton.alpha = state ? 1.0 : 0.5
-    }
-    private func updateTextFieldStates(_ state: Bool) {
-        emailTextField.isEnabled = state
-        passwordTextField.isEnabled = state
-    }
-    
     private func setErrorLabel(_ error: AuthErrorCode? = nil) {
         var errorText: String = ""
         
@@ -371,42 +338,6 @@ class SignInViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
         
         errorLabel.text = errorText
         errorLabel.textColor = Constants.colors.error
-    }
-    
-    // MARK: Keyboard show and hide handlers
-    @IBAction private func keyboardWillShow(sender: NSNotification) {
-        // Only move if the email or password text fields are selected
-        if (!emailTextField.isFirstResponder && !passwordTextField.isFirstResponder) {
-            return
-        }
-        
-        // Get keyboard size from user info
-        if let userInfo = sender.userInfo {
-            if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-                //  Adjust constraints to smoothly move text field above keyboard
-                UIView.animate(withDuration: 0.25, animations: { () -> Void in
-                    self.keyboardConstraint.constant = -(keyboardSize.height + 8.0)
-                    self.view.layoutIfNeeded()
-                })
-            }
-        }
-    }
-    @IBAction private func keyboardWillHide(sender: NSNotification) {
-        // Only return if the email or password text fields were selected
-        if (!emailTextField.isFirstResponder && !passwordTextField.isFirstResponder) {
-            return
-        }
-        
-        // Get keyboard size from user info
-        if let userInfo = sender.userInfo {
-            if ((userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil {
-                // Adjust constraints to smoothly return text fields default location
-                UIView.animate(withDuration: 0.25, animations: { () -> Void in
-                    self.keyboardConstraint.constant = Constants.constraints.defaultKeyboard
-                    self.view.layoutIfNeeded()
-                })
-            }
-        }
     }
     
     // MARK: Loading Activity Indicator Handlers
