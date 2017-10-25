@@ -17,10 +17,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // Mark: - Properties
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var debugTextView: UITextView!
+    @IBOutlet weak var imageView: UIImageView!
     
     
     let bubbleDepth: Float = 0.01 // the 'depth' of 3D text
     var latestPrediction: String = "…" // a variable containing the latest CoreML prediction
+    var latestColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.52)
+    var data: UnsafePointer<UInt8>!
+    var uiImage: UIImage!
     
     // COREML
     var visionRequests = [VNRequest]()
@@ -132,7 +136,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Get nearest object to center screen to color lable
         //        let touchLocation = sender.location(in: self.sceneView)
         let screenCentre = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
-        let arHitTestResults = sceneView.hitTest(screenCentre, types: [.featurePoint])
+        let arHitTestResults = sceneView.hitTest(screenCentre, types: [.featurePoint, .existingPlaneUsingExtent])
         // Alternatively, we could use '.existingPlaneUsingExtent' for more grounded hit-test-points.
         
         if let closestResult = arHitTestResults.first {
@@ -141,8 +145,29 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let transform = closestResult.worldTransform
             let worldCoord = SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
             
+            //
+            let pixelInfo: Int = Int((uiImage.size.width * screenCentre.y) + screenCentre.x) * 4
+            
+            let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
+            let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+            let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
+            let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
+            
+            self.latestColor = UIColor(red: r, green: g, blue: b, alpha: a)
+            let colorText = String(format: "Red: %3.2f, Green: %3.2f, Blue: %3.2f", r, g, b)
+            // Store the latest prediction
+//            self.latestPrediction = colorText
+            
+            print(colorText)
+            
+            // Display Debug Text on screen
+            self.debugTextView.text = colorText
+            
+            debugTextView.backgroundColor = latestColor
+            imageView.image = uiImage
+            
             // Create 3D Text
-            let node = createNewBubbleParentNode(latestPrediction)
+            let node = createNewBubbleParentNode(colorText)
             sceneView.scene.rootNode.addChildNode(node)
             node.position = worldCoord
         }
@@ -159,7 +184,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Create the bubble text
         let bubble = SCNText(string: text, extrusionDepth: CGFloat(bubbleDepth))
-        bubble.font = UIFont(name: "Futura", size: 0.15)?.withTraits(traits: .traitBold)
+        bubble.font = UIFont(name: "Futura", size: 0.10)?.withTraits(traits: .traitBold)
         bubble.alignmentMode = kCAAlignmentCenter
         bubble.firstMaterial?.diffuse.contents = UIColor.orange
         bubble.firstMaterial?.specular.contents = UIColor.white
@@ -233,10 +258,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 //            self.debugTextView.text = debugText
             
             // Store the latest prediction
-            var objectName:String = "…"
-            objectName = classifications.components(separatedBy: "-")[0]
-            objectName = objectName.components(separatedBy: ",")[0]
-            self.latestPrediction = objectName
+//            var objectName:String = "…"
+//            objectName = classifications.components(separatedBy: "-")[0]
+//            objectName = objectName.components(separatedBy: ",")[0]
+//            self.latestPrediction = objectName
         }
     }
     
@@ -250,31 +275,35 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         let context = CIContext(options: nil)
         let cgImage = context.createCGImage(ciImage, from: ciImage.extent)
-        let uiImage = UIImage(cgImage: cgImage!)
+        uiImage = UIImage(cgImage: cgImage!, scale: 1.0, orientation: .right)
         
-        let pixelData = cgImage?.dataProvider?.data
-        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        data = CFDataGetBytePtr(cgImage?.dataProvider?.data)
         
-        let pixelInfo: Int = ((Int(uiImage.size.width) * Int(0)) + Int(0)) * 4
+//        let screenCentre = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
+//        let pixelInfo: Int = ((Int(uiImage.size.width) * Int(screenCentre.y)) + Int(screenCentre.x)) * 4
+//
+//        let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
+//        let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+//        let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
+//        let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
         
-        let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
-        let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
-        let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
-        //        let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
+        //print(colorText)
         
-        //        let color = UIColor(red: r, green: g, blue: b, alpha: a)
-        let colorText = String(format: "Red: %3.2f, Green: %3.2f, Blue: %3.2f", r, g, b)
-        print(colorText)
+//        DispatchQueue.main.async {
+//            self.latestColor = UIColor(red: r, green: g, blue: b, alpha: a)
+//            let colorText = String(format: "Red: %3.2f, Green: %3.2f, Blue: %3.2f", r, g, b)
+//            // Store the latest prediction
+//            self.latestPrediction = colorText
+//
+//            print(colorText)
+//
+//            // Display Debug Text on screen
+//            var debugText = ""
+//            debugText += colorText
+//            self.debugTextView.text = debugText
+//        }
         
-        DispatchQueue.main.async {
-            // Display Debug Text on screen
-            var debugText = ""
-            debugText += colorText
-            self.debugTextView.text = debugText
-        }
         
-        // Store the latest prediction
-        self.latestPrediction = colorText
         
         // Note: Not entirely sure if the ciImage is being interpreted as RGB, but for now it works with the Inception model.
         // Note2: Also uncertain if the pixelBuffer should be rotated before handing off to Vision (VNImageRequestHandler) - regardless, for now, it still works well with the Inception model.

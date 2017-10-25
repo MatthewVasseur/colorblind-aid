@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		340359AB1F8DC191002F6C58 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 340359AA1F8DC191002F6C58 /* Inceptionv3.mlmodel */; };
 		3426EC821F8DCB76009DF0CB /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426EC811F8DCB76009DF0CB /* Utilities.swift */; };
+		34CF168E1FA0351D009058B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */; };
 		34DB358A1F8DC0C700C4E861 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 34DB35891F8DC0C700C4E861 /* README.md */; };
 		AEEC85651F18B8C600D43B9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEC85641F18B8C600D43B9B /* AppDelegate.swift */; };
 		AEEC85671F18B8C600D43B9B /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AEEC85661F18B8C600D43B9B /* art.scnassets */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		340359AA1F8DC191002F6C58 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 		3426EC811F8DCB76009DF0CB /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		34DB35891F8DC0C700C4E861 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AEEC85611F18B8C600D43B9B /* Colorblind Aid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Colorblind Aid.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEEC85641F18B8C600D43B9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				AEEC85661F18B8C600D43B9B /* art.scnassets */,
 				340359AA1F8DC191002F6C58 /* Inceptionv3.mlmodel */,
 				AEEC85721F18B8C600D43B9B /* Info.plist */,
+				34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */,
 			);
 			path = "Colorblind Aid";
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 				34DB358A1F8DC0C700C4E861 /* README.md in Resources */,
 				AEEC856E1F18B8C600D43B9B /* Assets.xcassets in Resources */,
 				AEEC856C1F18B8C600D43B9B /* Main.storyboard in Resources */,
+				34CF168E1FA0351D009058B5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
