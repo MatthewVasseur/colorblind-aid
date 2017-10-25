@@ -9,6 +9,11 @@
 import UIKit
 import Accelerate
 
+/**
+ An RGB pixel
+ 
+ - note: This class is immuatable
+ */
 class Pixel {
     
     // MARK: - Properties
