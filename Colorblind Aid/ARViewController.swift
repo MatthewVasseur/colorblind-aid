@@ -33,8 +33,8 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     
     var uiImage: UIImage!
     
-    // Serial dispatch queue
-    let dispatchQueue = DispatchQueue(label: "com.queues.dispatchqueue")
+    // Serial dispatch queue for camera data
+    let dispatchQueueCD = DispatchQueue(label: "com.queues.dispatchqueue")
     
     // MARK: - UIViewController
     override func viewDidLoad() {
@@ -141,40 +141,11 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             let transform = closestResult.worldTransform
             let worldCoord = SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
             
-            // get RGB values
-//            let r = Int(data[pixelInfo])
-//            let g = Int(data[pixelInfo+1])
-//            let b = Int(data[pixelInfo+2])
-//            let a = Int(data[pixelInfo+3]) / CGFloat(255.0)
-            //let pixelInfo: Int = Int((uiImage.size.width * screenCentre.y) + screenCentre.x) * 4
-            
-            
             // Get the center pixel and initialize a new pixel
-            let pixelInfo = Int(uiImage.size.height * screenCentre.y + screenCentre.x) * 4
-//            let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
-//            let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
-//            let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
-//            let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
-//
-//            var red = Float(data[pixelInfo])
-//            var green = Float(data[pixelInfo+1])
-//            var blue = Float(data[pixelInfo+2])
-//            let a = CGFloat(data[pixelInfo+3])
-//
-//            red = (red > 0.04045) ? pow((red + 0.055) / (1.0 + 0.055), 2.4) : (red / 12.92);
-//            green = (green > 0.04045) ? pow((green + 0.055) / (1.0 + 0.055), 2.4) : (green / 12.92);
-//            blue = (blue > 0.04045) ? pow((blue + 0.055) / (1.0 + 0.055), 2.4) : (blue / 12.92);
-//
-//            let X: Float = red * 0.649926 + green * 0.103455 + blue * 0.197109;
-//            let Y: Float = red * 0.234327 + green * 0.743075 + blue * 0.022598;
-//            let Z: Float = red * 0.0000000 + green * 0.053077 + blue * 1.035763;
-//
-//            var x: Float = X / (X + Y + Z);
-//            var y: Float = Y / (X + Y + Z);
-//
-//            let pixel = Pixel(r: r, g: g, b: b, a: a)
+            let pixelInfo = Int(imageWidth * screenCentre.y + screenCentre.x) * 4
             let pixel = Pixel(data: data, pixelInfo: pixelInfo)
 
+            // do stuff with the pixel
             self.latestColor = pixel.toUIColor()
             let colorText = pixel.toRGBString()
             print(pixel.toXYZ())
@@ -182,10 +153,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
 
             // Store the latest prediction
             //            self.latestPrediction = colorText
-
-            
-            //print( String(format: "x: %3.2f, y: %3.2f, z: %3.2f", x, y, 1-x-y))
-            
 
             // Display Debug Text on screen
             self.debugTextView.text = colorText
@@ -245,7 +212,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     func loopColorLabelUpdate() {
         // Continuously run the photo getter (Preventing 'hiccups' in Frame Rate)
         
-        dispatchQueue.async {
+        dispatchQueueCD.async {
             // 1. Run Update
             self.updateColorLabel()
             
@@ -289,6 +256,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         // Extract pixel data and image width
         data = CFDataGetBytePtr(cgImage.dataProvider?.data)
         
-        imageWidth = uiImage.size.height
+        imageWidth = uiImage.size.width
     }
 }
