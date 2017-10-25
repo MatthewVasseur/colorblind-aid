@@ -19,13 +19,18 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var debugTextView: UITextView!
     @IBOutlet weak var imageView: UIImageView!
     
+    let bubbleDepth: Float = 0.01 // the 'depth' of 3D text
+    
+    
     var screenCentre: CGPoint!
     var pixelInfo: Int!
-    let bubbleDepth: Float = 0.01 // the 'depth' of 3D text
+    var pixel: Pixel!
+    
     var latestPrediction: String = "…" // a variable containing the latest CoreML prediction
     
     private var latestColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.52)
     private var data: UnsafePointer<UInt8>!
+    
     //var uiImage: UIImage!
     
     // Serial dispatch queue
@@ -49,7 +54,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         // Set screen center point and pixel index
         screenCentre = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
         // Get the center pixel
-        pixelInfo = Int((sceneView.frame.width * screenCentre.y) + screenCentre.x) * 4
+        
         
         
         // Set the view's delegate
@@ -133,30 +138,34 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             let worldCoord = SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
             
             // get RGB values
-            let r = Int(data[pixelInfo])
-            let g = Int(data[pixelInfo+1])
-            let b = Int(data[pixelInfo+2])
-            let a = CGFloat(data[pixelInfo+3])
-//            let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
-//            let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
-//            let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
-//            let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
+//            let r = Int(data[pixelInfo])
+//            let g = Int(data[pixelInfo+1])
+//            let b = Int(data[pixelInfo+2])
+//            let a = Int(data[pixelInfo+3]) / CGFloat(255.0)
+            pixelInfo = Int((sceneView.frame.width * screenCentre.y) + screenCentre.x) * 4
+            let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
+            let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+            let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
+            let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
             
-            self.latestColor = UIColor(red: r, green: g, blue: b, withAlpha: a)
-            let colorText = String(format: "Red: %3.2f, Green: %3.2f, Blue: %3.2f", r, g, b)
+            //pixel = Pixel.init(data: data, pixelInfo: 0)
+//            self.latestColor = pixel.toUIColor()
+//            let colorText = pixel.toRGBString()
+            
             // Store the latest prediction
             //            self.latestPrediction = colorText
             
-            print(colorText)
+            //print(pixel.toXYZ())
+//            print(colorText)
             
             // Display Debug Text on screen
-            self.debugTextView.text = colorText
+//            self.debugTextView.text = colorText
             
             debugTextView.backgroundColor = latestColor
             //imageView.image = uiImage
             
             // Create 3D Text
-            let node = createNewBubbleParentNode(colorText)
+            let node = createNewBubbleParentNode("colorText")
             sceneView.scene.rootNode.addChildNode(node)
             node.position = worldCoord
         }
@@ -204,7 +213,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     }
     
     // MARK: - Color labeling handling
-    
     func loopColorLabelUpdate() {
         // Continuously run the photo getter (Preventing 'hiccups' in Frame Rate)
         
@@ -216,41 +224,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             self.loopColorLabelUpdate()
         }
     }
-    
-//    func classificationCompleteHandler(request: VNRequest, error: Error?) {
-//        // Catch Errors
-//        if error != nil {
-//            print("Error: " + (error?.localizedDescription)!)
-//            return
-//        }
-//        guard let observations = request.results else {
-//            print("No results")
-//            return
-//        }
-//
-//        // Get Classifications
-//        let classifications = observations[0...1] // top 2 results
-//            .flatMap({ $0 as? VNClassificationObservation })
-//            .map({ "\($0.identifier) \(String(format:"- %.2f", $0.confidence))" })
-//            .joined(separator: "\n")
-//
-//        DispatchQueue.main.async {
-//            // Print Classifications
-//            //            print(classifications)
-//            //            print("--")
-//
-//            // Display Debug Text on screen
-//            //            var debugText:String = ""
-//            //            debugText += classifications
-//            //            self.debugTextView.text = debugText
-//
-//            // Store the latest prediction
-//            //            var objectName:String = "…"
-//            //            objectName = classifications.components(separatedBy: "-")[0]
-//            //            objectName = objectName.components(separatedBy: ",")[0]
-//            //            self.latestPrediction = objectName
-//        }
-//    }
     
     func updateColorLabel() {
         // Get Camera Image as pixel data
@@ -264,7 +237,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         let cgImage = context.createCGImage(ciImage, from: ciImage.extent)
         //uiImage = UIImage(cgImage: cgImage!, scale: 1.0, orientation: .right)
         
-        // Extract pixel data
+        // Extract pixel data and create new pixel
         data = CFDataGetBytePtr(cgImage?.dataProvider?.data)
     }
 }
