@@ -12,6 +12,7 @@
 		34CF168E1FA0351D009058B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */; };
 		34CF16901FA0393E009058B5 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CF168F1FA0393E009058B5 /* SignInViewController.swift */; };
 		34CF16941FA03F43009058B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CF16931FA03F43009058B5 /* Constants.swift */; };
+		34CF16961FA04D6A009058B5 /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CF16951FA04D6A009058B5 /* ARViewController.swift */; };
 		34DB358A1F8DC0C700C4E861 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 34DB35891F8DC0C700C4E861 /* README.md */; };
 		7E250946439A62920ED2FEFA /* Pods_Colorblind_Aid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC173D07521C405DA423C1BE /* Pods_Colorblind_Aid.framework */; };
 		AEEC85651F18B8C600D43B9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEC85641F18B8C600D43B9B /* AppDelegate.swift */; };
@@ -28,6 +29,7 @@
 		34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		34CF168F1FA0393E009058B5 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		34CF16931FA03F43009058B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		34CF16951FA04D6A009058B5 /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
 		34DB35891F8DC0C700C4E861 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5E53295E5322CA33A3C6481C /* Pods-Colorblind Aid.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Colorblind Aid.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Colorblind Aid/Pods-Colorblind Aid.debug.xcconfig"; sourceTree = "<group>"; };
 		A8CE4A686E4243B3747E69ED /* Pods-Colorblind Aid.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Colorblind Aid.release.xcconfig"; path = "Pods/Target Support Files/Pods-Colorblind Aid/Pods-Colorblind Aid.release.xcconfig"; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				AEEC85681F18B8C600D43B9B /* ViewController.swift */,
+				34CF16951FA04D6A009058B5 /* ARViewController.swift */,
 				34CF168F1FA0393E009058B5 /* SignInViewController.swift */,
 				AEEC856A1F18B8C600D43B9B /* Main.storyboard */,
 				34CF16931FA03F43009058B5 /* Constants.swift */,
@@ -249,6 +252,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34CF16961FA04D6A009058B5 /* ARViewController.swift in Sources */,
 				AEEC85691F18B8C600D43B9B /* ViewController.swift in Sources */,
 				340359AB1F8DC191002F6C58 /* Inceptionv3.mlmodel in Sources */,
 				3426EC821F8DCB76009DF0CB /* Utilities.swift in Sources */,

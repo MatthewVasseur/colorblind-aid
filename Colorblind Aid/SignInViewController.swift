@@ -40,12 +40,12 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     
     override func viewDidAppear(_ animated: Bool) {
         
-        if let user = Auth.auth().currentUser {
-            
-            showActivityIndicator()
-            
-            signIn(user)
-        }
+//        if let user = Auth.auth().currentUser {
+//
+//            showActivityIndicator()
+//
+//            signIn(user)
+//        }
     }
     
     // MARK: GIDSignInDelegate
@@ -76,8 +76,11 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
                 return
             }
             
-            // SEGUE etc.
-            print(" signed in!")
+            // Clear Error label & Hide activity view
+            self.setErrorLabel()
+            self.hideActivityIndicator()
+            
+            self.performSegue(withIdentifier: "SignIn", sender: nil)
         }
         // ...
     }
@@ -131,90 +134,6 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
 //            self.signIn(user!)
 //        }
 //    }
-//    
-
-//
-//    @IBAction func didTapSignUp(_ sender: AnyObject) {
-//        // Create account with given credentials (do nothing if email or password are blank)
-//        guard let email = emailTextField.text, let password = passwordTextField.text else {
-//            return
-//        }
-//        
-//        // Disable fields while signing up
-//        updateTextFieldStates(false)
-//        updateButtonStates(false)
-//        
-//        // Start the activity indicator
-//        showActivityIndicator()
-//
-//        FIRAuth.auth()?.createUser(withEmail: email, password: password) {
-//            (user, error) in
-//            if let error = error {
-//                // Set the error label
-//                // print(error.localizedDescription)
-//                self.setErrorLabel(FIRAuthErrorCode(rawValue: error._code))
-//
-//                // Enable fields before returning
-//                self.updateButtonStates(true)
-//                self.resetPasswordButton.isEnabled = true
-//                self.updateTextFieldStates(true)
-//
-//                // Stop the activity indicator
-//                self.hideActivityIndicator()
-//
-//                return
-//            }
-//
-//            // Create user in database & set display name
-//            self.setDisplayName(user!)
-//            Constants.firebase.usersRef.child(user!.uid).child("books").setValue(true)
-//        }
-//
-//        // Clear Password field
-//        passwordTextField.text = ""
-//    }
-    
-//    @IBAction func didRequestPasswordReset(_ sender: AnyObject) {
-//        // Send a password reset email through alert prompt (do nothing if email is blank)
-//        let prompt = UIAlertController(title: "Reset Password", message: nil, preferredStyle: .alert)
-//        
-//        // Send a password reset email action
-//        let resetAction = UIAlertAction(title: "Reset", style: .default, handler: {
-//            (action) in
-//            guard let userInput = prompt.textFields![0].text, !userInput.isEmpty else {
-//                return
-//            }
-//            FIRAuth.auth()?.sendPasswordReset(withEmail: userInput) {
-//                (error) in
-//                if let error = error {
-//                    // Set the error label
-//                    // print(error.localizedDescription)
-//                    self.setErrorLabel(FIRAuthErrorCode(rawValue: error._code))
-//                    return
-//                }
-//                
-//                // Set error label to success confirmation
-//                self.errorLabel.text = "Password Reset Sent"
-//                self.errorLabel.textColor = Constants.colors.success
-//            }
-//        })
-//        
-//        // Cancel (i.e. do nothing) action
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//        
-//        // Add and style text field for the email
-//        prompt.addTextField(configurationHandler: {
-//            (textField) in
-//            textField.keyboardType = .emailAddress
-//            textField.clearButtonMode = .always
-//            textField.font = UIFont.systemFont(ofSize: 14.0)
-//            textField.placeholder = "Enter Email"
-//        })
-//        prompt.addAction(resetAction)
-//        prompt.addAction(cancelAction)
-//        
-//        present(prompt, animated: true, completion: nil)
-//    }
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -223,17 +142,10 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         // Get the new view controller using segue.destination
         // Pass the selected object to the new view controller
         switch(segue.identifier ?? "") {
+            
         case Constants.segues.signIn:
             os_log("Signing In.", log: .default, type: .debug)
-            
-            //            guard let mainTabController = segue.destination as? UITabBarController,
-            //                let bookTableNavController = mainTabController.viewControllers?.first as? UINavigationController,
-            //                let bookTableViewController = bookTableNavController.viewControllers.first as? BookTableViewController else {
-            //                    fatalError("Unexpected destination!")
-            //            }
-            
-            //            bookTableViewController.books = loadedBooks
-            
+         
             break
             
         default:
@@ -242,19 +154,6 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
     
     // MARK: - Private Methods
-    private func signIn(_ user: User?) {
-        // Cannot sign in without a user
-        guard let user = user else {
-            os_log("Need a user to sign in!", log: .default, type: .debug)
-            return
-        }
-        
-        // Clear Error label
-        self.setErrorLabel()
-        
-        self.hideActivityIndicator() // Hide the activity view after loading
-        //self.performSegue(withIdentifier: "SignIn", sender: nil)
-    }
     
 //    private func setDisplayName(_ user: FIRUser) {
 //        // Set the users display name to be their email without domain
@@ -268,34 +167,6 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
 //            }
 //            self.signIn(FIRAuth.auth()?.currentUser)
 //        }
-//    }
-    
-//    // Helper method to look a user's information and books from database
-//    private func loadUser(snapshot: FIRDataSnapshot) -> Void {
-//        // Safely unwrap snapshot's value
-//        guard let value = snapshot.value as? [String: AnyObject] else {
-//            fatalError("User does not exist.")
-//            //            return
-//        }
-//
-//        // Get user's info and save in shared instance
-//        AppState.sharedInstance.currentUser = User(snapshot: snapshot)
-//
-//        // Read user's books using dispatch group
-//        if let booksIDs = value["books"] as? [String] {
-//            for bookID in booksIDs {
-//                loadBooksDG.enter()
-//                Constants.firebase.booksRef.child(bookID).observeSingleEvent(of: .value, with: { (snapshot) in
-//                    guard let book = Book(snapshot: snapshot) else {
-//                        os_log("Unable to read the book for a User object.", log: .default, type: .debug)
-//                        return
-//                    }
-//                    self.loadedBooks.append(book)
-//                    self.loadBooksDG.leave() // Firebase has finished getting the book
-//                })
-//            }
-//        }
-//        loadBooksDG.leave()
 //    }
     
     private func setErrorLabel(_ error: AuthErrorCode? = nil) {

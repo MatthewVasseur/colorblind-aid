@@ -17,7 +17,7 @@
         <!--View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="Colorblind_Aid" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BV1-FR-VrT" customClass="ARViewController" customModule="Colorblind_Aid" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tix-nH-sfG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -160,11 +160,12 @@
                         <outlet property="loadingActivityView" destination="EIv-Zu-SrX" id="ACH-QH-EJY"/>
                         <outlet property="loadingContainerView" destination="PU3-3o-Yef" id="RDq-iU-d0w"/>
                         <outlet property="loadingView" destination="LSt-UP-DZy" id="rop-wv-r0v"/>
+                        <segue destination="BV1-FR-VrT" kind="show" identifier="SignIn" id="E7a-Pt-reK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JS6-xs-V1S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-922.39999999999998" y="-23.838080959520241"/>
+            <point key="canvasLocation" x="-908" y="-64"/>
         </scene>
     </scenes>
 </document>
