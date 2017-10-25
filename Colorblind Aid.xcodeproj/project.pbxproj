@@ -17,7 +17,6 @@
 		7E250946439A62920ED2FEFA /* Pods_Colorblind_Aid.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC173D07521C405DA423C1BE /* Pods_Colorblind_Aid.framework */; };
 		AEEC85651F18B8C600D43B9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEC85641F18B8C600D43B9B /* AppDelegate.swift */; };
 		AEEC85671F18B8C600D43B9B /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AEEC85661F18B8C600D43B9B /* art.scnassets */; };
-		AEEC85691F18B8C600D43B9B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEC85681F18B8C600D43B9B /* ViewController.swift */; };
 		AEEC856C1F18B8C600D43B9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEEC856A1F18B8C600D43B9B /* Main.storyboard */; };
 		AEEC856E1F18B8C600D43B9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AEEC856D1F18B8C600D43B9B /* Assets.xcassets */; };
 		AEEC85711F18B8C600D43B9B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEEC856F1F18B8C600D43B9B /* LaunchScreen.storyboard */; };
@@ -36,7 +35,6 @@
 		AEEC85611F18B8C600D43B9B /* Colorblind Aid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Colorblind Aid.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEEC85641F18B8C600D43B9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AEEC85661F18B8C600D43B9B /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		AEEC85681F18B8C600D43B9B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AEEC856B1F18B8C600D43B9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AEEC856D1F18B8C600D43B9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AEEC85701F18B8C600D43B9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 		AEEC85631F18B8C600D43B9B /* Colorblind Aid */ = {
 			isa = PBXGroup;
 			children = (
-				AEEC85681F18B8C600D43B9B /* ViewController.swift */,
 				34CF16951FA04D6A009058B5 /* ARViewController.swift */,
 				34CF168F1FA0393E009058B5 /* SignInViewController.swift */,
 				AEEC856A1F18B8C600D43B9B /* Main.storyboard */,
@@ -253,7 +250,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				34CF16961FA04D6A009058B5 /* ARViewController.swift in Sources */,
-				AEEC85691F18B8C600D43B9B /* ViewController.swift in Sources */,
 				340359AB1F8DC191002F6C58 /* Inceptionv3.mlmodel in Sources */,
 				3426EC821F8DCB76009DF0CB /* Utilities.swift in Sources */,
 				34CF16901FA0393E009058B5 /* SignInViewController.swift in Sources */,

@@ -89,18 +89,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Copyright © 2017 Matthew Vasseur. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y1h-gc-bMX">
-                                <rect key="frame" x="0.0" y="634" width="375" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="xeU-tB-eT5"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Copyright © 2017 Matthew Vasseur. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y1h-gc-bMX">
+                                <rect key="frame" x="42" y="646" width="291" height="14"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Colorblind Aid" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K56-q2-xhe">
-                                <rect key="frame" x="0.0" y="310" width="375" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Colorblind Aid" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K56-q2-xhe">
+                                <rect key="frame" x="50.5" y="310" width="274.5" height="47"/>
                                 <fontDescription key="fontDescription" name="AmericanTypewriter-Semibold" family="American Typewriter" pointSize="40"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -146,11 +143,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="PU3-3o-Yef" firstAttribute="top" secondItem="rGO-2o-PDZ" secondAttribute="top" id="0s6-9x-DKU"/>
-                            <constraint firstItem="PU3-3o-Yef" firstAttribute="leading" secondItem="rGO-2o-PDZ" secondAttribute="leading" id="6G2-25-WJw"/>
-                            <constraint firstItem="CCp-nu-QcI" firstAttribute="top" secondItem="PU3-3o-Yef" secondAttribute="bottom" id="Mc0-lM-Qbn"/>
-                            <constraint firstItem="CCp-nu-QcI" firstAttribute="top" secondItem="Y1h-gc-bMX" secondAttribute="bottom" constant="8" symbolic="YES" id="aNv-xY-I1d"/>
-                            <constraint firstAttribute="trailing" secondItem="PU3-3o-Yef" secondAttribute="trailing" id="tOJ-5a-OyA"/>
+                            <constraint firstItem="K56-q2-xhe" firstAttribute="centerX" secondItem="rGO-2o-PDZ" secondAttribute="centerX" id="7fh-Hy-hLR"/>
+                            <constraint firstItem="K56-q2-xhe" firstAttribute="centerY" secondItem="rGO-2o-PDZ" secondAttribute="centerY" id="EHX-mb-A4I"/>
+                            <constraint firstItem="PU3-3o-Yef" firstAttribute="leading" secondItem="lbb-Ng-7Is" secondAttribute="leading" id="K6q-FI-xsN"/>
+                            <constraint firstItem="PU3-3o-Yef" firstAttribute="trailing" secondItem="lbb-Ng-7Is" secondAttribute="trailing" id="P5h-xT-AzA"/>
+                            <constraint firstItem="lbb-Ng-7Is" firstAttribute="bottom" secondItem="PU3-3o-Yef" secondAttribute="bottom" id="Y8t-pN-C1X"/>
+                            <constraint firstItem="PU3-3o-Yef" firstAttribute="top" secondItem="lbb-Ng-7Is" secondAttribute="top" constant="-20" id="azv-55-H9N"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lbb-Ng-7Is"/>
                     </view>
