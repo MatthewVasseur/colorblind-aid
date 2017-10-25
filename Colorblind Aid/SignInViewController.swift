@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import os.log
 import FirebaseAuth
 import GoogleSignIn
 
@@ -40,7 +39,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     
     override func viewDidAppear(_ animated: Bool) {
         if(GIDSignIn.sharedInstance().hasAuthInKeychain()) {
-            GIDSignIn.sharedInstance().signInSilently()
+            //GIDSignIn.sharedInstance().signInSilently()
         }
     }
     
@@ -78,7 +77,6 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             
             self.performSegue(withIdentifier: "SignIn", sender: nil)
         }
-        // ...
     }
     
     // Signs out of both google and firebase authentication, also hides potential launchView
@@ -96,41 +94,6 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     
     // MARK: - Actions
     
-//    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
-//        // ...
-//        if let error = error {
-//            // ...
-//            print("hi")
-//            return
-//        }
-//        
-//        guard let authentication = user.authentication else { return }
-//        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-//        // ...
-//        
-//        // Start the activity indicator
-//        showActivityIndicator()
-//        
-//        Auth.auth().signIn(with: credential) {
-//            (user, error) in
-//            
-//            if let error = error {
-//                // Set the error label
-//                // print(error.localizedDescription)
-//                self.setErrorLabel(AuthErrorCode(rawValue: error._code))
-//   
-//                // Stop the activity indicator
-//                self.hideActivityIndicator()
-//                
-//                return
-//            }
-//            
-//            // User is signed in
-//            // ...
-//            self.signIn(user!)
-//        }
-//    }
-    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -140,8 +103,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
         switch(segue.identifier ?? "") {
             
         case Constants.segues.signIn:
-            os_log("Signing In.", log: .default, type: .debug)
-         
+            
             break
             
         default:
@@ -150,21 +112,6 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
     
     // MARK: - Private Methods
-    
-//    private func setDisplayName(_ user: FIRUser) {
-//        // Set the users display name to be their email without domain
-//        let changeRequest = user.profileChangeRequest()
-//        changeRequest.displayName = user.email!.components(separatedBy: "@")[0]
-//        changeRequest.commitChanges() {
-//            (error) in
-//            if let error = error {
-//                print(error.localizedDescription)
-//                return
-//            }
-//            self.signIn(FIRAuth.auth()?.currentUser)
-//        }
-//    }
-    
     private func setErrorLabel(_ error: AuthErrorCode? = nil) {
         var errorText: String = ""
         
