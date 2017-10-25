@@ -38,8 +38,9 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if(GIDSignIn.sharedInstance().hasAuthInKeychain()) {
-            //GIDSignIn.sharedInstance().signInSilently()
+        // Sign in silently if already authenticated
+        if GIDSignIn.sharedInstance().hasAuthInKeychain() {
+            GIDSignIn.sharedInstance().signInSilently()
         }
     }
     

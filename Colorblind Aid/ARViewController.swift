@@ -21,17 +21,17 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     
     let bubbleDepth: Float = 0.01 // the 'depth' of 3D text
     
-    
     var screenCentre: CGPoint!
-    var pixelInfo: Int!
-    var pixel: Pixel!
+    //var pixelInfo: Int!
+    //var pixel: Pixel!
     
     var latestPrediction: String = "…" // a variable containing the latest CoreML prediction
     
-    private var latestColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.52)
-    private var data: UnsafePointer<UInt8>!
+    var latestColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.52)
+    var data: UnsafePointer<UInt8>!
+    var imageWidth: CGFloat!
     
-    //var uiImage: UIImage!
+    var uiImage: UIImage!
     
     // Serial dispatch queue
     let dispatchQueue = DispatchQueue(label: "com.queues.dispatchqueue")
@@ -53,9 +53,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         
         // Set screen center point and pixel index
         screenCentre = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
-        // Get the center pixel
-        
-        
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -75,6 +72,13 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         
         // Run the view's session
         sceneView.session.run(configuration)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Get initial image size
+        initImageWidth()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -142,30 +146,53 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
 //            let g = Int(data[pixelInfo+1])
 //            let b = Int(data[pixelInfo+2])
 //            let a = Int(data[pixelInfo+3]) / CGFloat(255.0)
-            pixelInfo = Int((sceneView.frame.width * screenCentre.y) + screenCentre.x) * 4
-            let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
-            let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
-            let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
-            let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
+            //let pixelInfo: Int = Int((uiImage.size.width * screenCentre.y) + screenCentre.x) * 4
             
-            //pixel = Pixel.init(data: data, pixelInfo: 0)
-//            self.latestColor = pixel.toUIColor()
-//            let colorText = pixel.toRGBString()
             
+            // Get the center pixel and initialize a new pixel
+            let pixelInfo = Int(uiImage.size.height * screenCentre.y + screenCentre.x) * 4
+//            let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
+//            let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+//            let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
+//            let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
+            
+            var red = Float(data[pixelInfo])
+            var green = Float(data[pixelInfo+1])
+            var blue = Float(data[pixelInfo+2])
+            let a = CGFloat(data[pixelInfo+3])
+            
+            red = (red > 0.04045) ? pow((red + 0.055) / (1.0 + 0.055), 2.4) : (red / 12.92);
+            green = (green > 0.04045) ? pow((green + 0.055) / (1.0 + 0.055), 2.4) : (green / 12.92);
+            blue = (blue > 0.04045) ? pow((blue + 0.055) / (1.0 + 0.055), 2.4) : (blue / 12.92);
+            
+            let X: Float = red * 0.649926 + green * 0.103455 + blue * 0.197109;
+            let Y: Float = red * 0.234327 + green * 0.743075 + blue * 0.022598;
+            let Z: Float = red * 0.0000000 + green * 0.053077 + blue * 1.035763;
+            
+            var x: Float = X / (X + Y + Z);
+            var y: Float = Y / (X + Y + Z);
+            
+//            let pixel = Pixel(r: r, g: g, b: b, a: a)
+            let pixel = Pixel(data: data, pixelInfo: pixelInfo)
+
+            self.latestColor = pixel.toUIColor()
+            let colorText = pixel.toRGBString()
+
             // Store the latest prediction
             //            self.latestPrediction = colorText
-            
+
             //print(pixel.toXYZ())
-//            print(colorText)
-            
+            print( String(format: "x: %3.2f, y: %3.2f, z: %3.2f", x, y, 1-x-y))
+            print(colorText)
+
             // Display Debug Text on screen
-//            self.debugTextView.text = colorText
+            self.debugTextView.text = colorText
             
             debugTextView.backgroundColor = latestColor
             //imageView.image = uiImage
             
             // Create 3D Text
-            let node = createNewBubbleParentNode("colorText")
+            let node = createNewBubbleParentNode(colorText)
             sceneView.scene.rootNode.addChildNode(node)
             node.position = worldCoord
         }
@@ -234,13 +261,32 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         // Create cgImage
         let ciImage = CIImage(cvPixelBuffer: pixbuff)
         let context = CIContext(options: nil)
-        let cgImage = context.createCGImage(ciImage, from: ciImage.extent)
-        //uiImage = UIImage(cgImage: cgImage!, scale: 1.0, orientation: .right)
+        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
+            return
+        }
+        uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
         
-        // Extract pixel data and create new pixel
-        data = CFDataGetBytePtr(cgImage?.dataProvider?.data)
+        // Extract pixel data and image width
+        data = CFDataGetBytePtr(cgImage.dataProvider?.data)
+    }
+    
+    func initImageWidth() {
+        // Get Camera Image as pixel data
+        guard let pixbuff = (sceneView.session.currentFrame?.capturedImage) else {
+            return
+        }
+        
+        // Create cgImage
+        let ciImage = CIImage(cvPixelBuffer: pixbuff)
+        let context = CIContext(options: nil)
+        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
+            return
+        }
+        let uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
+        
+        // Extract pixel data and image width
+        data = CFDataGetBytePtr(cgImage.dataProvider?.data)
+        
+        imageWidth = uiImage.size.height
     }
 }
-
-
-
