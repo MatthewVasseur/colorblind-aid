@@ -12,10 +12,14 @@ import Accelerate
 class Pixel {
     
     // MARK: - Properties
-    var red: CGFloat
-    var green: CGFloat
-    var blue: CGFloat
-    var alpha: CGFloat
+    let red: CGFloat
+    let green: CGFloat
+    let blue: CGFloat
+    let alpha: CGFloat
+    
+    var x: CGFloat!
+    var y: CGFloat!
+    var z: CGFloat!
     
     let convMatrix = [ 0.4497288, 0.3162486, 0.1844926,
                        0.2446525, 0.6720283, 0.0833192,
@@ -47,6 +51,11 @@ class Pixel {
     
     // Uses technique from https://github.com/mikz/PhilipsHueSDKiOS/blob/master/ApplicationDesignNotes/RGB%20to%20xy%20Color%20conversion.md
     func toXYZ() -> (CGFloat, CGFloat, CGFloat) {
+        // Use cached values
+        if (x != nil && y != nil && z != nil) {
+            return (x, y, z)
+        }
+        
         // Apply a gamma correction to the RGB values (magic numbers as far as I know)
         let red = (self.red > 0.04045) ? pow((self.red + 0.055) / (1.0 + 0.055), 2.4) : (self.red / 12.92);
         let green = (self.green > 0.04045) ? pow((self.green + 0.055) / (1.0 + 0.055), 2.4) : (self.green / 12.92);
@@ -58,17 +67,17 @@ class Pixel {
         let Z: CGFloat = red * 0.0000000 + green * 0.053077 + blue * 1.035763
         
         // Calculate the xyz values from the XYZ values
-        let x: CGFloat = X / (X + Y + Z)
-        let y: CGFloat = Y / (X + Y + Z)
-        let z: CGFloat = 1.0 - x - y
+        x = X / (X + Y + Z)
+        y = Y / (X + Y + Z)
+        z = 1.0 - x - y
         
-        let RGBMatrix: [Double] = [Double(r), Double(g), Double(b)]
-        var XYZMatrix = [Double](repeating: 0.0, count: 3)
+//        let RGBMatrix: [Double] = [Double(r), Double(g), Double(b)]
+//        var XYZMatrix = [Double](repeating: 0.0, count: 3)
+//
+//        vDSP_mmulD(convMatrix, 1, RGBMatrix, 1, &XYZMatrix, 1, 3, 1, 3)
+//
+//        print(XYZMatrix)
         
-        vDSP_mmulD(convMatrix, 1, RGBMatrix, 1, &XYZMatrix, 1, 3, 1, 3)
-        
-        print(XYZMatrix)
-        
-        return (CGFloat(XYZMatrix[0]), CGFloat(XYZMatrix[1]), CGFloat(XYZMatrix[2]))
+        return (x, y, z)
     }
 }
