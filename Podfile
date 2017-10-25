@@ -9,4 +9,6 @@ target 'Colorblind Aid' do
   pod 'Firebase/Core', '~> 4.0'     # Firebase Core
   pod 'Firebase/Auth', '~> 4.0'     # Firebase Auth
   
+  pod 'GoogleSignIn'                # Google Sign In
+  
 end
