@@ -58,7 +58,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         sceneView.delegate = self
         
         // Begin Loop to Update Color labeler
-        loopColorLabelUpdate()
+        //loopColorLabelUpdate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -140,6 +140,22 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             // Get Coordinates of HitTest
             let transform = closestResult.worldTransform
             let worldCoord = SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
+            
+            // Get Camera Image as pixel data
+            guard let pixbuff = (sceneView.session.currentFrame?.capturedImage) else {
+                return
+            }
+            
+            // Create cgImage
+            let ciImage = CIImage(cvPixelBuffer: pixbuff)
+            let context = CIContext(options: nil)
+            guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
+                return
+            }
+            uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
+            
+            // Extract pixel data and image width
+            data = CFDataGetBytePtr(cgImage.dataProvider?.data)
             
             // Get the center pixel and initialize a new pixel
             let pixelInfo = Int(imageWidth * screenCentre.y + screenCentre.x) * 4
