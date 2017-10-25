@@ -19,22 +19,21 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var debugTextView: UITextView!
     @IBOutlet weak var imageView: UIImageView!
     
-    
+    var screenCentre: CGPoint!
+    var pixelInfo: Int!
     let bubbleDepth: Float = 0.01 // the 'depth' of 3D text
     var latestPrediction: String = "…" // a variable containing the latest CoreML prediction
-    var latestColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.52)
-    var data: UnsafePointer<UInt8>!
-    var uiImage: UIImage!
     
-    // COREML
-    //var visionRequests = [VNRequest]()
-    //let dispatchQueueML = DispatchQueue(label: "com.hw.dispatchqueueml") // A Serial Queue
+    private var latestColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.52)
+    private var data: UnsafePointer<UInt8>!
+    //var uiImage: UIImage!
+    
+    // Serial dispatch queue
+    let dispatchQueue = DispatchQueue(label: "com.queues.dispatchqueue")
     
     // MARK: - UIViewController
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         // Set up the scene and scene view
         let scene = SCNScene()
@@ -47,25 +46,17 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         // Enable debug options
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         
+        // Set screen center point and pixel index
+        screenCentre = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
+        // Get the center pixel
+        pixelInfo = Int((sceneView.frame.width * screenCentre.y) + screenCentre.x) * 4
+        
+        
         // Set the view's delegate
         sceneView.delegate = self
         
-        //////////////////////////////////////////////////
-        
-        // Set up Vision Model
-        guard let selectedModel = try? VNCoreMLModel(for: Inceptionv3().model) else {
-            // (Optional) This can be replaced with other models on https://developer.apple.com/machine-learning/
-            fatalError("Could not load model. Ensure model has been drag and dropped (copied) to XCode Project from https://developer.apple.com/machine-learning/ . Also ensure the model is part of a target (see: https://stackoverflow.com/questions/45884085/model-is-not-part-of-any-target-add-the-model-to-a-target-to-enable-generation ")
-        }
-        
-        // Set up Vision-CoreML Request
-        let classificationRequest = VNCoreMLRequest(model: selectedModel, completionHandler: classificationCompleteHandler)
-        classificationRequest.imageCropAndScaleOption = VNImageCropAndScaleOption.centerCrop
-        // Crop from centre of images and scale to appropriate size.
-        visionRequests = [classificationRequest]
-        
-        // Begin Loop to Update CoreML
-        loopCoreMLUpdate()
+        // Begin Loop to Update Color labeler
+        loopColorLabelUpdate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,17 +103,12 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
-        
     }
-    
     func sessionWasInterrupted(_ session: ARSession) {
         // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
     }
-    
     func sessionInterruptionEnded(_ session: ARSession) {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
     }
     
     // MARK: - Status Bar: Hide
@@ -135,25 +121,28 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     @IBAction func handleTap(gestureRecognize: UITapGestureRecognizer) {
         // Get nearest object to center screen to color lable
         //        let touchLocation = sender.location(in: self.sceneView)
-        let screenCentre = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
+        
         let arHitTestResults = sceneView.hitTest(screenCentre, types: [.featurePoint, .existingPlaneUsingExtent])
         // Alternatively, we could use '.existingPlaneUsingExtent' for more grounded hit-test-points.
         
+        // Find closest hit
         if let closestResult = arHitTestResults.first {
             
             // Get Coordinates of HitTest
             let transform = closestResult.worldTransform
             let worldCoord = SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
             
-            //
-            let pixelInfo: Int = Int((uiImage.size.width * screenCentre.y) + screenCentre.x) * 4
+            // get RGB values
+            let r = Int(data[pixelInfo])
+            let g = Int(data[pixelInfo+1])
+            let b = Int(data[pixelInfo+2])
+            let a = CGFloat(data[pixelInfo+3])
+//            let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
+//            let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+//            let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
+//            let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
             
-            let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
-            let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
-            let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
-            let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
-            
-            self.latestColor = UIColor(red: r, green: g, blue: b, alpha: a)
+            self.latestColor = UIColor(red: r, green: g, blue: b, withAlpha: a)
             let colorText = String(format: "Red: %3.2f, Green: %3.2f, Blue: %3.2f", r, g, b)
             // Store the latest prediction
             //            self.latestPrediction = colorText
@@ -164,7 +153,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             self.debugTextView.text = colorText
             
             debugTextView.backgroundColor = latestColor
-            imageView.image = uiImage
+            //imageView.image = uiImage
             
             // Create 3D Text
             let node = createNewBubbleParentNode(colorText)
@@ -174,7 +163,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     }
     
     // MARK: - Methods
-    
     private func createNewBubbleParentNode(_ text: String) -> SCNNode {
         // Warning: Creating 3D Text is susceptible to crashing. To reduce chances of crashing; reduce number of polygons, letters, smoothness, etc.
         
@@ -215,113 +203,69 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         return parentNode
     }
     
-    // MARK: - CoreML Vision Handling
+    // MARK: - Color labeling handling
     
-    func loopCoreMLUpdate() {
-        // Continuously run CoreML whenever it's ready. (Preventing 'hiccups' in Frame Rate)
+    func loopColorLabelUpdate() {
+        // Continuously run the photo getter (Preventing 'hiccups' in Frame Rate)
         
-        dispatchQueueML.async {
-            // 1. Run Update.
-            self.updateCoreML()
+        dispatchQueue.async {
+            // 1. Run Update
+            self.updateColorLabel()
             
-            // 2. Loop this function.
-            self.loopCoreMLUpdate()
-        }
-        
-    }
-    
-    func classificationCompleteHandler(request: VNRequest, error: Error?) {
-        // Catch Errors
-        if error != nil {
-            print("Error: " + (error?.localizedDescription)!)
-            return
-        }
-        guard let observations = request.results else {
-            print("No results")
-            return
-        }
-        
-        // Get Classifications
-        let classifications = observations[0...1] // top 2 results
-            .flatMap({ $0 as? VNClassificationObservation })
-            .map({ "\($0.identifier) \(String(format:"- %.2f", $0.confidence))" })
-            .joined(separator: "\n")
-        
-        DispatchQueue.main.async {
-            // Print Classifications
-            //            print(classifications)
-            //            print("--")
-            
-            // Display Debug Text on screen
-            //            var debugText:String = ""
-            //            debugText += classifications
-            //            self.debugTextView.text = debugText
-            
-            // Store the latest prediction
-            //            var objectName:String = "…"
-            //            objectName = classifications.components(separatedBy: "-")[0]
-            //            objectName = objectName.components(separatedBy: ",")[0]
-            //            self.latestPrediction = objectName
+            // 2. Loop this function
+            self.loopColorLabelUpdate()
         }
     }
     
-    func updateCoreML() {
-        ///////////////////////////
-        // Get Camera Image as RGB
+//    func classificationCompleteHandler(request: VNRequest, error: Error?) {
+//        // Catch Errors
+//        if error != nil {
+//            print("Error: " + (error?.localizedDescription)!)
+//            return
+//        }
+//        guard let observations = request.results else {
+//            print("No results")
+//            return
+//        }
+//
+//        // Get Classifications
+//        let classifications = observations[0...1] // top 2 results
+//            .flatMap({ $0 as? VNClassificationObservation })
+//            .map({ "\($0.identifier) \(String(format:"- %.2f", $0.confidence))" })
+//            .joined(separator: "\n")
+//
+//        DispatchQueue.main.async {
+//            // Print Classifications
+//            //            print(classifications)
+//            //            print("--")
+//
+//            // Display Debug Text on screen
+//            //            var debugText:String = ""
+//            //            debugText += classifications
+//            //            self.debugTextView.text = debugText
+//
+//            // Store the latest prediction
+//            //            var objectName:String = "…"
+//            //            objectName = classifications.components(separatedBy: "-")[0]
+//            //            objectName = objectName.components(separatedBy: ",")[0]
+//            //            self.latestPrediction = objectName
+//        }
+//    }
+    
+    func updateColorLabel() {
+        // Get Camera Image as pixel data
         guard let pixbuff = (sceneView.session.currentFrame?.capturedImage) else {
             return
         }
-        let ciImage = CIImage(cvPixelBuffer: pixbuff)
         
+        // Create cgImage
+        let ciImage = CIImage(cvPixelBuffer: pixbuff)
         let context = CIContext(options: nil)
         let cgImage = context.createCGImage(ciImage, from: ciImage.extent)
-        uiImage = UIImage(cgImage: cgImage!, scale: 1.0, orientation: .right)
+        //uiImage = UIImage(cgImage: cgImage!, scale: 1.0, orientation: .right)
         
+        // Extract pixel data
         data = CFDataGetBytePtr(cgImage?.dataProvider?.data)
-        
-        //        let screenCentre = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
-        //        let pixelInfo: Int = ((Int(uiImage.size.width) * Int(screenCentre.y)) + Int(screenCentre.x)) * 4
-        //
-        //        let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
-        //        let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
-        //        let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
-        //        let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
-        
-        //print(colorText)
-        
-        //        DispatchQueue.main.async {
-        //            self.latestColor = UIColor(red: r, green: g, blue: b, alpha: a)
-        //            let colorText = String(format: "Red: %3.2f, Green: %3.2f, Blue: %3.2f", r, g, b)
-        //            // Store the latest prediction
-        //            self.latestPrediction = colorText
-        //
-        //            print(colorText)
-        //
-        //            // Display Debug Text on screen
-        //            var debugText = ""
-        //            debugText += colorText
-        //            self.debugTextView.text = debugText
-        //        }
-        
-        
-        
-        // Note: Not entirely sure if the ciImage is being interpreted as RGB, but for now it works with the Inception model.
-        // Note2: Also uncertain if the pixelBuffer should be rotated before handing off to Vision (VNImageRequestHandler) - regardless, for now, it still works well with the Inception model.
-        
-        ///////////////////////////
-        // Prepare CoreML/Vision Request
-        let imageRequestHandler = VNImageRequestHandler(ciImage: ciImage, options: [:])
-        // let imageRequestHandler = VNImageRequestHandler(cgImage: cgImage!, orientation: myOrientation, options: [:])
-        // Alternatively; we can convert the above to an RGB CGImage and use that. Also UIInterfaceOrientation can inform orientation values.
-        
-        ///////////////////////////
-        // Run Image Request
-        do {
-            try imageRequestHandler.perform(self.visionRequests)
-        } catch {
-            print(error)
-        }
-        
     }
 }
 
