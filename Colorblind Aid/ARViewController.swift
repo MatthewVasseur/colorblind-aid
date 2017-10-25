@@ -27,8 +27,8 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     var uiImage: UIImage!
     
     // COREML
-    var visionRequests = [VNRequest]()
-    let dispatchQueueML = DispatchQueue(label: "com.hw.dispatchqueueml") // A Serial Queue
+    //var visionRequests = [VNRequest]()
+    //let dispatchQueueML = DispatchQueue(label: "com.hw.dispatchqueueml") // A Serial Queue
     
     // MARK: - UIViewController
     
