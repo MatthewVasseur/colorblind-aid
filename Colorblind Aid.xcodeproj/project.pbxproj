@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		340359AB1F8DC191002F6C58 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 340359AA1F8DC191002F6C58 /* Inceptionv3.mlmodel */; };
 		3426EC821F8DCB76009DF0CB /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426EC811F8DCB76009DF0CB /* Utilities.swift */; };
+		347DDBD31FAA242D00DF5F08 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */; };
 		34BBA8111FAA1B4600BF8AF2 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BBA8101FAA1B4600BF8AF2 /* Camera.swift */; };
 		34CF168E1FA0351D009058B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */; };
 		34CF16901FA0393E009058B5 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CF168F1FA0393E009058B5 /* SignInViewController.swift */; };
@@ -27,6 +28,7 @@
 /* Begin PBXFileReference section */
 		340359AA1F8DC191002F6C58 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 		3426EC811F8DCB76009DF0CB /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		34BBA8101FAA1B4600BF8AF2 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		34CF168F1FA0393E009058B5 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -58,6 +60,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		347DDBD41FAA26DB00DF5F08 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				34CF16951FA04D6A009058B5 /* ARViewController.swift */,
+				34CF168F1FA0393E009058B5 /* SignInViewController.swift */,
+				347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		3CD4A955607A301C374197BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -88,8 +100,7 @@
 		AEEC85631F18B8C600D43B9B /* Colorblind Aid */ = {
 			isa = PBXGroup;
 			children = (
-				34CF16951FA04D6A009058B5 /* ARViewController.swift */,
-				34CF168F1FA0393E009058B5 /* SignInViewController.swift */,
+				347DDBD41FAA26DB00DF5F08 /* Controllers */,
 				34CF16971FA06128009058B5 /* Pixel.swift */,
 				34CF16931FA03F43009058B5 /* Constants.swift */,
 				3426EC811F8DCB76009DF0CB /* Utilities.swift */,
@@ -258,6 +269,7 @@
 				34BBA8111FAA1B4600BF8AF2 /* Camera.swift in Sources */,
 				34CF16981FA06128009058B5 /* Pixel.swift in Sources */,
 				34CF16961FA04D6A009058B5 /* ARViewController.swift in Sources */,
+				347DDBD31FAA242D00DF5F08 /* FilterViewController.swift in Sources */,
 				340359AB1F8DC191002F6C58 /* Inceptionv3.mlmodel in Sources */,
 				3426EC821F8DCB76009DF0CB /* Utilities.swift in Sources */,
 				34CF16901FA0393E009058B5 /* SignInViewController.swift in Sources */,

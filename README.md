@@ -10,3 +10,5 @@ Language: Swift 4.0
 
 - CoreML-in-ARKit
 - ARText
+- https://github.com/jakespracher/Snapchat-Swipe-View
+
