@@ -26,7 +26,7 @@ class SettingsViewController: UIViewController, SnapContainerViewElement {
     
     // MARK: - Actions
     @IBAction func handleARButton(_ sender: Any) {
-        snapContainer.move(to: "right")
+        snapContainer.move(to: "middle")
     }
     
     /*

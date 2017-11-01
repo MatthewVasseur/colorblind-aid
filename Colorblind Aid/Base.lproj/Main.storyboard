@@ -117,7 +117,7 @@
                                 <rect key="frame" x="176" y="621" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
-                                    <action selector="handleButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="bcf-8m-MLh"/>
+                                    <action selector="handleCameraButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="n1W-Cp-Q6b"/>
                                 </connections>
                             </button>
                         </subviews>
