@@ -10,6 +10,7 @@
 import UIKit
 import MobileCoreServices
 
+/// The Camera class boxes the image picker
 class Camera {
     
     // MARK: - Properties
@@ -24,7 +25,7 @@ class Camera {
     
     // MARK: - Presentation Methods
     
-    // Present the photo library for photo selection
+    /// Present the photo library for photo selection
     func presentPhotoLibrary(target: UIViewController, canEdit: Bool) {
         
         // Cancel if unable to access photo library/saved photos
@@ -58,7 +59,7 @@ class Camera {
         target.present(imagePicker, animated: true, completion: nil)
     }
     
-    // Present the camera for photo selection
+    /// Present the camera for photo selection
     func presentPhotoCamera(target: UIViewController, canEdit: Bool) {
         
         // Cancel if unable to access camera
@@ -97,7 +98,7 @@ class Camera {
     // MARK: - Static Methods
     
     // Common use case for Camera
-    static func displayPhotoPresentation(target: UIViewController) {
+    static func displayPhotoPresentation(target: UIViewController, canEdit: Bool=true) {
         // Use Camera object to select a user image
         guard let delegate = target as? (UIImagePickerControllerDelegate & UINavigationControllerDelegate) else {
             fatalError("Invalid target (probably not UIImagePickerControllerDelegate & UINavigationControllerDelegate): \(target)")
@@ -111,11 +112,11 @@ class Camera {
         // use camera, photo library, and cancel actions
         let takePhoto = UIAlertAction(title: "Camera", style: .default) {
             (alert : UIAlertAction!) in
-            camera.presentPhotoCamera(target: target, canEdit: true)
+            camera.presentPhotoCamera(target: target, canEdit: canEdit)
         }
         let sharePhoto = UIAlertAction(title: "Library", style: .default) {
             (alert : UIAlertAction) in
-            camera.presentPhotoLibrary(target: target, canEdit: true)
+            camera.presentPhotoLibrary(target: target, canEdit: canEdit)
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) {
             (alert : UIAlertAction) in

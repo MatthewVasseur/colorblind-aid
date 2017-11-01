@@ -11,6 +11,9 @@ import UIKit
 
 class Constants: NSObject {
     
+    // MARK: -
+    static let mainStoryboard = "Main"
+    
     // MARK: - Miscellaneous
     // Amount of time app is in background before reloading data (in seconds)
     static let reloadAfterElapsedTime = 60 * 10.0

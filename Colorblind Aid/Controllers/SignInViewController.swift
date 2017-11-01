@@ -76,19 +76,12 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             self.setErrorLabel()
             self.hideActivityIndicator()
             
+            // self.performSegue(withIdentifier: "SignIn", sender: nil)
             
-            
-            //self.performSegue(withIdentifier: "SignIn", sender: nil)
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
-            let left = storyboard.instantiateViewController(withIdentifier: "left")
-            let middle = storyboard.instantiateViewController(withIdentifier: "middle")
-            let right = storyboard.instantiateViewController(withIdentifier: "right")
-            let top = storyboard.instantiateViewController(withIdentifier: "top")
-            let bottom = storyboard.instantiateViewController(withIdentifier: "bottom")
-
-            let snapContainer = SnapContainerViewController.containerViewWith(left, middleVC: middle, rightVC: right, topVC: top, bottomVC: bottom)
-            
+            // Enable and present snapchat-esque swiping around
+            guard let snapContainer = SnapContainerViewController.containerViewWith(left: "left", middle: "middle", right: "right", top: "top", bottom: "bottom") else {
+                fatalError("Not proper snap container elements")
+            }
             
             self.present(snapContainer, animated: true, completion: nil)
         }

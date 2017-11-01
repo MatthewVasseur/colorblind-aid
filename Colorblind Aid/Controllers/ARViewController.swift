@@ -12,12 +12,14 @@ import ARKit
 
 import Vision
 
-class ARViewController: UIViewController, ARSCNViewDelegate {
+class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewElement {
     
     // Mark: - Properties
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var debugTextView: UITextView!
     @IBOutlet weak var imageView: UIImageView!
+    
+    var snapContainer: SnapContainerViewController!
     
     let bubbleDepth: Float = 0.01 // the 'depth' of 3D text
     
@@ -182,6 +184,14 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             node.position = worldCoord
         }
     }
+    
+    @IBAction func showFilter(_ sender: Any) {
+//        guard let snapContainer = self.parent as? SnapContainerViewController else {
+//            fatalError("YIKES")
+//        }
+        snapContainer.move(to: "right")
+    }
+    
     
     // MARK: - Methods
     private func createNewBubbleParentNode(_ text: String) -> SCNNode {

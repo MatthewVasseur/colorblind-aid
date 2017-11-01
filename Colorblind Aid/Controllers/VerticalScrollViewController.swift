@@ -8,15 +8,13 @@
 
 import UIKit
 
-class VerticalScrollViewController: UIViewController, SnapContainerViewControllerDelegate {
+class VerticalScrollViewController: UIViewController, SnapContainerViewDelegate {
     var topVc: UIViewController!
     var middleVc: UIViewController!
     var bottomVc: UIViewController!
     var scrollView: UIScrollView!
     
-    class func verticalScrollVcWith(middleVc: UIViewController,
-                                    topVc: UIViewController?=nil,
-                                    bottomVc: UIViewController?=nil) -> VerticalScrollViewController {
+    class func verticalScrollVcWith(middleVc: UIViewController, topVc: UIViewController?=nil, bottomVc: UIViewController?=nil) -> VerticalScrollViewController {
         let middleScrollVc = VerticalScrollViewController()
         
         middleScrollVc.topVc = topVc
@@ -113,7 +111,7 @@ class VerticalScrollViewController: UIViewController, SnapContainerViewControlle
         scrollView.contentSize = CGSize(width: scrollWidth, height: scrollHeight)
     }
     
-    // MARK: - SnapContainerViewControllerDelegate Methods
+    // MARK: - SnapContainerViewDelegate Methods
     
     func outerScrollViewShouldScroll() -> Bool {
         if scrollView.contentOffset.y < middleVc.view.frame.origin.y || scrollView.contentOffset.y > 2*middleVc.view.frame.origin.y {
