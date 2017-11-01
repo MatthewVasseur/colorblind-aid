@@ -32,7 +32,9 @@ class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
         
         let storyboard = UIStoryboard(name: Constants.mainStoryboard, bundle: nil)
         
-        let leftVC = storyboard.instantiateViewController(withIdentifier: left)
+        guard var leftVC = storyboard.instantiateViewController(withIdentifier: left) as? (UIViewController & SnapContainerViewElement) else {
+            return nil
+        }
         guard var middleVC = storyboard.instantiateViewController(withIdentifier: middle) as? (UIViewController & SnapContainerViewElement) else {
             return nil
         }
@@ -46,11 +48,12 @@ class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
         
         middleVC.snapContainer = snapContainer
         rightVC.snapContainer = snapContainer
+        leftVC.snapContainer = snapContainer
         
         return snapContainer
     }
     
-    class func containerViewWith(leftVC: UIViewController, middleVC: (UIViewController & SnapContainerViewElement), rightVC: (UIViewController & SnapContainerViewElement), topVC: UIViewController?=nil,
+    class func containerViewWith(leftVC: (UIViewController & SnapContainerViewElement), middleVC: (UIViewController & SnapContainerViewElement), rightVC: (UIViewController & SnapContainerViewElement), topVC: UIViewController?=nil,
                                  bottomVC: UIViewController?=nil, directionLockDisabled: Bool?=false) -> SnapContainerViewController {
         let container = SnapContainerViewController()
         

@@ -52,7 +52,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Settings"/>
                                 <connections>
-                                    <segue destination="Vy5-mF-aUO" kind="show" identifier="showSettings" id="zEz-lE-dBh"/>
+                                    <action selector="showSettings:" destination="BV1-FR-VrT" eventType="touchUpInside" id="e7s-Cm-tUa"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dR5-7S-NpA">
@@ -220,13 +220,24 @@
             </objects>
             <point key="canvasLocation" x="-908" y="-64"/>
         </scene>
-        <!--View Controller-->
+        <!--Settings View Controller-->
         <scene sceneID="dhz-yz-TJQ">
             <objects>
-                <viewController storyboardIdentifier="left" id="Vy5-mF-aUO" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="left" id="Vy5-mF-aUO" customClass="SettingsViewController" customModule="Colorblind_Aid" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MM1-fm-fdG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOI-0x-fUU">
+                                <rect key="frame" x="313" y="617" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="AR"/>
+                                <connections>
+                                    <action selector="handleARButton:" destination="Vy5-mF-aUO" eventType="touchUpInside" id="osE-G7-xO9"/>
+                                    <action selector="handleARButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="uIT-Tx-Hkw"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="euZ-wU-HhA"/>
                     </view>

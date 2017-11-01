@@ -186,12 +186,11 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     }
     
     @IBAction func showFilter(_ sender: Any) {
-//        guard let snapContainer = self.parent as? SnapContainerViewController else {
-//            fatalError("YIKES")
-//        }
         snapContainer.move(to: "right")
     }
-    
+    @IBAction func showSettings(_ sender: Any) {
+        snapContainer.move(to: "left")
+    }
     
     // MARK: - Methods
     private func createNewBubbleParentNode(_ text: String) -> SCNNode {

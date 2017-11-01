@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		340359AB1F8DC191002F6C58 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 340359AA1F8DC191002F6C58 /* Inceptionv3.mlmodel */; };
 		3426EC821F8DCB76009DF0CB /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426EC811F8DCB76009DF0CB /* Utilities.swift */; };
+		346E9BFA1FAA42F300CA1D66 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */; };
 		347DDBD31FAA242D00DF5F08 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */; };
 		347DDBDA1FAA272200DF5F08 /* SnapContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */; };
 		347DDBDC1FAA277700DF5F08 /* VerticalScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBDB1FAA277700DF5F08 /* VerticalScrollViewController.swift */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		340359AA1F8DC191002F6C58 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 		3426EC811F8DCB76009DF0CB /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapContainerViewController.swift; sourceTree = "<group>"; };
 		347DDBDB1FAA277700DF5F08 /* VerticalScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalScrollViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */,
 				347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */,
 				347DDBDB1FAA277700DF5F08 /* VerticalScrollViewController.swift */,
+				346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 				34CF16901FA0393E009058B5 /* SignInViewController.swift in Sources */,
 				AEEC85651F18B8C600D43B9B /* AppDelegate.swift in Sources */,
 				34CF16941FA03F43009058B5 /* Constants.swift in Sources */,
+				346E9BFA1FAA42F300CA1D66 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
