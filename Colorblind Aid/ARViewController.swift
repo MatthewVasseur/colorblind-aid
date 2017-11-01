@@ -163,7 +163,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
 
             // do stuff with the pixel
             self.latestColor = pixel.toUIColor()
-            let colorText = pixel.toRGBString()
+            let colorText = pixel.toRGBString() + "\n" + pixel.toColorName()
             print(pixel.toXYZ())
             print(colorText)
 
