@@ -60,8 +60,11 @@ extension UIColor {
      * Adopted from from: Farbtastic 1.2 (http://acko.net/dev/farbtastic)
      */
     func getHSL() -> (CGFloat, CGFloat, CGFloat) {
-        let (red, green, blue, _) = self.getRGBa()
-            
+        var (red, green, blue, _) = self.getRGBa()
+        red /= 255
+        green /= 255
+        blue /= 255
+        
         let minimum = min(red, min(green, blue))
         let maximum = max(red, max(green, blue))
         let delta = maximum - minimum
