@@ -14,6 +14,7 @@
 		347DDBDA1FAA272200DF5F08 /* SnapContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */; };
 		347DDBDC1FAA277700DF5F08 /* VerticalScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBDB1FAA277700DF5F08 /* VerticalScrollViewController.swift */; };
 		34BBA8111FAA1B4600BF8AF2 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BBA8101FAA1B4600BF8AF2 /* Camera.swift */; };
+		34C7A4A61FACE9470056B5B1 /* ColorNamesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */; };
 		34CF168E1FA0351D009058B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */; };
 		34CF16901FA0393E009058B5 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CF168F1FA0393E009058B5 /* SignInViewController.swift */; };
 		34CF16941FA03F43009058B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CF16931FA03F43009058B5 /* Constants.swift */; };
@@ -36,6 +37,7 @@
 		347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapContainerViewController.swift; sourceTree = "<group>"; };
 		347DDBDB1FAA277700DF5F08 /* VerticalScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalScrollViewController.swift; sourceTree = "<group>"; };
 		34BBA8101FAA1B4600BF8AF2 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorNamesData.swift; sourceTree = "<group>"; };
 		34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		34CF168F1FA0393E009058B5 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		34CF16931FA03F43009058B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 		AEEC85631F18B8C600D43B9B /* Colorblind Aid */ = {
 			isa = PBXGroup;
 			children = (
+				34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */,
 				347DDBD41FAA26DB00DF5F08 /* Controllers */,
 				34CF16971FA06128009058B5 /* Pixel.swift */,
 				34CF16931FA03F43009058B5 /* Constants.swift */,
@@ -286,6 +289,7 @@
 				34CF16901FA0393E009058B5 /* SignInViewController.swift in Sources */,
 				AEEC85651F18B8C600D43B9B /* AppDelegate.swift in Sources */,
 				34CF16941FA03F43009058B5 /* Constants.swift in Sources */,
+				34C7A4A61FACE9470056B5B1 /* ColorNamesData.swift in Sources */,
 				346E9BFA1FAA42F300CA1D66 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
