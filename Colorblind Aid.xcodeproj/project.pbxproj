@@ -111,13 +111,13 @@
 		AEEC85631F18B8C600D43B9B /* Colorblind Aid */ = {
 			isa = PBXGroup;
 			children = (
-				34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */,
 				347DDBD41FAA26DB00DF5F08 /* Controllers */,
 				34CF16971FA06128009058B5 /* Pixel.swift */,
 				34CF16931FA03F43009058B5 /* Constants.swift */,
 				3426EC811F8DCB76009DF0CB /* Utilities.swift */,
 				34BBA8101FAA1B4600BF8AF2 /* Camera.swift */,
 				AEEC856A1F18B8C600D43B9B /* Main.storyboard */,
+				34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */,
 				AEEC85641F18B8C600D43B9B /* AppDelegate.swift */,
 				AEEC856F1F18B8C600D43B9B /* LaunchScreen.storyboard */,
 				AEEC856D1F18B8C600D43B9B /* Assets.xcassets */,

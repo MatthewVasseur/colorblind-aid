@@ -160,7 +160,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             data = CFDataGetBytePtr(cgImage.dataProvider?.data)
             
             // Get the center pixel and initialize a new pixel
-            let pixelInfo = Int(imageWidth * screenCentre.y + screenCentre.x) * 4
+            let pixelInfo = Int(uiImage.size.width * screenCentre.y + screenCentre.x) * 4
             let pixel = Pixel(data: data, pixelInfo: pixelInfo)
 
             // do stuff with the pixel

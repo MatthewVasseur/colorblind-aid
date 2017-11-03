@@ -53,7 +53,7 @@ extension UIColor {
         
         self.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         
-        return (red, green, blue, alpha)
+        return (red*255, green*255, blue*255, alpha)
     }
     
     /** Return a tuple of HSL cgfloats (Hue, Saturation, Luminosity)
@@ -93,6 +93,9 @@ extension UIColor {
     func toHueName() -> String {
         let (red, green, blue, _) = self.getRGBa()
         let (hue, sat, lum) = self.getHSL()
+        
+        print (self.getRGBa())
+        print (self.getHSL())
         
         var ndf1: CGFloat = 0
         var ndf2: CGFloat = 0
