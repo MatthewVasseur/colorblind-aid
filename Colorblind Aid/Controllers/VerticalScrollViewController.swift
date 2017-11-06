@@ -40,7 +40,8 @@ class VerticalScrollViewController: UIViewController {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.bounces = false
         
-        let view = (x: self.view.bounds.origin.x, y: self.view.bounds.origin.y, width: self.view.bounds.width, height: self.view.bounds.height)
+        let view = (x: self.view.bounds.origin.x, y: self.view.bounds.origin.y,
+                    width: self.view.bounds.width, height: self.view.bounds.height)
         
         scrollView.frame = self.view.frame
         self.view.addSubview(scrollView)
