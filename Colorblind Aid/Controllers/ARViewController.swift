@@ -165,8 +165,9 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
 
             // do stuff with the pixel
             self.latestColor = pixel.toUIColor()
-            let colorText = pixel.toRGBString() + "\n" + pixel.toColorName()
+            let colorText = pixel.toColorName()
             print(pixel.toXYZ())
+            print(pixel.toRGBString())
             print(colorText)
 
             // Store the latest prediction
@@ -202,7 +203,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         
         // Create the bubble text
         let bubble = SCNText(string: text, extrusionDepth: CGFloat(bubbleDepth))
-        bubble.font = UIFont(name: "Futura", size: 0.10)?.withTraits(traits: .traitBold)
+        bubble.font = UIFont(name: "Futura", size: 0.075)?.withTraits(traits: .traitBold)
         bubble.alignmentMode = kCAAlignmentCenter
         bubble.firstMaterial?.diffuse.contents = UIColor.orange
         bubble.firstMaterial?.specular.contents = UIColor.white

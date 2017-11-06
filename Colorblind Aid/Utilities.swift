@@ -26,7 +26,7 @@ extension UIFont {
 
 extension UIColor {
     
-    /// Extend UIColor initializer to take RGB integers
+    /// Extend UIColor initializer to take RGB integers with alpha 1.0
     convenience init(red: Int, green: Int, blue: Int) {
         let newRed = CGFloat(red) / 255
         let newGreen = CGFloat(green) / 255
@@ -44,7 +44,13 @@ extension UIColor {
         self.init(red: newRed, green: newGreen, blue: newBlue, alpha: alpha)
     }
     
-    /// Return a tuple of RBGa cgfloats (Red, Green, Blue, Alpha)
+    /**
+     Return a tuple of RBGa cgfloats (Red, Green, Blue, Alpha)
+     
+     - returns: (Red, Green, Blue, alpha) tuple of CGFloats
+     
+     - Author: Adopted from from: Farbtastic 1.2 (http://acko.net/dev/farbtastic)
+     */
     func getRGBa() -> (CGFloat, CGFloat, CGFloat, CGFloat) {
         var red:   CGFloat = 0
         var green: CGFloat = 0
@@ -56,14 +62,16 @@ extension UIColor {
         return (red*255, green*255, blue*255, alpha)
     }
     
-    /** Return a tuple of HSL cgfloats (Hue, Saturation, Luminosity)
-     * Adopted from from: Farbtastic 1.2 (http://acko.net/dev/farbtastic)
+    /**
+     Return a tuple of HSL cgfloats (Hue, Saturation, Luminosity)
+     
+     - Author: Adopted from from: Farbtastic 1.2 (http://acko.net/dev/farbtastic)
      */
     func getHSL() -> (CGFloat, CGFloat, CGFloat) {
         var (red, green, blue, _) = self.getRGBa()
-        red /= 255
-        green /= 255
-        blue /= 255
+        red /= 255.0
+        green /= 255.0
+        blue /= 255.0
         
         let minimum = min(red, min(green, blue))
         let maximum = max(red, max(green, blue))
@@ -88,17 +96,20 @@ extension UIColor {
             }
             hue /= 6
         }
-        print ((hue * 255, sat * 255, lum * 255))
+        
         return (hue * 255, sat * 255, lum * 255)
     }
     
-    /// Get the name of the hue corresponding to the color
+    /**
+     Get the name of the hue corresponding to the color
+     
+     - Author: Created by Chirag Mehta - http://chir.ag/tech/download/ntc
+     
+     ntc js (Name that Color JavaScript)
+     */
     func toHueName() -> String {
         let (red, green, blue, _) = self.getRGBa()
         let (hue, sat, lum) = self.getHSL()
-        
-        print (self.getRGBa())
-        print (self.getHSL())
         
         var ndf1: CGFloat = 0
         var ndf2: CGFloat = 0
@@ -125,17 +136,6 @@ extension UIColor {
         return cl < 0 ? "N/A" : Constants.colorNames[cl].hueName
     }
 }
-
-//
-//+-----------------------------------------------------------------+
-//|   Created by Chirag Mehta - http://chir.ag/tech/download/ntc    |
-//|-----------------------------------------------------------------|
-//|               ntc js (Name that Color JavaScript)               |
-//+-----------------------------------------------------------------+
-//
-//All the functions, code, lists etc. have been written specifically
-//for the Name that Color JavaScript by Chirag Mehta unless otherwise
-//specified.
 
 //
 //    shades: [
