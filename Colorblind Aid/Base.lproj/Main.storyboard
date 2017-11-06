@@ -113,14 +113,14 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UoW-CS-vOu">
-                                <rect key="frame" x="16" y="740" width="30" height="30"/>
+                                <rect key="frame" x="16" y="732" width="30" height="30"/>
                                 <state key="normal" title="AR"/>
                                 <connections>
                                     <action selector="handleARButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="TEV-aV-M4E"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dnp-Sm-yEZ">
-                                <rect key="frame" x="176" y="748" width="22" height="22"/>
+                                <rect key="frame" x="176" y="740" width="22" height="22"/>
                                 <connections>
                                     <action selector="handleCameraButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="n1W-Cp-Q6b"/>
                                 </connections>
@@ -128,10 +128,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="dnp-Sm-yEZ" secondAttribute="bottom" constant="8" id="063-mv-mau"/>
+                            <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="dnp-Sm-yEZ" secondAttribute="bottom" constant="16" id="063-mv-mau"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="trailing" secondItem="BVY-AK-5Hw" secondAttribute="trailing" id="4R9-Jz-DJa"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="leading" secondItem="BVY-AK-5Hw" secondAttribute="leading" id="F9G-Fv-UEY"/>
-                            <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="UoW-CS-vOu" secondAttribute="bottom" constant="8" id="FKD-tO-sPS"/>
+                            <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="UoW-CS-vOu" secondAttribute="bottom" constant="16" id="FKD-tO-sPS"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="top" secondItem="BVY-AK-5Hw" secondAttribute="top" id="Ptq-5r-bjp"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="kzV-Cc-2eA" secondAttribute="bottom" id="jy8-9s-bwm"/>
                             <constraint firstItem="dnp-Sm-yEZ" firstAttribute="centerX" secondItem="Fl8-W5-bzf" secondAttribute="centerX" id="swP-1J-NQC"/>

@@ -9,19 +9,14 @@
 import UIKit
 
 // MARK: - Class
-class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
+class SnapContainerViewController: UIViewController {
     
     // MARK: - Properties
-    var topVC: UIViewController?
     var leftVC: UIViewController!
     var middleVC: UIViewController!
     var rightVC: UIViewController!
-    var bottomVC: UIViewController?
-    
-    var directionLockDisabled: Bool!
     
     var initialContentOffset = CGPoint() // scrollView initial offset
-    //var middleVertScrollVc: VerticalScrollViewController!
     
     var scrollView: UIScrollView!
     var delegate: SnapContainerViewDelegate?
@@ -30,14 +25,13 @@ class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //setupVerticalScrollView()
         setupHorizontalScrollView()
     }
     
     // MARK: - SnapViewController
     
-    /// Create a SnapContainerViewController given the string identifiers for the 4 view controllers
-    class func containerViewWith(left: String, middle: String, right: String, top: String?=nil, bottom: String?=nil, directionLockDisabled: Bool=false) -> SnapContainerViewController? {
+    /// Create a SnapContainerViewController given the string identifiers for the 3 view controllers
+    class func containerViewWith(left: String, middle: String, right: String) -> SnapContainerViewController? {
         
         let storyboard = UIStoryboard(name: Constants.mainStoryboard, bundle: nil)
         
@@ -50,18 +44,12 @@ class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
         guard var rightVC = storyboard.instantiateViewController(withIdentifier: right) as? (UIViewController & SnapContainerViewElement) else {
             return nil
         }
-        let topVC = top != nil ? storyboard.instantiateViewController(withIdentifier: top!) : nil
-        let bottomVC = bottom != nil ? storyboard.instantiateViewController(withIdentifier: bottom!) : nil
         
         let snapContainer = SnapContainerViewController()
         
-        snapContainer.directionLockDisabled = directionLockDisabled
-        
-        snapContainer.topVC = topVC
         snapContainer.leftVC = leftVC
         snapContainer.middleVC = middleVC
         snapContainer.rightVC = rightVC
-        snapContainer.bottomVC = bottomVC
         
         middleVC.snapContainer = snapContainer
         rightVC.snapContainer = snapContainer
@@ -70,25 +58,15 @@ class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
         return snapContainer
     }
     
-    class func containerViewWith(leftVC: (UIViewController & SnapContainerViewElement), middleVC: (UIViewController & SnapContainerViewElement), rightVC: (UIViewController & SnapContainerViewElement), topVC: UIViewController?=nil,
-                                 bottomVC: UIViewController?=nil, directionLockDisabled: Bool?=false) -> SnapContainerViewController {
+    class func containerViewWith(leftVC: (UIViewController & SnapContainerViewElement), middleVC: (UIViewController & SnapContainerViewElement),
+                                 rightVC: (UIViewController & SnapContainerViewElement)) -> SnapContainerViewController {
         let snapContainer = SnapContainerViewController()
         
-        snapContainer.directionLockDisabled = directionLockDisabled
-        
-        snapContainer.topVC = topVC
         snapContainer.leftVC = leftVC
         snapContainer.middleVC = middleVC
         snapContainer.rightVC = rightVC
-        snapContainer.bottomVC = bottomVC
         
         return snapContainer
-    }
-    
-    /// Initialize the vertical scroll view
-    func setupVerticalScrollView() {
-        //middleVertScrollVc = VerticalScrollViewController.verticalScrollVcWith(middleVc: middleVC, topVc: topVC, bottomVc: bottomVC)
-        //delegate = middleVertScrollVc
     }
     
     /// Initialize the horizontal scroll view
@@ -126,21 +104,6 @@ class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
         scrollView.delegate = self
     }
     
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.initialContentOffset = scrollView.contentOffset
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if delegate != nil && !delegate!.outerScrollViewShouldScroll() && !directionLockDisabled {
-            let newOffset = CGPoint(x: self.initialContentOffset.x, y: self.initialContentOffset.y)
-            
-            // Setting the new offset to the scrollView makes it behave like a proper
-            // directional lock, that allows you to scroll in only one direction at any given time
-            self.scrollView!.setContentOffset(newOffset, animated:  false)
-        }
-    }
-    
-    
     func move(to: String) {
         switch to {
         case "right":
@@ -166,6 +129,13 @@ class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
         return true
     }
     
+}
+
+// MARK: - UIScrollViewDelegate
+extension SnapContainerViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.initialContentOffset = scrollView.contentOffset
+    }
 }
 
 // MARK: - Protocol
