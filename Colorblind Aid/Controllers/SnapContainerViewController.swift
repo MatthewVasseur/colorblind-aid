@@ -11,6 +11,7 @@ import UIKit
 // MARK: - Class
 class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
     
+    // MARK: - Properties
     var topVC: UIViewController?
     var leftVC: UIViewController!
     var middleVC: UIViewController!
@@ -19,16 +20,24 @@ class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
     
     var directionLockDisabled: Bool!
     
-    var horizontalViews = [UIViewController]()
-    var veritcalViews = [UIViewController]()
-    
     var initialContentOffset = CGPoint() // scrollView initial offset
     var middleVertScrollVc: VerticalScrollViewController!
+    
     var scrollView: UIScrollView!
     var delegate: SnapContainerViewDelegate?
     
+    // MARK: - UIViewController
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupVerticalScrollView()
+        setupHorizontalScrollView()
+    }
+    
+    // MARK: - SnapViewController
+    
     /// Create a SnapContainerViewController given the string identifiers for the 4 view controllers
-    class func containerViewWith(left: String, middle: String, right: String, top: String, bottom: String, directionLockDisabled: Bool=false) -> SnapContainerViewController? {
+    class func containerViewWith(left: String, middle: String, right: String, top: String?=nil, bottom: String?=nil, directionLockDisabled: Bool=false) -> SnapContainerViewController? {
         
         let storyboard = UIStoryboard(name: Constants.mainStoryboard, bundle: nil)
         
@@ -41,10 +50,19 @@ class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
         guard var rightVC = storyboard.instantiateViewController(withIdentifier: right) as? (UIViewController & SnapContainerViewElement) else {
             return nil
         }
-        let topVC = storyboard.instantiateViewController(withIdentifier: top)
-        let bottomVC = storyboard.instantiateViewController(withIdentifier: bottom)
+        let topVC = top != nil ? storyboard.instantiateViewController(withIdentifier: top!) : nil
+        let bottomVC = bottom != nil ? storyboard.instantiateViewController(withIdentifier: bottom!) : nil
         
-        let snapContainer = containerViewWith(leftVC: leftVC, middleVC: middleVC, rightVC: rightVC, topVC: topVC, bottomVC: bottomVC)
+        //let snapContainer = containerViewWith(leftVC: leftVC, middleVC: middleVC, rightVC: rightVC, topVC: topVC, bottomVC: bottomVC, directionLockDisabled: directionLockDisabled)
+        let snapContainer = SnapContainerViewController()
+        
+        snapContainer.directionLockDisabled = directionLockDisabled
+        
+        snapContainer.topVC = topVC
+        snapContainer.leftVC = leftVC
+        snapContainer.middleVC = middleVC
+        snapContainer.rightVC = rightVC
+        snapContainer.bottomVC = bottomVC
         
         middleVC.snapContainer = snapContainer
         rightVC.snapContainer = snapContainer
@@ -55,49 +73,36 @@ class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
     
     class func containerViewWith(leftVC: (UIViewController & SnapContainerViewElement), middleVC: (UIViewController & SnapContainerViewElement), rightVC: (UIViewController & SnapContainerViewElement), topVC: UIViewController?=nil,
                                  bottomVC: UIViewController?=nil, directionLockDisabled: Bool?=false) -> SnapContainerViewController {
-        let container = SnapContainerViewController()
+        let snapContainer = SnapContainerViewController()
         
-        container.directionLockDisabled = directionLockDisabled
+        snapContainer.directionLockDisabled = directionLockDisabled
         
-        container.topVC = topVC
-        container.leftVC = leftVC
-        container.middleVC = middleVC
-        container.rightVC = rightVC
-        container.bottomVC = bottomVC
+        snapContainer.topVC = topVC
+        snapContainer.leftVC = leftVC
+        snapContainer.middleVC = middleVC
+        snapContainer.rightVC = rightVC
+        snapContainer.bottomVC = bottomVC
         
-        return container
+        return snapContainer
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupVerticalScrollView()
-        setupHorizontalScrollView()
-    }
-    
+    /// Initialize the vertical scroll view
     func setupVerticalScrollView() {
         middleVertScrollVc = VerticalScrollViewController.verticalScrollVcWith(middleVc: middleVC, topVc: topVC, bottomVc: bottomVC)
         delegate = middleVertScrollVc
     }
     
+    /// Initialize the horizontal scroll view
     func setupHorizontalScrollView() {
         scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.bounces = false
         
-        let view = (
-            x: self.view.bounds.origin.x,
-            y: self.view.bounds.origin.y,
-            width: self.view.bounds.width,
-            height: self.view.bounds.height
-        )
+        let view = (x: self.view.bounds.origin.x, y: self.view.bounds.origin.y,
+                    width: self.view.bounds.width, height: self.view.bounds.height)
         
-        scrollView.frame = CGRect(x: view.x,
-                                  y: view.y,
-                                  width: view.width,
-                                  height: view.height
-        )
+        scrollView.frame = CGRect(x: view.x, y: view.y, width: view.width, height: view.height)
         
         self.view.addSubview(scrollView)
         
@@ -105,23 +110,11 @@ class SnapContainerViewController: UIViewController, UIScrollViewDelegate {
         let scrollHeight  = view.height
         scrollView.contentSize = CGSize(width: scrollWidth, height: scrollHeight)
         
-        leftVC.view.frame = CGRect(x: 0,
-                                   y: 0,
-                                   width: view.width,
-                                   height: view.height
-        )
+        leftVC.view.frame = CGRect(x: 0, y: 0, width: view.width, height: view.height)
         
-        middleVertScrollVc.view.frame = CGRect(x: view.width,
-                                               y: 0,
-                                               width: view.width,
-                                               height: view.height
-        )
+        middleVertScrollVc.view.frame = CGRect(x: view.width, y: 0, width: view.width, height: view.height)
         
-        rightVC.view.frame = CGRect(x: 2 * view.width,
-                                    y: 0,
-                                    width: view.width,
-                                    height: view.height
-        )
+        rightVC.view.frame = CGRect(x: 2 * view.width, y: 0, width: view.width, height: view.height)
         
         addChildViewController(leftVC)
         addChildViewController(middleVertScrollVc)

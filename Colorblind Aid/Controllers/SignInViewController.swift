@@ -79,7 +79,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             // self.performSegue(withIdentifier: "SignIn", sender: nil)
             
             // Enable and present snapchat-esque swiping around
-            guard let snapContainer = SnapContainerViewController.containerViewWith(left: "left", middle: "middle", right: "right", top: "top", bottom: "bottom") else {
+            guard let snapContainer = SnapContainerViewController.containerViewWith(left: "left", middle: "middle", right: "right") else {
                 fatalError("Not proper snap container elements")
             }
             
