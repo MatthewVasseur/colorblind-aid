@@ -12,7 +12,6 @@
 		346E9BFA1FAA42F300CA1D66 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */; };
 		347DDBD31FAA242D00DF5F08 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */; };
 		347DDBDA1FAA272200DF5F08 /* SnapContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */; };
-		347DDBDC1FAA277700DF5F08 /* VerticalScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBDB1FAA277700DF5F08 /* VerticalScrollViewController.swift */; };
 		34BBA8111FAA1B4600BF8AF2 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BBA8101FAA1B4600BF8AF2 /* Camera.swift */; };
 		34C7A4A61FACE9470056B5B1 /* ColorNamesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */; };
 		34CF168E1FA0351D009058B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */; };
@@ -35,7 +34,6 @@
 		346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapContainerViewController.swift; sourceTree = "<group>"; };
-		347DDBDB1FAA277700DF5F08 /* VerticalScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalScrollViewController.swift; sourceTree = "<group>"; };
 		34BBA8101FAA1B4600BF8AF2 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorNamesData.swift; sourceTree = "<group>"; };
 		34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -75,7 +73,6 @@
 				34CF168F1FA0393E009058B5 /* SignInViewController.swift */,
 				347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */,
 				347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */,
-				347DDBDB1FAA277700DF5F08 /* VerticalScrollViewController.swift */,
 				346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
@@ -285,7 +282,6 @@
 				347DDBD31FAA242D00DF5F08 /* FilterViewController.swift in Sources */,
 				340359AB1F8DC191002F6C58 /* Inceptionv3.mlmodel in Sources */,
 				3426EC821F8DCB76009DF0CB /* Utilities.swift in Sources */,
-				347DDBDC1FAA277700DF5F08 /* VerticalScrollViewController.swift in Sources */,
 				34CF16901FA0393E009058B5 /* SignInViewController.swift in Sources */,
 				AEEC85651F18B8C600D43B9B /* AppDelegate.swift in Sources */,
 				34CF16941FA03F43009058B5 /* Constants.swift in Sources */,

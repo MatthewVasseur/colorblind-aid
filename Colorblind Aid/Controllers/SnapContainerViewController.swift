@@ -16,8 +16,6 @@ class SnapContainerViewController: UIViewController {
     var middleVC: UIViewController!
     var rightVC: UIViewController!
     
-    var initialContentOffset = CGPoint() // scrollView initial offset
-    
     var scrollView: UIScrollView!
     var delegate: SnapContainerViewDelegate?
     
@@ -101,7 +99,7 @@ class SnapContainerViewController: UIViewController {
         rightVC.didMove(toParentViewController: self)
         
         scrollView.contentOffset.x = middleVC.view.frame.origin.x
-        scrollView.delegate = self
+        //        scrollView.delegate = self
     }
     
     func move(to: String) {
@@ -129,13 +127,6 @@ class SnapContainerViewController: UIViewController {
         return true
     }
     
-}
-
-// MARK: - UIScrollViewDelegate
-extension SnapContainerViewController: UIScrollViewDelegate {
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.initialContentOffset = scrollView.contentOffset
-    }
 }
 
 // MARK: - Protocol
