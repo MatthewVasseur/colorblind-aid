@@ -156,6 +156,24 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             }
             uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
             
+            let imagePath = "http://chemistry.oregonstate.edu/sites/chemistry.oregonstate.edu/files/feature-story/YInMn_Blue_-_cropped.jpg"
+            let urlPath = "https://colorblind-aid.appspot.com/dominantColor/" + imagePath.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+            let urlString = URL(string: urlPath)
+            
+            if let url = urlString {
+                let task = URLSession.shared.dataTask(with: url) {
+                    (data, response, error) in
+                    if error != nil {
+                        print(error)
+                    } else {
+                        if let data = data {
+                            print(data) //JSONSerialization
+                        }
+                    }
+                }
+                task.resume()
+            }
+                
             // Extract pixel data and image width
             data = CFDataGetBytePtr(cgImage.dataProvider?.data)
             
