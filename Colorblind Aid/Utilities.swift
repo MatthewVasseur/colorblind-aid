@@ -8,6 +8,22 @@
 
 import UIKit
 
+extension UIImage {
+    /**
+     Return a cropped version of the provided image
+     - parameter rect: A rectangle whose coordinates specify the area to create an image from
+     - returns: The cropped image or NIL if unable to
+     */
+    func crop(toRect rect: CGRect) -> UIImage? {
+        guard let imageRef: CGImage = self.cgImage?.cropping(to: rect) else {
+            return nil
+        }
+        let croppedImage: UIImage = UIImage(cgImage: imageRef)
+        
+        return croppedImage
+    }
+}
+
 extension UIFont {
     
     /**

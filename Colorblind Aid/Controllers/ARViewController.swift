@@ -154,26 +154,14 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
                 return
             }
-            uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
-            
-            let imagePath = "http://chemistry.oregonstate.edu/sites/chemistry.oregonstate.edu/files/feature-story/YInMn_Blue_-_cropped.jpg"
-            let urlPath = "https://colorblind-aid.appspot.com/dominantColor/" + imagePath.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-            let urlString = URL(string: urlPath)
-            
-            if let url = urlString {
-                let task = URLSession.shared.dataTask(with: url) {
-                    (data, response, error) in
-                    if error != nil {
-                        print(error)
-                    } else {
-                        if let data = data {
-                            print(data) //JSONSerialization
-                        }
-                    }
-                }
-                task.resume()
+            let croppedRect = CGRect(origin: screenCentre, size: CGSize(width: cgImage.width / 10, height: cgImage.height / 10))
+            guard let croppedCGImage = cgImage.cropping(to: croppedRect) else {
+                return
             }
-                
+            
+            uiImage = UIImage(cgImage: croppedCGImage, scale: 1.0, orientation: .right)
+            
+            
             // Extract pixel data and image width
             data = CFDataGetBytePtr(cgImage.dataProvider?.data)
             
@@ -195,7 +183,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             self.debugTextView.text = colorText
             
             debugTextView.backgroundColor = latestColor
-            //imageView.image = uiImage
+            imageView.image = uiImage
             
             // Create 3D Text
             let node = createNewBubbleParentNode(colorText)

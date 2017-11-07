@@ -44,10 +44,6 @@
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsc-JN-lWZ">
                                 <rect key="frame" x="176" y="395" width="22" height="22"/>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="05C-ba-L3F">
-                                <rect key="frame" x="127" y="73" width="121" height="166"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qbV-Az-2JJ">
                                 <rect key="frame" x="16" y="732" width="57" height="30"/>
                                 <state key="normal" title="Settings"/>
@@ -62,6 +58,10 @@
                                     <action selector="showFilter:" destination="BV1-FR-VrT" eventType="touchUpInside" id="Ypg-WW-KbU"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="05C-ba-L3F">
+                                <rect key="frame" x="127" y="117" width="121" height="166"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -80,11 +80,6 @@
                             <constraint firstItem="XMs-gA-sya" firstAttribute="bottom" secondItem="W2V-Gj-Pwx" secondAttribute="bottom" id="zam-8D-9DF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="W2V-Gj-Pwx"/>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="05C-ba-L3F"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="debugTextView" destination="hWs-m5-HIX" id="aW0-YQ-CNv"/>
