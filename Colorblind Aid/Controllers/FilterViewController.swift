@@ -55,8 +55,10 @@ class FilterViewController: UIViewController, SnapContainerViewElement {
         isCreatingFilter = !isCreatingFilter
         if isCreatingFilter {
             editButton.setTitle("Done", for: .normal)
+            imageView.isUserInteractionEnabled = true
         } else {
             editButton.setTitle("Edit", for: .normal)
+            imageView.isUserInteractionEnabled = false
         }
     }
     
