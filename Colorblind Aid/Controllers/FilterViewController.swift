@@ -15,12 +15,19 @@ class FilterViewController: UIViewController, SnapContainerViewElement {
     @IBOutlet weak var editButton: UIButton!
     
     private var isCreatingFilter: Bool=false
+    private var rects: [UIView] = [] // Completed rects
+    private var currentRect: UIView!
     
     var snapContainer: SnapContainerViewController!
     
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Initialize the current rect
+        currentRect = UIView()
+        currentRect.backgroundColor = UIColor.clear.withAlphaComponent(0.5)
+        currentRect.layer.borderColor = UIColor.black.cgColor
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,23 +52,42 @@ class FilterViewController: UIViewController, SnapContainerViewElement {
     }
     
     @IBAction func handleEditButton(_ sender: UIButton) {
+        isCreatingFilter = !isCreatingFilter
         if isCreatingFilter {
             editButton.setTitle("Done", for: .normal)
         } else {
             editButton.setTitle("Edit", for: .normal)
         }
-        isCreatingFilter = !isCreatingFilter
     }
     
     @IBAction func handleDrawGesture(_ sender: DrawGestureRecognizer) {
+        // Ensure there is an image on which to draw and we should be drawing
+        if (imageView.image == nil) || !isCreatingFilter {
+            return
+        }
+        
         switch sender.state {
         case .began:
+            currentRect.frame = sender.rect!
+            currentRect.isHidden = false
+            self.view.addSubview(currentRect)
+            
             print("began")
             
         case .changed:
-            print("changed")
+//            currentRect.isHidden = false
+            currentRect.frame = sender.rect!
+            
+            //print("changed")
             
         case .ended:
+            let completedView = UIView(from: currentRect)
+            self.view.addSubview(completedView)
+            rects.append(completedView)
+            
+            currentRect.isHidden = true
+            currentRect.frame = CGRect.zero
+            
             print("ended")
             
         case .cancelled:
@@ -70,6 +96,11 @@ class FilterViewController: UIViewController, SnapContainerViewElement {
         case .failed, .possible:
             print("failed")
         }
+    }
+    
+    // MARK: - Methods
+    func draw(rect: CGRect) {
+    
     }
     
     /*

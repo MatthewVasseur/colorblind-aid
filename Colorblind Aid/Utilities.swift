@@ -154,6 +154,16 @@ extension UIColor {
     }
 }
 
+extension UIView {
+    convenience init(from view: UIView) {
+        self.init()
+        
+        self.backgroundColor = view.backgroundColor
+        self.layer.borderColor = view.layer.borderColor
+        self.frame = view.frame
+    }
+}
+
 extension CGRect {
     /**
      Convenience initialize to create a rectangle from two points
