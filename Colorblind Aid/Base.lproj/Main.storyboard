@@ -106,6 +106,10 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kzV-Cc-2eA">
                                 <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="6cM-zg-mBm" appends="YES" id="hl6-F1-kBx"/>
+                                </connections>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UoW-CS-vOu">
                                 <rect key="frame" x="16" y="732" width="30" height="30"/>
@@ -120,6 +124,13 @@
                                     <action selector="handleCameraButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="n1W-Cp-Q6b"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pBD-ck-aQX">
+                                <rect key="frame" x="329" y="732" width="30" height="30"/>
+                                <state key="normal" title="Edit"/>
+                                <connections>
+                                    <action selector="handleEditButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="cAv-EG-UfH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -128,17 +139,26 @@
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="leading" secondItem="BVY-AK-5Hw" secondAttribute="leading" id="F9G-Fv-UEY"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="UoW-CS-vOu" secondAttribute="bottom" constant="16" id="FKD-tO-sPS"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="top" secondItem="BVY-AK-5Hw" secondAttribute="top" id="Ptq-5r-bjp"/>
+                            <constraint firstItem="BVY-AK-5Hw" firstAttribute="trailing" secondItem="pBD-ck-aQX" secondAttribute="trailing" constant="16" id="jec-fT-2pk"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="kzV-Cc-2eA" secondAttribute="bottom" id="jy8-9s-bwm"/>
+                            <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="pBD-ck-aQX" secondAttribute="bottom" constant="16" id="pD6-bF-o46"/>
                             <constraint firstItem="dnp-Sm-yEZ" firstAttribute="centerX" secondItem="Fl8-W5-bzf" secondAttribute="centerX" id="swP-1J-NQC"/>
                             <constraint firstItem="UoW-CS-vOu" firstAttribute="leading" secondItem="BVY-AK-5Hw" secondAttribute="leading" constant="16" id="zZE-M2-5gB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BVY-AK-5Hw"/>
                     </view>
                     <connections>
+                        <outlet property="editButton" destination="pBD-ck-aQX" id="iJC-kH-MAw"/>
                         <outlet property="imageView" destination="kzV-Cc-2eA" id="jzm-jK-Yfg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="adN-Xd-Osb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <gestureRecognizer id="6cM-zg-mBm" customClass="DrawGestureRecognizer" customModule="Colorblind_Aid" customModuleProvider="target">
+                    <connections>
+                        <action selector="handleDrawGesture:" destination="kUK-ks-tbi" id="gSD-dg-qfz"/>
+                        <outlet property="delegate" destination="kUK-ks-tbi" id="e0P-E2-6iz"/>
+                    </connections>
+                </gestureRecognizer>
             </objects>
             <point key="canvasLocation" x="785" y="618"/>
         </scene>

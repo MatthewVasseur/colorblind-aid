@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreGraphics
 
 extension UIImage {
     /**
@@ -150,6 +151,21 @@ extension UIColor {
         }
         
         return cl < 0 ? "N/A" : Constants.colorNames[cl].hueName
+    }
+}
+
+extension CGRect {
+    /**
+     Convenience initialize to create a rectangle from two points
+     - parameters:
+        - from: The top left corner point
+        - to: The bottom right corner point
+     */
+    init(from: CGPoint, to: CGPoint) {
+        let width = to.x - from.x
+        let height = to.y - from.y
+        
+        self.init(x: from.x, y: from.y, width: width, height: height)
     }
 }
 
