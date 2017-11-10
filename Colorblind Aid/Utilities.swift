@@ -177,6 +177,38 @@ extension CGRect {
         
         self.init(x: from.x, y: from.y, width: width, height: height)
     }
+    
+    /**
+     Convenience initialize to create a rectangle from a center point and a size
+     - parameters:
+     - center: The center of the rectangle
+     - size: The size (height and width) of the rectangle
+     */
+    init(center: CGPoint, size: CGSize) {
+        let origin = CGPoint(x: center.x - (size.width / 2.0), y: center.y - (size.height / 2.0))
+        
+        self.init(origin: origin, size: size)
+    }
+}
+
+extension CGSize {
+    /**
+     Returns a CGSize with height and width inverted
+     - returns: CGSize with height and width inverted
+     */
+    func invert() -> CGSize {
+        return CGSize(width: self.height, height: self.width)
+    }
+}
+
+extension CGPoint {
+    /**
+     Returns a CGPoint with x and y inverted
+     - returns: CGPoint with x and y inverted
+     */
+    func invert() -> CGPoint {
+        return CGPoint(x: self.y, y: self.x)
+    }
 }
 
 //

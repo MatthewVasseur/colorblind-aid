@@ -18,16 +18,15 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var debugTextView: UITextView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var targetButton: UIButton!
     
     var snapContainer: SnapContainerViewController!
     
     let bubbleDepth: Float = 0.01 // the 'depth' of 3D text
     
-    var screenCentre: CGPoint!
-    //var pixelInfo: Int!
-    //var pixel: Pixel!
+    var targetCenter: CGPoint!
     
-    var latestPrediction: String = "…" // a variable containing the latest CoreML prediction
+//    var latestPrediction: String = "…" // a variable containing the latest CoreML prediction
     
     var latestColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.52)
     var data: UnsafePointer<UInt8>!
@@ -54,7 +53,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         
         // Set screen center point and pixel index
-        screenCentre = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
+        targetCenter = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -133,7 +132,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         // Get nearest object to center screen to color lable
         //        let touchLocation = sender.location(in: self.sceneView)
         
-        let arHitTestResults = sceneView.hitTest(screenCentre, types: [.featurePoint, .existingPlaneUsingExtent])
+        let arHitTestResults = sceneView.hitTest(targetCenter, types: [.featurePoint, .existingPlaneUsingExtent])
         // Alternatively, we could use '.existingPlaneUsingExtent' for more grounded hit-test-points.
         
         // Find closest hit
@@ -154,19 +153,19 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
                 return
             }
-            let croppedRect = CGRect(origin: screenCentre, size: CGSize(width: cgImage.width / 10, height: cgImage.height / 10))
+            let croppedRect = CGRect(center: targetCenter.invert(), size: CGSize(width: cgImage.height, height: cgImage.width))
             guard let croppedCGImage = cgImage.cropping(to: croppedRect) else {
                 return
             }
             
-            uiImage = UIImage(cgImage: croppedCGImage, scale: 1.0, orientation: .right)
+            uiImage = UIImage(cgImage: croppedCGImage)//, scale: 1.0, orientation: .right)
             
             
             // Extract pixel data and image width
             data = CFDataGetBytePtr(cgImage.dataProvider?.data)
             
             // Get the center pixel and initialize a new pixel
-            let pixelInfo = Int(uiImage.size.width * screenCentre.y + screenCentre.x) * 4
+            let pixelInfo = Int(uiImage.size.width * targetCenter.y + targetCenter.x) * 4
             let pixel = Pixel(data: data, pixelInfo: pixelInfo)
 
             // do stuff with the pixel
