@@ -199,6 +199,13 @@ extension CGSize {
     func invert() -> CGSize {
         return CGSize(width: self.height, height: self.width)
     }
+    
+    /**
+     Creates a square CGSize
+     */
+    init(forSquare side: Int) {
+        self.init(width: side, height: side)
+    }
 }
 
 extension CGPoint {

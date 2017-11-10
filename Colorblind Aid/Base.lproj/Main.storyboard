@@ -63,7 +63,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="05C-ba-L3F">
-                                <rect key="frame" x="127" y="117" width="121" height="166"/>
+                                <rect key="frame" x="109" y="117" width="156" height="220"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -73,10 +73,10 @@
                             <constraint firstItem="fsc-JN-lWZ" firstAttribute="centerY" secondItem="XMs-gA-sya" secondAttribute="centerY" constant="-5" id="F1P-V6-WRz"/>
                             <constraint firstItem="fsc-JN-lWZ" firstAttribute="centerX" secondItem="XMs-gA-sya" secondAttribute="centerX" id="FRB-xB-mYc"/>
                             <constraint firstItem="XMs-gA-sya" firstAttribute="top" secondItem="W2V-Gj-Pwx" secondAttribute="top" id="Fo7-Ch-6FA"/>
-                            <constraint firstItem="05C-ba-L3F" firstAttribute="leading" secondItem="W2V-Gj-Pwx" secondAttribute="leading" constant="127" id="KnP-bI-0qH"/>
-                            <constraint firstItem="fsc-JN-lWZ" firstAttribute="top" secondItem="05C-ba-L3F" secondAttribute="bottom" constant="112" id="MGA-Wl-agh"/>
+                            <constraint firstItem="05C-ba-L3F" firstAttribute="leading" secondItem="W2V-Gj-Pwx" secondAttribute="leading" constant="109" id="KnP-bI-0qH"/>
+                            <constraint firstItem="fsc-JN-lWZ" firstAttribute="top" secondItem="05C-ba-L3F" secondAttribute="bottom" constant="58" id="MGA-Wl-agh"/>
                             <constraint firstItem="hWs-m5-HIX" firstAttribute="trailing" secondItem="W2V-Gj-Pwx" secondAttribute="trailing" id="Pop-CU-HNn"/>
-                            <constraint firstItem="W2V-Gj-Pwx" firstAttribute="trailing" secondItem="05C-ba-L3F" secondAttribute="trailing" constant="127" id="TJe-jX-ikL"/>
+                            <constraint firstItem="W2V-Gj-Pwx" firstAttribute="trailing" secondItem="05C-ba-L3F" secondAttribute="trailing" constant="110" id="TJe-jX-ikL"/>
                             <constraint firstItem="W2V-Gj-Pwx" firstAttribute="bottom" secondItem="dR5-7S-NpA" secondAttribute="bottom" constant="16" id="Tta-ti-Bip"/>
                             <constraint firstItem="qbV-Az-2JJ" firstAttribute="leading" secondItem="W2V-Gj-Pwx" secondAttribute="leading" constant="16" id="Vgw-9P-Ngf"/>
                             <constraint firstItem="hWs-m5-HIX" firstAttribute="leading" secondItem="W2V-Gj-Pwx" secondAttribute="leading" id="bYb-Zu-hM1"/>

@@ -153,12 +153,14 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
                 return
             }
-            let croppedRect = CGRect(center: targetCenter.invert(), size: CGSize(width: cgImage.height, height: cgImage.width))
+            let imageCenter = CGPoint(x: cgImage.width / 2, y: cgImage.height / 2)
+            let croppedSize = CGSize(forSquare: cgImage.width / 15)
+            let croppedRect = CGRect(center: imageCenter, size: croppedSize)
             guard let croppedCGImage = cgImage.cropping(to: croppedRect) else {
                 return
             }
             
-            uiImage = UIImage(cgImage: croppedCGImage)//, scale: 1.0, orientation: .right)
+            uiImage = UIImage(cgImage: croppedCGImage, scale: 1.0, orientation: .right)
             
             
             // Extract pixel data and image width
