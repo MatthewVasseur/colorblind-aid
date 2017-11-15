@@ -202,8 +202,17 @@ extension CGSize {
     
     /**
      Creates a square CGSize
+     - parameter side: Integer side length
      */
     init(forSquare side: Int) {
+        self.init(width: side, height: side)
+    }
+    
+    /**
+     Creates a square CGSize
+     - parameter side: CGFloat side length
+     */
+    init(forSquare side: CGFloat) {
         self.init(width: side, height: side)
     }
 }

@@ -76,67 +76,10 @@ class Pixel {
         y = Y / (X + Y + Z)
         z = 1.0 - x - y
         
-//        let RGBMatrix: [Double] = [Double(r), Double(g), Double(b)]
-//        var XYZMatrix = [Double](repeating: 0.0, count: 3)
-//
-//        vDSP_mmulD(convMatrix, 1, RGBMatrix, 1, &XYZMatrix, 1, 3, 1, 3)
-//
-//        print(XYZMatrix)
-        
         return (x, y, z)
     }
     
     func toColorName() -> String {
         return self.toUIColor().toHueName()
-//        var colorName: String!
-//
-//        // ensure we have xyz values
-//        _ = toXYZ()
-//
-//        if (y > 0.5) {
-//            if (x < 0.3) {
-//                colorName = "Green"
-//            } else if (x < 0.4) {
-//                colorName = "Yellow Green"
-//            } else if (x < 0.5) {
-//                colorName = "Yellow"
-//            }
-//        } else if (y > 0.3) {
-//            if (x < 0.2) {
-//                colorName = "Blue Green"
-//            } else if (x < 0.4) {
-//                colorName = "White"
-//            } else if (x < 0.7) {
-//                colorName = "Orange"
-//            }
-//        } else if (y > 0.2) {
-//            if (x < 0.2) {
-//                colorName = "Blue"
-//            } else if (x < 0.35) {
-//                colorName = "White"
-//            } else if (x < 0.5) {
-//                colorName = "Pink"
-//            } else if (x < 0.75) {
-//                colorName = "Red"
-//            }
-//        } else if (y > 0.1) {
-//            if (x < 0.15) {
-//                colorName = "Blue"
-//            } else if (x < 0.35) {
-//                colorName = "Purple"
-//            } else if (x < 0.55) {
-//                colorName = "Red Purple"
-//            } else if (x < 0.75) {
-//                colorName = "Red"
-//            }
-//        } else if (y > 0) {
-//            if (x < 0.1) {
-//                colorName = "Blue"
-//            } else if (x < 0.4) {
-//                colorName = "Purple"
-//            }
-//        }
-//
-//        return colorName ?? "N/A"
     }
 }

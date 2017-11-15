@@ -150,21 +150,38 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             // Create cgImage
             let ciImage = CIImage(cvPixelBuffer: pixbuff)
             let context = CIContext(options: nil)
-            guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
-                return
-            }
-            let imageCenter = CGPoint(x: cgImage.width / 2, y: cgImage.height / 2)
-            let croppedSize = CGSize(forSquare: cgImage.width / 15)
-            let croppedRect = CGRect(center: imageCenter, size: croppedSize)
-            guard let croppedCGImage = cgImage.cropping(to: croppedRect) else {
-                return
-            }
             
-            uiImage = UIImage(cgImage: croppedCGImage, scale: 1.0, orientation: .right)
+//            let imageCenter = CGPoint(x: ciImage.extent.width / 2.0, y: ciImage.extent.height / 2.0)
+//            let croppedSize = CGSize(forSquare: ciImage.extent.width / 20.0)
+//            let croppedRect = CGRect(center: imageCenter, size: croppedSize)
+//            let croppedCIImage = ciImage.cropped(to: croppedRect)
+            
+            guard let cgImage1 = context.createCGImage(ciImage, from: ciImage.extent) else {
+                return
+            }
+            let imageCenter = CGPoint(x: cgImage1.width / 2, y: cgImage1.height / 2)
+            let croppedSize = CGSize(forSquare: cgImage1.width / 20)
+            let croppedRect = CGRect(center: imageCenter, size: croppedSize)
+            guard let croppedCGImage = cgImage1.cropping(to: croppedRect) else {
+                return
+            }
+            let uiImage1 = UIImage(cgImage: croppedCGImage, scale: 1.0, orientation: .right)
+            
+            let filter = CIFilter(name: "CIAreaAverage")
+            filter?.setValue(uiImage1.ciImage, forKey: kCIInputImageKey)
+            guard let outputImage = filter?.outputImage else {
+                return
+            }
+            guard let cgImage = context.createCGImage(outputImage, from: outputImage.extent) else {
+                return
+            }
+            uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
+            
+            
             
             
             // Extract pixel data and image width
-            data = CFDataGetBytePtr(cgImage.dataProvider?.data)
+            data = CFDataGetBytePtr(cgImage1.dataProvider?.data)
             
             // Get the center pixel and initialize a new pixel
             let pixelInfo = Int(uiImage.size.width * targetCenter.y + targetCenter.x) * 4
@@ -173,7 +190,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             // do stuff with the pixel
             self.latestColor = pixel.toUIColor()
             let colorText = pixel.toColorName()
-            print(pixel.toXYZ())
+            //print(pixel.toXYZ())
             print(pixel.toRGBString())
             print(colorText)
 
