@@ -9,9 +9,8 @@
 import UIKit
 import SceneKit
 import ARKit
-import UIImageColors
-//import Vision
 
+import UIImageColors
 
 class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewElement {
     
@@ -26,8 +25,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     let bubbleDepth: Float = 0.01 // the 'depth' of 3D text
     
     var targetCenter: CGPoint!
-    
-//    var latestPrediction: String = "…" // a variable containing the latest CoreML prediction
     
     var latestColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.52)
     var data: UnsafePointer<UInt8>!
@@ -143,73 +140,35 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             let transform = closestResult.worldTransform
             let worldCoord = SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
             
-            // Get Camera Image as pixel data
+            // Get Camera Image as pixel data and create ciImage
             guard let pixbuff = (sceneView.session.currentFrame?.capturedImage) else {
                 return
             }
-            
-            // Create cgImage
             let ciImage = CIImage(cvPixelBuffer: pixbuff)
             let context = CIContext(options: nil)
             
+            // Created cropped image into square around center (using magic number 20)
             let imageCenter = CGPoint(x: ciImage.extent.width / 2.0, y: ciImage.extent.height / 2.0)
             let croppedSize = CGSize(forSquare: ciImage.extent.width / 20.0)
             let croppedRect = CGRect(center: imageCenter, size: croppedSize)
             let croppedCIImage = ciImage.cropped(to: croppedRect)
-            
             guard let cgImage = context.createCGImage(croppedCIImage, from: croppedCIImage.extent) else {
                 return
             }
             uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
             
+            // Get image color and hue name
             let colors = uiImage.getColors()
             self.latestColor = colors.background
             let colorText = colors.background.toHueName()
-            print(colors.background.getRGBa())
+            //            print(colors.background.getRGBa())
             
-            
-//            let imageCenter = CGPoint(x: cgImage.width / 2, y: cgImage.height / 2)
-//            let croppedSize = CGSize(forSquare: cgImage.width / 20)
-//            let croppedRect = CGRect(center: imageCenter, size: croppedSize)
-//            guard let croppedCGImage = cgImage.cropping(to: croppedRect) else {
-//                return
-//            }
-//            let filter = CIFilter(name: "CIAreaAverage")
-//            filter?.setValue(uiImage1.ciImage, forKey: kCIInputImageKey)
-//            guard let outputImage = filter?.outputImage else {
-//                return
-//            }
-//            guard let cgImage = context.createCGImage(outputImage, from: outputImage.extent) else {
-//                return
-//            }
-//            uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
-//
-//
-//
-//            // Extract pixel data and image width
-//            data = CFDataGetBytePtr(cgImage.dataProvider?.data)
-//
-//            // Get the center pixel and initialize a new pixel
-//            let pixelInfo = Int(uiImage.size.width * targetCenter.y + targetCenter.x) * 4
-//            let pixel = Pixel(data: data, pixelInfo: pixelInfo)
-//
-//            // do stuff with the pixel
-//            self.latestColor = pixel.toUIColor()
-//            let colorText = pixel.toColorName()
-//            //print(pixel.toXYZ())
-//            print(pixel.toRGBString())
-//            print(colorText)
-
-            // Store the latest prediction
-            //            self.latestPrediction = colorText
-
-            // Display Debug Text on screen
+            // Display debugging info on screen
             self.debugTextView.text = colorText
-            
             debugTextView.backgroundColor = latestColor
             imageView.image = uiImage
             
-            // Create 3D Text
+            // Create 3D text node
             let node = createNewBubbleParentNode(colorText)
             sceneView.scene.rootNode.addChildNode(node)
             node.position = worldCoord

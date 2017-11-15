@@ -8,26 +8,30 @@
 
 import UIKit
 
-class FilterViewController: UIViewController, SnapContainerViewElement {
+class FilterViewController: UIViewController, SnapContainerViewElement, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
     
-    private var isCreatingFilter: Bool=false
-    private var rects: [UIView] = [] // Completed rects
-    private var currentRect: UIView!
-    
     var snapContainer: SnapContainerViewController!
+    
+    private var canEditFilters: Bool = false
+    private var currentState: edittingState = .normal
+    private var rects: [FilterRectView] = [] // Completed rects
+    private var currentRect: FilterRectView!
+    
+    // MARK: Enumerations
+    fileprivate enum edittingState {
+        case normal, drawing, moving
+    }
     
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Initialize the current rect
-        currentRect = UIView()
-        currentRect.backgroundColor = UIColor.clear.withAlphaComponent(0.5)
-        currentRect.layer.borderColor = UIColor.black.cgColor
+        currentRect = FilterRectView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,8 +56,8 @@ class FilterViewController: UIViewController, SnapContainerViewElement {
     }
     
     @IBAction func handleEditButton(_ sender: UIButton) {
-        isCreatingFilter = !isCreatingFilter
-        if isCreatingFilter {
+        canEditFilters = !canEditFilters
+        if canEditFilters {
             editButton.setTitle("Done", for: .normal)
             imageView.isUserInteractionEnabled = true
         } else {
@@ -62,11 +66,69 @@ class FilterViewController: UIViewController, SnapContainerViewElement {
         }
     }
     
-    @IBAction func handleDrawGesture(_ sender: DrawGestureRecognizer) {
-        // Ensure there is an image on which to draw and we should be drawing
-        if (imageView.image == nil) || !isCreatingFilter {
+//    @IBAction func handleEditButton(_ sender: UIButton) {
+//        if currentState == .drawing {
+//            currentState == .normal
+//            editButton.setTitle("Done", for: .normal)
+//            imageView.isUserInteractionEnabled = true
+//        } else {
+//            currentState == .drawing
+//            editButton.setTitle("Edit", for: .normal)
+//            imageView.isUserInteractionEnabled = false
+//        }
+//    }
+    
+    // MARK: - Actions
+    @objc func handleEditGesture(_ sender: UITapGestureRecognizer) {
+        guard let filterView = sender.view as? FilterRectView else {
             return
         }
+        
+        // TODO: MAKE THIS RIGHT
+        
+        // Use an alert controller to how to edit the view
+        let editMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        editMenu.popoverPresentationController?.sourceView = self.view
+        
+        // Create move, filter, delete, and cancel actions
+        let move = UIAlertAction(title: "Move", style: .default) {
+            (alert : UIAlertAction) in
+            print("Moving")
+            return
+        }
+        let filter = UIAlertAction(title: "Filter", style: .default) {
+            (alert : UIAlertAction) in
+            
+            filterView.i += 1
+            filterView.backgroundColor = filterView.colors[filterView.i % 7]
+            return
+        }
+        let delete = UIAlertAction(title: "Delete", style: .destructive) {
+            (alert : UIAlertAction) in
+            print("deleting")
+            
+            filterView.removeFromSuperview()
+            return
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) {
+            (alert : UIAlertAction) in
+            return
+        }
+        
+        editMenu.addAction(move)
+        editMenu.addAction(filter)
+        editMenu.addAction(delete)
+        editMenu.addAction(cancel)
+        
+        self.present(editMenu, animated: true, completion: nil)
+    }
+    
+    @IBAction func handleDrawGesture(_ sender: DrawGestureRecognizer) {
+        // Ensure there is an image on which to draw and we should be editting
+        if imageView.image == nil || !canEditFilters {
+            return
+        }
+        
         
         switch sender.state {
         case .began:
@@ -83,7 +145,10 @@ class FilterViewController: UIViewController, SnapContainerViewElement {
             //print("changed")
             
         case .ended:
-            let completedView = UIView(from: currentRect)
+            let completedView = FilterRectView(frame: currentRect.frame)
+            completedView.editGesture.addTarget(self, action: #selector(handleEditGesture(_:)))
+            completedView.editGesture.delegate = self
+            
             self.view.addSubview(completedView)
             rects.append(completedView)
             
@@ -100,11 +165,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement {
         }
     }
     
-    // MARK: - Methods
-    func draw(rect: CGRect) {
-    
-    }
-    
     /*
     // MARK: - Navigation
 
@@ -119,6 +179,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement {
 
 // MARK: - UIImagePickerControlerDelegate
 extension FilterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // Dismiss the picker if the user canceled.
         dismiss(animated: true, completion: nil)
@@ -129,6 +190,12 @@ extension FilterViewController: UIImagePickerControllerDelegate, UINavigationCon
         guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else {
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
+        
+        // Clear rectangles
+        for rect in rects {
+            rect.removeFromSuperview()
+        }
+        rects.removeAll()
         
         // Set photoImageView to display the selected image.
         imageView.image = selectedImage

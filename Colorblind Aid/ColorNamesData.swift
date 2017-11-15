@@ -9,6 +9,21 @@
 import Foundation
 import UIKit
 
+//
+//    shades: [
+//    ["FF0000", "Red"],
+//    ["FFA500", "Orange"],
+//    ["FFFF00", "Yellow"],
+//    ["008000", "Green"],
+//    ["0000FF", "Blue"],
+//    ["EE82EE", "Violet"],
+//    ["A52A2A", "Brown"],
+//    ["000000", "Black"],
+//    ["808080", "Grey"],
+//    ["FFFFFF", "White"]
+//    ]
+
+
 class ColorNamesData {
     
     struct colorName {
@@ -1665,7 +1680,5 @@ class ColorNamesData {
         data.append(colorName(hex: "A29589", colorName: "Zorba", hueName: "Brown", red: 162, green: 149, blue: 137, hue: 20, sat: 30, lum: 149))
         data.append(colorName(hex: "17462E", colorName: "Zuccini", hueName: "Green", red: 23, green: 70, blue: 46, hue: 105, sat: 128, lum: 46))
         data.append(colorName(hex: "CDD5D5", colorName: "Zumthor", hueName: "Grey", red: 205, green: 213, blue: 213, hue: 127, sat: 22, lum: 209))
-
     }
-    
 }

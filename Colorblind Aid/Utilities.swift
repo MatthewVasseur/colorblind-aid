@@ -226,18 +226,3 @@ extension CGPoint {
         return CGPoint(x: self.y, y: self.x)
     }
 }
-
-//
-//    shades: [
-//    ["FF0000", "Red"],
-//    ["FFA500", "Orange"],
-//    ["FFFF00", "Yellow"],
-//    ["008000", "Green"],
-//    ["0000FF", "Blue"],
-//    ["EE82EE", "Violet"],
-//    ["A52A2A", "Brown"],
-//    ["000000", "Black"],
-//    ["808080", "Grey"],
-//    ["FFFFFF", "White"]
-//    ]
-
