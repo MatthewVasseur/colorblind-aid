@@ -34,7 +34,7 @@ class DrawGestureRecognizer: UIGestureRecognizer {
         }
         
         // Initialize origin, and rect
-        origin = touch.location(in: self.view)
+        origin = touch.location(in: self.view?.superview)
         rect = CGRect(origin: origin!, size: CGSize())
         
         // Update state

@@ -66,18 +66,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         }
     }
     
-//    @IBAction func handleEditButton(_ sender: UIButton) {
-//        if currentState == .drawing {
-//            currentState == .normal
-//            editButton.setTitle("Done", for: .normal)
-//            imageView.isUserInteractionEnabled = true
-//        } else {
-//            currentState == .drawing
-//            editButton.setTitle("Edit", for: .normal)
-//            imageView.isUserInteractionEnabled = false
-//        }
-//    }
-    
     // MARK: - Actions
     @objc func handleEditGesture(_ sender: UITapGestureRecognizer) {
         guard let filterView = sender.view as? FilterRectView else {
@@ -128,7 +116,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         if imageView.image == nil || !canEditFilters {
             return
         }
-        
         
         switch sender.state {
         case .began:
