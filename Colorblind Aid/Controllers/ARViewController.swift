@@ -9,7 +9,7 @@
 import UIKit
 import SceneKit
 import ARKit
-
+import UIImageColors
 //import Vision
 
 
@@ -157,12 +157,16 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             let croppedRect = CGRect(center: imageCenter, size: croppedSize)
             let croppedCIImage = ciImage.cropped(to: croppedRect)
             
-            guard let cgImage = context.createCGImage(croppedCIImage, from: ciImage.extent) else {
+            guard let cgImage = context.createCGImage(croppedCIImage, from: croppedCIImage.extent) else {
                 return
             }
             uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
             
             let colors = uiImage.getColors()
+            self.latestColor = colors.background
+            let colorText = colors.background.toHueName()
+            print(colors.background.getRGBa())
+            
             
 //            let imageCenter = CGPoint(x: cgImage.width / 2, y: cgImage.height / 2)
 //            let croppedSize = CGSize(forSquare: cgImage.width / 20)
@@ -181,21 +185,20 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
 //            uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
 //
 //
-            
-            
-            // Extract pixel data and image width
-            data = CFDataGetBytePtr(cgImage.dataProvider?.data)
-            
-            // Get the center pixel and initialize a new pixel
-            let pixelInfo = Int(uiImage.size.width * targetCenter.y + targetCenter.x) * 4
-            let pixel = Pixel(data: data, pixelInfo: pixelInfo)
-
-            // do stuff with the pixel
-            self.latestColor = pixel.toUIColor()
-            let colorText = pixel.toColorName()
-            //print(pixel.toXYZ())
-            print(pixel.toRGBString())
-            print(colorText)
+//
+//            // Extract pixel data and image width
+//            data = CFDataGetBytePtr(cgImage.dataProvider?.data)
+//
+//            // Get the center pixel and initialize a new pixel
+//            let pixelInfo = Int(uiImage.size.width * targetCenter.y + targetCenter.x) * 4
+//            let pixel = Pixel(data: data, pixelInfo: pixelInfo)
+//
+//            // do stuff with the pixel
+//            self.latestColor = pixel.toUIColor()
+//            let colorText = pixel.toColorName()
+//            //print(pixel.toXYZ())
+//            print(pixel.toRGBString())
+//            print(colorText)
 
             // Store the latest prediction
             //            self.latestPrediction = colorText
