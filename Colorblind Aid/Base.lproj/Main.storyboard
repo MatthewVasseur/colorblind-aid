@@ -168,7 +168,7 @@
                     </connections>
                 </gestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="783.20000000000005" y="617.73399014778329"/>
+            <point key="canvasLocation" x="694" y="618"/>
         </scene>
         <!--Sign In-->
         <scene sceneID="ZHq-bB-6Ak">
@@ -182,6 +182,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="sQO-h8-PMe">
+                                <rect key="frame" x="50.666666666666657" y="100.33333333333334" width="274.33333333333337" height="274.33333333333326"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="sQO-h8-PMe" secondAttribute="height" multiplier="1:1" id="u5U-gm-gXA"/>
+                                </constraints>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2017 Matthew Vasseur. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y1h-gc-bMX">
                                 <rect key="frame" x="42" y="756" width="291" height="14"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -239,9 +245,12 @@
                         <constraints>
                             <constraint firstItem="K56-q2-xhe" firstAttribute="centerX" secondItem="rGO-2o-PDZ" secondAttribute="centerX" id="7fh-Hy-hLR"/>
                             <constraint firstItem="iWZ-ct-hJD" firstAttribute="centerY" secondItem="rGO-2o-PDZ" secondAttribute="centerY" constant="126.5" id="8ja-8D-rHM"/>
+                            <constraint firstItem="K56-q2-xhe" firstAttribute="width" secondItem="sQO-h8-PMe" secondAttribute="width" id="CXd-OY-djM"/>
                             <constraint firstItem="K56-q2-xhe" firstAttribute="centerY" secondItem="rGO-2o-PDZ" secondAttribute="centerY" id="EHX-mb-A4I"/>
                             <constraint firstItem="lbb-Ng-7Is" firstAttribute="bottom" secondItem="Y1h-gc-bMX" secondAttribute="bottom" constant="8" id="Ed7-Pg-5Vr"/>
+                            <constraint firstItem="K56-q2-xhe" firstAttribute="top" secondItem="sQO-h8-PMe" secondAttribute="bottom" constant="8" id="Hoo-Jg-5UI"/>
                             <constraint firstItem="PU3-3o-Yef" firstAttribute="leading" secondItem="lbb-Ng-7Is" secondAttribute="leading" id="K6q-FI-xsN"/>
+                            <constraint firstItem="sQO-h8-PMe" firstAttribute="centerX" secondItem="rGO-2o-PDZ" secondAttribute="centerX" id="KcM-zj-sbE"/>
                             <constraint firstItem="PU3-3o-Yef" firstAttribute="trailing" secondItem="lbb-Ng-7Is" secondAttribute="trailing" id="P5h-xT-AzA"/>
                             <constraint firstItem="lbb-Ng-7Is" firstAttribute="bottom" secondItem="PU3-3o-Yef" secondAttribute="bottom" id="Y8t-pN-C1X"/>
                             <constraint firstItem="PU3-3o-Yef" firstAttribute="top" secondItem="lbb-Ng-7Is" secondAttribute="top" id="azv-55-H9N"/>
@@ -289,7 +298,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="juz-0T-Wsa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-398" y="618"/>
+            <point key="canvasLocation" x="-530" y="618"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon" width="150" height="150"/>
+    </resources>
 </document>
