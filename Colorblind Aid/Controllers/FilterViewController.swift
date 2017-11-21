@@ -16,9 +16,20 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     
     var snapContainer: SnapContainerViewController!
     
-    private var canEditFilters: Bool = false
+    private var canEditFilters: Bool = false {
+        /// Update edit button & touches upon set
+        didSet {
+            if canEditFilters {
+                editButton.setTitle("Done", for: .normal)
+                imageView.isUserInteractionEnabled = true
+            } else {
+                editButton.setTitle("Edit", for: .normal)
+                imageView.isUserInteractionEnabled = false
+            }
+        }
+    }
     private var currentState: edittingState = .normal
-    private var rects: [FilterRectView] = [] // Completed rects
+    private var filterViews: [FilterRectView] = [] // Completed rects
     private var currentRect: FilterRectView!
     
     // MARK: Enumerations
@@ -47,17 +58,10 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     
     @IBAction func handleEditButton(_ sender: UIButton) {
         canEditFilters = !canEditFilters
-        if canEditFilters {
-            editButton.setTitle("Done", for: .normal)
-            imageView.isUserInteractionEnabled = true
-        } else {
-            editButton.setTitle("Edit", for: .normal)
-            imageView.isUserInteractionEnabled = false
-        }
     }
     
     @objc func handleEditGesture(_ sender: UITapGestureRecognizer) {
-        guard let filterView = sender.view as? FilterRectView else {
+        guard let currentFilterView = sender.view as? FilterRectView else {
             return
         }
         
@@ -69,26 +73,38 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         
         // Create move, filter, delete, and cancel actions
         let move = UIAlertAction(title: "Move", style: .default) {
-            (alert : UIAlertAction) in
-            print("Moving")
+            (alert: UIAlertAction) in
+            
+            self.currentState = .moving
+            self.currentRect = currentFilterView
+            self.canEditFilters = true
+            
             return
         }
         let filter = UIAlertAction(title: "Filter", style: .default) {
-            (alert : UIAlertAction) in
+            (alert: UIAlertAction) in
             
-            filterView.i += 1
-            filterView.backgroundColor = filterView.colors[filterView.i % 7]
+            currentFilterView.i += 1
+            currentFilterView.backgroundColor = currentFilterView.colors[currentFilterView.i % 7]
             return
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) {
-            (alert : UIAlertAction) in
-            print("deleting")
+            (alert: UIAlertAction) in
             
-            filterView.removeFromSuperview()
+            // remove from superview and filterviews array
+            for (index, filterView) in self.filterViews.enumerated() {
+                if filterView === currentFilterView {
+                    self.filterViews.remove(at: index)
+                    break
+                }
+            }
+            currentFilterView.removeFromSuperview()
+            
             return
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) {
-            (alert : UIAlertAction) in
+            (alert: UIAlertAction) in
+            
             return
         }
         
@@ -104,6 +120,15 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         // Ensure there is an image on which to draw and we should be editting
         if imageView.image == nil || !canEditFilters {
             return
+        }
+        
+        if currentState == .moving {
+            currentRect.frame.origin = sender.origin!
+            currentState = .normal
+            canEditFilters = false
+            currentRect = FilterRectView()
+            
+            sender.isEnabled = false
         }
         
         switch sender.state {
@@ -122,7 +147,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             completedView.editGesture.delegate = self
             
             self.view.addSubview(completedView)
-            rects.append(completedView)
+            filterViews.append(completedView)
             
             currentRect.frame = CGRect.zero
             currentRect.isHidden = true
@@ -154,10 +179,10 @@ extension FilterViewController: UIImagePickerControllerDelegate, UINavigationCon
         }
         
         // Clear rectangles
-        for rect in rects {
-            rect.removeFromSuperview()
+        for filterView in filterViews {
+            filterView.removeFromSuperview()
         }
-        rects.removeAll()
+        filterViews.removeAll()
         
         // Set photoImageView to display the selected image.
         imageView.image = selectedImage
