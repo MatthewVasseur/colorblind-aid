@@ -20,20 +20,12 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var targetButton: UIButton!
     
-    var snapContainer: SnapContainerViewController!
-    
     let bubbleDepth: Float = 0.01 // the 'depth' of 3D text
     
+    var snapContainer: SnapContainerViewController!
     var targetCenter: CGPoint!
-    
     var latestColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.52)
-    var data: UnsafePointer<UInt8>!
-    var imageWidth: CGFloat!
-    
     var uiImage: UIImage!
-    
-    // Serial dispatch queue for camera data
-    let dispatchQueueCD = DispatchQueue(label: "com.queues.dispatchqueue")
     
     // MARK: - UIViewController
     override func viewDidLoad() {
@@ -45,7 +37,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
-        // Enable Default Lighting - makes the 3D text a bit poppier.
+        // Enable Default Lighting - makes the 3D text a bit poppier
         sceneView.autoenablesDefaultLighting = true
         // Enable debug options
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
@@ -55,29 +47,17 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         
         // Set the view's delegate
         sceneView.delegate = self
-        
-        // Begin Loop to Update Color labeler
-        //loopColorLabelUpdate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Create a session configuration
+        // Create a session configuration and enable plane detection
         let configuration = ARWorldTrackingConfiguration()
-        
-        // Enable plane detection
         configuration.planeDetection = .horizontal
         
         // Run the view's session
         sceneView.session.run(configuration)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // Get initial image size
-        initImageWidth()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -85,43 +65,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         
         // Pause the view's session
         sceneView.session.pause()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
-    // MARK: - ARSCNViewDelegate
-    
-    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        DispatchQueue.main.async {
-            // Do any desired updates to SceneKit here.
-        }
-    }
-    
-    /*
-     // Override to create and configure nodes for anchors added to the view's session.
-     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-     let node = SCNNode()
-     
-     return node
-     }
-     */
-    
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
-    }
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-    }
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
-    }
-    
-    // MARK: - Status Bar: Hide
-    override var prefersStatusBarHidden : Bool {
-        return true
     }
     
     // MARK: - Actions
@@ -223,54 +166,35 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         return parentNode
     }
     
-    // MARK: - Color labeling handling
-    func loopColorLabelUpdate() {
-        // Continuously run the photo getter (Preventing 'hiccups' in Frame Rate)
-        
-        dispatchQueueCD.async {
-            // 1. Run Update
-            self.updateColorLabel()
-            
-            // 2. Loop this function
-            self.loopColorLabelUpdate()
-        }
-    }
-    
-    func updateColorLabel() {
-        // Get Camera Image as pixel data
-        guard let pixbuff = (sceneView.session.currentFrame?.capturedImage) else {
-            return
-        }
-        
-        // Create cgImage
-        let ciImage = CIImage(cvPixelBuffer: pixbuff)
-        let context = CIContext(options: nil)
-        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
-            return
-        }
-        uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
-        
-        // Extract pixel data and image width
-        data = CFDataGetBytePtr(cgImage.dataProvider?.data)
-    }
-    
-    func initImageWidth() {
-        // Get Camera Image as pixel data
-        guard let pixbuff = (sceneView.session.currentFrame?.capturedImage) else {
-            return
-        }
-        
-        // Create cgImage
-        let ciImage = CIImage(cvPixelBuffer: pixbuff)
-        let context = CIContext(options: nil)
-        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
-            return
-        }
-        let uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
-        
-        // Extract pixel data and image width
-        data = CFDataGetBytePtr(cgImage.dataProvider?.data)
-        
-        imageWidth = uiImage.size.width
+    // MARK: - Status Bar: Hide
+    override var prefersStatusBarHidden : Bool {
+        return true
     }
 }
+
+// MARK: - ARSCNViewDelegate
+
+//    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+//        DispatchQueue.main.async {
+//            // Do any desired updates to SceneKit here.
+//        }
+//    }
+
+/*
+ // Override to create and configure nodes for anchors added to the view's session.
+ func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+ let node = SCNNode()
+ 
+ return node
+ }
+ */
+
+//    func session(_ session: ARSession, didFailWithError error: Error) {
+//        // Present an error message to the user
+//    }
+//    func sessionWasInterrupted(_ session: ARSession) {
+//        // Inform the user that the session has been interrupted, for example, by presenting an overlay
+//    }
+//    func sessionInterruptionEnded(_ session: ARSession) {
+//        // Reset tracking and/or remove existing anchors if consistent tracking is required
+//    }
