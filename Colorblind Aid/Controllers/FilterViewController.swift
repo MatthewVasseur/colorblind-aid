@@ -61,6 +61,11 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     }
     
     @objc func handleEditGesture(_ sender: UITapGestureRecognizer) {
+        // Ensure there is an image on which to draw and we should be editting
+        if imageView.image == nil || !canEditFilters {
+            return
+        }
+        
         guard let currentFilterView = sender.view as? FilterRectView else {
             return
         }
@@ -77,7 +82,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             
             self.currentState = .moving
             self.currentRect = currentFilterView
-            self.canEditFilters = true
             
             return
         }
@@ -86,6 +90,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             
             currentFilterView.i += 1
             currentFilterView.backgroundColor = currentFilterView.colors[currentFilterView.i % 7]
+            
             return
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) {
@@ -123,38 +128,44 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         }
         
         if currentState == .moving {
+            // Change the view's position
             currentRect.frame.origin = sender.origin!
-            currentState = .normal
-            canEditFilters = false
             currentRect = FilterRectView()
             
-            sender.isEnabled = false
+            // Cancel the gesture
+            sender.state = .cancelled
         }
         
         switch sender.state {
-        case .began:
-            currentRect.frame = sender.rect!
-            currentRect.isHidden = false
+            case .began:
+                currentRect.frame = sender.rect!
+                currentRect.isHidden = false
+                
+                currentState = .drawing
+                
+                self.view.addSubview(currentRect)
             
-            self.view.addSubview(currentRect)
+            case .changed:
+                currentRect.frame = sender.rect!
             
-        case .changed:
-            currentRect.frame = sender.rect!
+            case .ended:
+                let completedView = FilterRectView(frame: currentRect.frame)
+                completedView.editGesture.addTarget(self, action: #selector(handleEditGesture(_:)))
+                completedView.editGesture.delegate = self
+                
+                self.view.addSubview(completedView)
+                filterViews.append(completedView)
+                
+                currentRect.frame = CGRect.zero
+                currentRect.isHidden = true
             
-        case .ended:
-            let completedView = FilterRectView(frame: currentRect.frame)
-            completedView.editGesture.addTarget(self, action: #selector(handleEditGesture(_:)))
-            completedView.editGesture.delegate = self
+                currentState = .normal
             
-            self.view.addSubview(completedView)
-            filterViews.append(completedView)
+            case .cancelled, .failed, .possible:
+                currentRect.frame = CGRect.zero
+                currentRect.isHidden = true
             
-            currentRect.frame = CGRect.zero
-            currentRect.isHidden = true
-            
-        case .cancelled, .failed, .possible:
-            currentRect.frame = CGRect.zero
-            currentRect.isHidden = true
+                currentState = .normal
         }
     }
     
