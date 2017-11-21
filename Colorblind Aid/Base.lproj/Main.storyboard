@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qqz-qb-39z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -18,7 +18,7 @@
         <!--View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController storyboardIdentifier="middle" id="BV1-FR-VrT" customClass="ARViewController" customModule="Colorblind_Aid" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AR" id="BV1-FR-VrT" customClass="ARViewController" customModule="Colorblind_Aid" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tix-nH-sfG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -108,7 +108,7 @@
         <!--Filter View Controller-->
         <scene sceneID="6aY-1s-bFG">
             <objects>
-                <viewController storyboardIdentifier="right" id="kUK-ks-tbi" customClass="FilterViewController" customModule="Colorblind_Aid" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Filter" id="kUK-ks-tbi" customClass="FilterViewController" customModule="Colorblind_Aid" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Fl8-W5-bzf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -128,7 +128,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dnp-Sm-yEZ">
-                                <rect key="frame" x="176" y="740" width="22" height="22"/>
+                                <rect key="frame" x="176" y="736" width="22" height="22"/>
                                 <connections>
                                     <action selector="handleCameraButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="n1W-Cp-Q6b"/>
                                 </connections>
@@ -143,10 +143,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="dnp-Sm-yEZ" secondAttribute="bottom" constant="16" id="063-mv-mau"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="trailing" secondItem="BVY-AK-5Hw" secondAttribute="trailing" id="4R9-Jz-DJa"/>
+                            <constraint firstItem="pBD-ck-aQX" firstAttribute="centerY" secondItem="dnp-Sm-yEZ" secondAttribute="centerY" id="BmI-vO-UYj"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="leading" secondItem="BVY-AK-5Hw" secondAttribute="leading" id="F9G-Fv-UEY"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="UoW-CS-vOu" secondAttribute="bottom" constant="16" id="FKD-tO-sPS"/>
+                            <constraint firstItem="pBD-ck-aQX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dnp-Sm-yEZ" secondAttribute="trailing" id="Hsw-M1-sj4"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="top" secondItem="BVY-AK-5Hw" secondAttribute="top" id="Ptq-5r-bjp"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="trailing" secondItem="pBD-ck-aQX" secondAttribute="trailing" constant="16" id="jec-fT-2pk"/>
                             <constraint firstItem="UoW-CS-vOu" firstAttribute="top" secondItem="kzV-Cc-2eA" secondAttribute="bottom" constant="8" id="jy8-9s-bwm"/>
@@ -175,7 +176,7 @@
         <!--Sign In-->
         <scene sceneID="ZHq-bB-6Ak">
             <objects>
-                <viewController id="qqz-qb-39z" customClass="SignInViewController" customModule="Colorblind_Aid" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignIn" id="qqz-qb-39z" customClass="SignInViewController" customModule="Colorblind_Aid" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="izi-C6-nOz"/>
                         <viewControllerLayoutGuide type="bottom" id="CCp-nu-QcI"/>
@@ -279,14 +280,13 @@
         <!--Settings View Controller-->
         <scene sceneID="dhz-yz-TJQ">
             <objects>
-                <viewController storyboardIdentifier="left" id="Vy5-mF-aUO" customClass="SettingsViewController" customModule="Colorblind_Aid" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Settings" id="Vy5-mF-aUO" customClass="SettingsViewController" customModule="Colorblind_Aid" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MM1-fm-fdG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOI-0x-fUU">
-                                <rect key="frame" x="313" y="617" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOI-0x-fUU">
+                                <rect key="frame" x="329" y="732" width="30" height="30"/>
                                 <state key="normal" title="AR"/>
                                 <connections>
                                     <action selector="handleARButton:" destination="Vy5-mF-aUO" eventType="touchUpInside" id="osE-G7-xO9"/>
@@ -295,6 +295,11 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="euZ-wU-HhA" firstAttribute="trailing" secondItem="hOI-0x-fUU" secondAttribute="trailing" constant="16" id="4TQ-uS-yRd"/>
+                            <constraint firstItem="hOI-0x-fUU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="euZ-wU-HhA" secondAttribute="leading" id="AL8-wT-jVO"/>
+                            <constraint firstItem="euZ-wU-HhA" firstAttribute="bottom" secondItem="hOI-0x-fUU" secondAttribute="bottom" constant="16" id="PqD-Jy-2GN"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="euZ-wU-HhA"/>
                     </view>
                 </viewController>

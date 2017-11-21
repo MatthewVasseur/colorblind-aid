@@ -31,7 +31,7 @@ class SnapContainerViewController: UIViewController {
     /// Create a SnapContainerViewController given the string identifiers for the 3 view controllers
     class func containerViewWith(left: String, middle: String, right: String) -> SnapContainerViewController? {
         
-        let storyboard = UIStoryboard(name: Constants.mainStoryboard, bundle: nil)
+        let storyboard = UIStoryboard(name: Constants.storyboardIDs.main, bundle: nil)
         
         guard var leftVC = storyboard.instantiateViewController(withIdentifier: left) as? (UIViewController & SnapContainerViewElement) else {
             return nil

@@ -135,7 +135,7 @@ extension UIColor {
         var cl: Int = -1
         
         
-        for (i, color) in Constants.colorNames.enumerated() {
+        for (i, color) in Constants.colors.names.enumerated() {
             
             if (red, green, blue) == (color.red, color.green, color.blue) {
                 return color.hueName
@@ -150,7 +150,7 @@ extension UIColor {
             }
         }
         
-        return cl < 0 ? "N/A" : Constants.colorNames[cl].hueName
+        return cl < 0 ? "N/A" : Constants.colors.names[cl].hueName
     }
 }
 

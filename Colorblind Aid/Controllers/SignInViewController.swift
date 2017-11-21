@@ -79,7 +79,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             // self.performSegue(withIdentifier: "SignIn", sender: nil)
             
             // Enable and present snapchat-esque swiping around
-            guard let snapContainer = SnapContainerViewController.containerViewWith(left: "left", middle: "middle", right: "right") else {
+            guard let snapContainer = SnapContainerViewController.containerViewWith(left: "Settings", middle: "AR", right: "Filter") else {
                 fatalError("Not proper snap container elements")
             }
             
@@ -150,7 +150,7 @@ class SignInViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDele
             break
             
         case .networkError:
-            errorText = Constants.texts.networkConnectionError
+            errorText = "Network Connection Interupted!"
             break
             
         default:
