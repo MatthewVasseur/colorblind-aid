@@ -20,8 +20,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var targetButton: UIButton!
     
-    let bubbleDepth: Float = 0.01 // the 'depth' of 3D text
-    
     var snapContainer: SnapContainerViewController!
     var targetCenter: CGPoint!
     var latestColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.52)
@@ -126,8 +124,10 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     }
     
     // MARK: - Methods
-    private func createNewBubbleParentNode(_ text: String) -> SCNNode {
+    fileprivate func createNewBubbleParentNode(_ text: String) -> SCNNode {
         // Warning: Creating 3D Text is susceptible to crashing. To reduce chances of crashing; reduce number of polygons, letters, smoothness, etc.
+        
+        let bubbleDepth: Float = 0.01 // the 'depth' of 3D text
         
         // Text billboard constraint
         let billboardConstraint = SCNBillboardConstraint()
@@ -171,30 +171,3 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         return true
     }
 }
-
-// MARK: - ARSCNViewDelegate
-
-//    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-//        DispatchQueue.main.async {
-//            // Do any desired updates to SceneKit here.
-//        }
-//    }
-
-/*
- // Override to create and configure nodes for anchors added to the view's session.
- func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
- let node = SCNNode()
- 
- return node
- }
- */
-
-//    func session(_ session: ARSession, didFailWithError error: Error) {
-//        // Present an error message to the user
-//    }
-//    func sessionWasInterrupted(_ session: ARSession) {
-//        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-//    }
-//    func sessionInterruptionEnded(_ session: ARSession) {
-//        // Reset tracking and/or remove existing anchors if consistent tracking is required
-//    }

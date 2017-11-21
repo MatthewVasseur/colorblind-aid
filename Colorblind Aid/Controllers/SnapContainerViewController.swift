@@ -15,56 +15,13 @@ class SnapContainerViewController: UIViewController {
     var leftVC: UIViewController!
     var middleVC: UIViewController!
     var rightVC: UIViewController!
-    
     var scrollView: UIScrollView!
-    var delegate: SnapContainerViewDelegate?
     
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupHorizontalScrollView()
-    }
-    
-    // MARK: - SnapViewController
-    
-    /// Create a SnapContainerViewController given the string identifiers for the 3 view controllers
-    class func containerViewWith(left: String, middle: String, right: String) -> SnapContainerViewController? {
-        
-        let storyboard = UIStoryboard(name: Constants.storyboardIDs.main, bundle: nil)
-        
-        guard var leftVC = storyboard.instantiateViewController(withIdentifier: left) as? (UIViewController & SnapContainerViewElement) else {
-            return nil
-        }
-        guard var middleVC = storyboard.instantiateViewController(withIdentifier: middle) as? (UIViewController & SnapContainerViewElement) else {
-            return nil
-        }
-        guard var rightVC = storyboard.instantiateViewController(withIdentifier: right) as? (UIViewController & SnapContainerViewElement) else {
-            return nil
-        }
-        
-        let snapContainer = SnapContainerViewController()
-        
-        snapContainer.leftVC = leftVC
-        snapContainer.middleVC = middleVC
-        snapContainer.rightVC = rightVC
-        
-        middleVC.snapContainer = snapContainer
-        rightVC.snapContainer = snapContainer
-        leftVC.snapContainer = snapContainer
-        
-        return snapContainer
-    }
-    
-    class func containerViewWith(leftVC: (UIViewController & SnapContainerViewElement), middleVC: (UIViewController & SnapContainerViewElement),
-                                 rightVC: (UIViewController & SnapContainerViewElement)) -> SnapContainerViewController {
-        let snapContainer = SnapContainerViewController()
-        
-        snapContainer.leftVC = leftVC
-        snapContainer.middleVC = middleVC
-        snapContainer.rightVC = rightVC
-        
-        return snapContainer
     }
     
     /// Initialize the horizontal scroll view
@@ -99,25 +56,62 @@ class SnapContainerViewController: UIViewController {
         rightVC.didMove(toParentViewController: self)
         
         scrollView.contentOffset.x = middleVC.view.frame.origin.x
-        //        scrollView.delegate = self
     }
     
+    // MARK: - SnapViewController
+    
+    /// Create a SnapContainerViewController given the string identifiers for the 3 view controllers
+    class func containerViewWith(left: String, middle: String, right: String) -> SnapContainerViewController? {
+        
+        let storyboard = UIStoryboard(name: Constants.storyboardIDs.main, bundle: nil)
+        
+        guard var leftVC = storyboard.instantiateViewController(withIdentifier: left) as? (UIViewController & SnapContainerViewElement),
+            var middleVC = storyboard.instantiateViewController(withIdentifier: middle) as? (UIViewController & SnapContainerViewElement),
+            var rightVC = storyboard.instantiateViewController(withIdentifier: right) as? (UIViewController & SnapContainerViewElement) else {
+                return nil
+        }
+        
+        let snapContainer = SnapContainerViewController()
+        
+        snapContainer.leftVC = leftVC
+        snapContainer.middleVC = middleVC
+        snapContainer.rightVC = rightVC
+        
+        middleVC.snapContainer = snapContainer
+        rightVC.snapContainer = snapContainer
+        leftVC.snapContainer = snapContainer
+        
+        return snapContainer
+    }
+    
+    class func containerViewWith(leftVC: (UIViewController & SnapContainerViewElement), middleVC: (UIViewController & SnapContainerViewElement),
+                                 rightVC: (UIViewController & SnapContainerViewElement)) -> SnapContainerViewController {
+        let snapContainer = SnapContainerViewController()
+        
+        snapContainer.leftVC = leftVC
+        snapContainer.middleVC = middleVC
+        snapContainer.rightVC = rightVC
+        
+        return snapContainer
+    }
+    
+    /**
+     Move the Snap view container
+     - parameter to: Which view to move to; either "left", "right", or "middle"
+     */
     func move(to: String) {
         switch to {
         case "right":
             scrollView.setContentOffset(rightVC.view.frame.origin, animated: true)
-            break
             
         case "middle":
             scrollView.setContentOffset(middleVC.view.frame.origin, animated: true)
-            break
             
         case "left":
             scrollView.setContentOffset(leftVC.view.frame.origin, animated: true)
-            break
             
         default:
-            fatalError("Not a valid position")
+            fatalError("Not a valid position. Must be \"left\", \"right\", or \"middle\".")
         }
     
     }
@@ -130,10 +124,6 @@ class SnapContainerViewController: UIViewController {
 }
 
 // MARK: - Protocol
-protocol SnapContainerViewDelegate {
-    func outerScrollViewShouldScroll() -> Bool
-}
-
 protocol SnapContainerViewElement {
     var snapContainer: SnapContainerViewController! {get set}
 }

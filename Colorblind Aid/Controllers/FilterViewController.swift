@@ -34,16 +34,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         currentRect = FilterRectView()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // MARK: - Status Bar: Hide
-    override var prefersStatusBarHidden : Bool {
-        return true
-    }
-
     // MARK: - Actions
     @IBAction func handleCameraButton(_ sender: UIButton) {
         // Use camera to pick photo, etc.
@@ -66,7 +56,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         }
     }
     
-    // MARK: - Actions
     @objc func handleEditGesture(_ sender: UITapGestureRecognizer) {
         guard let filterView = sender.view as? FilterRectView else {
             return
@@ -121,15 +110,11 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         case .began:
             currentRect.frame = sender.rect!
             currentRect.isHidden = false
+            
             self.view.addSubview(currentRect)
             
-            print("began")
-            
         case .changed:
-//            currentRect.isHidden = false
             currentRect.frame = sender.rect!
-            
-            //print("changed")
             
         case .ended:
             let completedView = FilterRectView(frame: currentRect.frame)
@@ -139,29 +124,19 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             self.view.addSubview(completedView)
             rects.append(completedView)
             
-            currentRect.isHidden = true
             currentRect.frame = CGRect.zero
+            currentRect.isHidden = true
             
-            print("ended")
-            
-        case .cancelled:
-            print("cancelled")
-            
-        case .failed, .possible:
-            print("failed")
+        case .cancelled, .failed, .possible:
+            currentRect.frame = CGRect.zero
+            currentRect.isHidden = true
         }
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: - Status Bar: Hide
+    override var prefersStatusBarHidden : Bool {
+        return true
     }
-    */
-
 }
 
 // MARK: - UIImagePickerControlerDelegate
