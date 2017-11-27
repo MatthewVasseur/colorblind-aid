@@ -14,6 +14,9 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
     
+    @IBOutlet weak var imageViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var imageViewWidth: NSLayoutConstraint!
+    
     var snapContainer: SnapContainerViewController!
     
     /// Can the filter views be editted?
@@ -237,6 +240,22 @@ extension FilterViewController: UIImagePickerControllerDelegate, UINavigationCon
         
         // Set photoImageView to display the selected image.
         imageView.image = selectedImage
+        
+        let imageRatio = selectedImage.size.ratio()
+        let viewRatio = view.frame.size.ratio()
+        
+        // Assume viewRatio < 1
+        if (imageRatio > viewRatio) {
+            // width constrains
+            imageViewWidth.constant = view.frame.size.width
+            imageViewHeight.constant = imageViewWidth.constant / imageRatio
+        } else {
+            // height constrains
+            imageViewHeight.constant = view.frame.size.height
+            imageViewWidth.constant = imageViewHeight.constant * imageRatio
+        }
+        imageView.layoutIfNeeded()
+        
         //imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: selectedImage.size.width / selectedImage.size.height).isActive = true
 //
 //        // Resize image view (aspect fill)

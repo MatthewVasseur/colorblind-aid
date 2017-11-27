@@ -211,14 +211,6 @@ extension CGRect {
 
 extension CGSize {
     /**
-     Returns a CGSize with height and width inverted
-     - returns: CGSize with height and width inverted
-     */
-    func invert() -> CGSize {
-        return CGSize(width: self.height, height: self.width)
-    }
-    
-    /**
      Creates a square CGSize
      - parameter side: Integer side length
      */
@@ -232,6 +224,22 @@ extension CGSize {
      */
     init(forSquare side: CGFloat) {
         self.init(width: side, height: side)
+    }
+    
+    /**
+     Returns a CGSize with height and width inverted
+     - returns: CGSize with height and width inverted
+     */
+    func invert() -> CGSize {
+        return CGSize(width: self.height, height: self.width)
+    }
+    
+    /**
+     Returns the aspect ratio of the size (width / height)
+     - returns: The aspect ratio of the size (width / height)
+     */
+    func ratio() -> CGFloat {
+        return self.width / self.height
     }
 }
 
