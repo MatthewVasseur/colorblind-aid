@@ -11,7 +11,10 @@ import UIKit.UIGestureRecognizerSubclass
 
 class DrawGestureRecognizer: UIGestureRecognizer {
     // MARK: - Properties
+    
+    /// Original point of touch
     var origin: CGPoint?
+    /// Rectangle drawn to origin
     var rect: CGRect?
     
     override var numberOfTouches: Int {

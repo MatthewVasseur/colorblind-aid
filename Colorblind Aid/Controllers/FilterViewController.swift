@@ -45,6 +45,9 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Style
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "subtleDots")!)
+        
         // Initialize the current rect
         currentRect = FilterRectView()
     }
@@ -115,9 +118,19 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             var extentRect = currentFilterView.frame
             
             extentRect.origin.y -= self.imageView.frame.origin.y
+            extentRect.origin.x -= self.imageView.frame.origin.x
             extentRect.scale(from: self.imageView.bounds, to: outputImage.extent)
-            let cgImage = CIContext().createCGImage(outputImage, from: extentRect)!
-            let newImage =  UIImage(cgImage: cgImage)
+            
+//            print(extentRect)
+//            print(outputImage.extent)
+//            print(image.size)
+//            print(currentFilterView.frame)
+//            print(self.imageView.frame)
+//            print(self.imageView.bounds)
+//            
+            let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent)!
+            
+            let newImage =  UIImage(cgImage: cgImage.cropping(to: extentRect)!)
             
 //            UIGraphicsBeginImageContext(self.imageView.frame.size)
 //            newImage.draw(in: self.imageView.frame)
@@ -189,6 +202,9 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             
             case .changed:
                 currentRect.frame = sender.rect!
+                if !imageView.frame.contains(sender.location(in: view)) {
+                    sender.state = .ended
+                }
             
             case .ended:
                 let completedView = FilterRectView(frame: currentRect.frame)

@@ -29,6 +29,7 @@ class FilterRectView: UIImageView {
         self.layer.borderWidth = 4.0
         
         self.isUserInteractionEnabled = true
+        self.contentMode = .scaleAspectFit
         
         // Initialize the edit tap gesture
         editGesture = UITapGestureRecognizer()
