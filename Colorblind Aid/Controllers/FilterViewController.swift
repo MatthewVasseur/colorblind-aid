@@ -264,40 +264,46 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
 }
 
 // MARK: - UITableViewDataSource & UITableViewDelegate
-extension FilterViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+extension FilterViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch component {
-        case 0:
-            return 1
-        case 1:
-            return 4
-        case 2:
-            return 2
-        case 3:
-            return 2
-        default:
-            fatalError("Should not be a component!")
-        }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch component {
-        case 0:
-            return ""
-        case 1:
-            return "Red/Green Color Blindness"
-        case 2:
-            return "Blue/Yellow Color Blindness"
-        case 3:
-            return "Monochrome Vision"
-        default:
-            fatalError("Should not be a component!")
-        }
-    }
+    
+    
+//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+//        switch component {
+//        case 0:
+//            return 1
+//        case 1:
+//            return 4
+//        case 2:
+//            return 2
+//        case 3:
+//            return 2
+//        default:
+//            fatalError("Should not be a component!")
+//        }
+//    }
+//
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        switch component {
+//        case 0:
+//            return ""
+//        case 1:
+//            return "Red/Green Color Blindness"
+//        case 2:
+//            return "Blue/Yellow Color Blindness"
+//        case 3:
+//            return "Monochrome Vision"
+//        default:
+//            fatalError("Should not be a component!")
+//        }
+//    }
     
 }
 
