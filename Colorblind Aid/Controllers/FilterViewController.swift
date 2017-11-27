@@ -37,6 +37,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     private var currentState: edittingState = .normal
     private var filterViews: [FilterRectView] = [] // Completed rects
     private var currentRect: FilterRectView!
+    private var filterType: Constants.ColorblindType = .normal
     
     // MARK: Enumerations
     fileprivate enum edittingState {
@@ -55,6 +56,11 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         
         // Initialize the activity indicator
         showActivityIndicator()
+        
+        guard let filtersTable = self.childViewControllers.first as? UITableViewController else {
+            return
+        }
+        
     }
 
     // MARK: - Actions
@@ -99,14 +105,11 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         let filter = UIAlertAction(title: "Filter", style: .default) {
             (alert: UIAlertAction) in
             
-            // TOOD: Pick a filter
-            
             // Apply the filter
             guard let image = self.imageView.image, let ciImage = CIImage(image: image) else {
                 return
             }
-            let filterType = Constants.ColorblindType.achromatopsia
-            let filterValues = ColorblindFilter().data[filterType]!
+            let filterValues = ColorblindFilter().data[self.filterType]!
             
             guard let newImage = self.createFilter(ciImage: ciImage, filterValues: filterValues, rect: currentFilterView.frame) else {
                 return
@@ -116,7 +119,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             currentFilterView.image = newImage
             currentFilterView.layer.borderWidth = 2.0
             currentFilterView.isFiltered = true
-            currentFilterView.filterType = filterType
+            currentFilterView.filterType = self.filterType
             
             return
         }
@@ -258,19 +261,35 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         loadingContainerView.isHidden = true
     }
     private func showActivityIndicator() {
-        
         loadingContainerView.isHidden = false
+    }
+    
+    // MARK: - Navigation Handlers
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Initialize table view controller
+        if let tableViewController = segue.destination as? UITableViewController {
+            tableViewController.tableView.delegate = self
+            //tableViewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.accessoryType = .checkmark
+            //print("hi")
+        }
     }
 }
 
 // MARK: - UITableViewDataSource & UITableViewDelegate
-extension FilterViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+extension FilterViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else {
+            return
+        }
+        cell.accessoryType = .checkmark
+        loadingContainerView.isHidden = true
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else {
+            return
+        }
+        cell.accessoryType = .none
     }
     
     
@@ -304,7 +323,6 @@ extension FilterViewController: UITableViewDataSource, UITableViewDelegate {
 //            fatalError("Should not be a component!")
 //        }
 //    }
-    
 }
 
 // MARK: - UIImagePickerControlerDelegate
