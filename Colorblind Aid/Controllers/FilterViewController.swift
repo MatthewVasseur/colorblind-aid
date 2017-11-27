@@ -56,11 +56,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         
         // Initialize the activity indicator
         showActivityIndicator()
-        
-        guard let filtersTable = self.childViewControllers.first as? UITableViewController else {
-            return
-        }
-        
     }
 
     // MARK: - Actions
@@ -269,8 +264,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         // Initialize table view controller
         if let tableViewController = segue.destination as? UITableViewController {
             tableViewController.tableView.delegate = self
-            //tableViewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.accessoryType = .checkmark
-            //print("hi")
         }
     }
 }
@@ -281,8 +274,16 @@ extension FilterViewController: UITableViewDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) else {
             return
         }
-        cell.accessoryType = .checkmark
-        loadingContainerView.isHidden = true
+        // Hide the table smoothly
+        UIView.animate(withDuration: 2.0, animations: {
+            cell.accessoryType = .checkmark
+            self.loadingContainerView.alpha = 0
+        }, completion: { _ in
+           self.loadingContainerView.isHidden = true
+        })
+        
+        // Change filter type to selected
+        filterType = convertIndexPathToFilterType(indexPath)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -292,37 +293,45 @@ extension FilterViewController: UITableViewDelegate {
         cell.accessoryType = .none
     }
     
-    
-    
-//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//        switch component {
-//        case 0:
-//            return 1
-//        case 1:
-//            return 4
-//        case 2:
-//            return 2
-//        case 3:
-//            return 2
-//        default:
-//            fatalError("Should not be a component!")
-//        }
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        switch component {
-//        case 0:
-//            return ""
-//        case 1:
-//            return "Red/Green Color Blindness"
-//        case 2:
-//            return "Blue/Yellow Color Blindness"
-//        case 3:
-//            return "Monochrome Vision"
-//        default:
-//            fatalError("Should not be a component!")
-//        }
-//    }
+    fileprivate func convertIndexPathToFilterType(_ indexPath: IndexPath) -> Constants.ColorblindType {
+        switch indexPath.section {
+        case 0:
+            return .normal
+        case 1:
+            switch indexPath.row {
+            case 0:
+                return .deuteranopia
+            case 1:
+                return .deuteranomaly
+            case 2:
+                return .protanopia
+            case 3:
+                return .protanomaly
+            default:
+                fatalError("Invalid row")
+            }
+        case 2:
+            switch indexPath.row {
+            case 0:
+                return .tritanopia
+            case 1:
+                return .tritanomaly
+            default:
+                fatalError("Invalid row")
+            }
+        case 3:
+            switch indexPath.row {
+            case 0:
+                return .achromatopsia
+            case 1:
+                return .achromatomaly
+            default:
+                fatalError("Invalid row")
+            }
+        default:
+            fatalError("Invalid section")
+        }
+    }
 }
 
 // MARK: - UIImagePickerControlerDelegate
