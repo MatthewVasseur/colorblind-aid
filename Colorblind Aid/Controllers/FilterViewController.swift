@@ -111,7 +111,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             // Convert filter view rect to image view scale
             var extentRect = currentFilterView.frame
             
-//            extentRect.origin.y -= self.imageView.frame.origin.y
+            extentRect.origin.y -= self.imageView.frame.origin.y
             extentRect.scale(from: self.imageView.bounds, to: outputImage.extent)
             let cgImage = CIContext().createCGImage(outputImage, from: extentRect)!
             let newImage =  UIImage(cgImage: cgImage)
@@ -237,8 +237,7 @@ extension FilterViewController: UIImagePickerControllerDelegate, UINavigationCon
         
         // Set photoImageView to display the selected image.
         imageView.image = selectedImage
-        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: selectedImage.size.width / selectedImage.size.height).isActive = true
-
+        //imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: selectedImage.size.width / selectedImage.size.height).isActive = true
 //
 //        // Resize image view (aspect fill)
 //        let ratio = selectedImage.size.width / selectedImage.size.height
