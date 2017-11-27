@@ -130,7 +130,7 @@ class SnapContainerViewController: UIViewController {
     
     }
     
-    // MARK: - Status Bar: Hide
+    // MARK: Status Bar: Hide
     override var prefersStatusBarHidden : Bool {
         return true
     }

@@ -165,9 +165,4 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         
         return parentNode
     }
-    
-    // MARK: - Status Bar: Hide
-    override var prefersStatusBarHidden : Bool {
-        return true
-    }
 }

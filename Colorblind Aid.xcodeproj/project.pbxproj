@@ -69,11 +69,11 @@
 		340B7DE01FCCCD6A0045878D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				34CF16931FA03F43009058B5 /* Constants.swift */,
-				3426EC811F8DCB76009DF0CB /* Extensions.swift */,
 				34BBA8101FAA1B4600BF8AF2 /* Camera.swift */,
 				34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */,
 				343716DB1FCB898D0085B694 /* ColorblindFilter.swift */,
+				34CF16931FA03F43009058B5 /* Constants.swift */,
+				3426EC811F8DCB76009DF0CB /* Extensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -130,11 +130,11 @@
 			isa = PBXGroup;
 			children = (
 				347DDBD41FAA26DB00DF5F08 /* Controllers */,
-				340B7DE01FCCCD6A0045878D /* Utilities */,
 				34A9F8051FB2C488007B84BD /* Controls */,
-				AEEC85641F18B8C600D43B9B /* AppDelegate.swift */,
+				340B7DE01FCCCD6A0045878D /* Utilities */,
 				AEEC856A1F18B8C600D43B9B /* Main.storyboard */,
 				AEEC856F1F18B8C600D43B9B /* LaunchScreen.storyboard */,
+				AEEC85641F18B8C600D43B9B /* AppDelegate.swift */,
 				AEEC856D1F18B8C600D43B9B /* Assets.xcassets */,
 				AEEC85721F18B8C600D43B9B /* Info.plist */,
 				34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */,

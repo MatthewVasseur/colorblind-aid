@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-//
 //    shades: [
 //    ["FF0000", "Red"],
 //    ["FFA500", "Orange"],

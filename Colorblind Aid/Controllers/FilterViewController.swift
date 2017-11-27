@@ -247,11 +247,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         return UIImage(cgImage: cgImage.cropping(to: extentRect)!)
     }
     
-    // MARK: - Status Bar: Hide
-    override var prefersStatusBarHidden : Bool {
-        return true
-    }
-    
     // MARK: - Navigation Handlers
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Initialize table view controller
