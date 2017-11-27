@@ -70,8 +70,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             return
         }
         
-        // TODO: MAKE THIS RIGHT
-        
         // Use an alert controller to how to edit the view
         let editMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         editMenu.popoverPresentationController?.sourceView = self.view
@@ -85,14 +83,41 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             
             return
         }
+        
         let filter = UIAlertAction(title: "Filter", style: .default) {
             (alert: UIAlertAction) in
             
-            currentFilterView.i += 1
-            currentFilterView.backgroundColor = currentFilterView.colors[currentFilterView.i % 7]
+            // apply a prop filter
+            guard let image = self.imageView.image, let ciImage = CIImage(image: image) else {
+                return
+            }
+            
+            let filterValues = ColorblindFilter().data[.achromatopsia]!
+            
+            let filter = CIFilter(name: "CIColorMatrix")!
+            filter.setValue(ciImage, forKey: kCIInputImageKey)
+            filter.setValue(filterValues.red, forKey: "inputRVector")
+            filter.setValue(filterValues.green, forKey: "inputGVector")
+            filter.setValue(filterValues.blue, forKey: "inputBVector")
+            filter.setValue(filterValues.alpha, forKey: "inputAVector")
+            filter.setValue(filterValues.bias, forKey: "inputBiasVector")
+            
+            guard let outputImage = filter.outputImage else {
+                return
+            }
+            
+            let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent)!
+//            let cgImage = CIContext().createCGImage(outputImage, from: currentFilterView.frame)!
+            let newImage =  UIImage(cgImage: cgImage)
+            self.imageView.image = newImage
+            
+            // TODO: MAKE THIS RIGHT
+//            currentFilterView.i += 1
+//            currentFilterView.backgroundColor = currentFilterView.colors[currentFilterView.i % 7]
             
             return
         }
+        
         let delete = UIAlertAction(title: "Delete", style: .destructive) {
             (alert: UIAlertAction) in
             
@@ -107,6 +132,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             
             return
         }
+        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) {
             (alert: UIAlertAction) in
             
@@ -128,8 +154,9 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         }
         
         if currentState == .moving {
-            // Change the view's position
-            currentRect.frame.origin = sender.origin!
+            // Change the view's position (use the touch as center of rect)
+            currentRect.frame.origin = CGPoint(x: sender.origin!.x - (currentRect.frame.width / 2.0),
+                                               y: sender.origin!.y - (currentRect.frame.height / 2.0))
             currentRect = FilterRectView()
             
             // Cancel the gesture

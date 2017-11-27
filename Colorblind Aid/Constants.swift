@@ -34,4 +34,12 @@ class Constants: NSObject {
         // SignInViewController Segue to Sign In
         static let signIn = "SignIn"
     }
+    
+    // achromatopsia = Monochromacy; Achromatomaly = Partial Monochromacy
+    /// Supported types of colorblindness
+    enum ColorblindType {
+        case normal, protanopia, protanomaly, deuteranopia, deuteranomaly, tritanopia, tritanomaly
+        /// Monochromacy
+        case achromatopsia, achromatomaly
+    }
 }

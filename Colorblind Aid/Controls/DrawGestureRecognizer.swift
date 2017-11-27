@@ -48,7 +48,7 @@ class DrawGestureRecognizer: UIGestureRecognizer {
         }
         
         // Update rect
-        let location = touch.location(in: self.view)
+        let location = touch.location(in: self.view?.superview)
         rect = CGRect(from: origin!, to: location)
         
         // Update state
@@ -62,7 +62,7 @@ class DrawGestureRecognizer: UIGestureRecognizer {
         }
         
         // Update rect
-        let location = touch.location(in: self.view)
+        let location = touch.location(in: self.view?.superview)
         rect = CGRect(from: origin!, to: location)
         
         // Clear origin

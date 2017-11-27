@@ -23,8 +23,9 @@ class FilterRectView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = UIColor.clear.withAlphaComponent(0.5)
-        self.layer.borderColor = UIColor.black.cgColor
+        self.backgroundColor = UIColor.clear
+        self.layer.borderColor = UIColor.black.withAlphaComponent(0.75).cgColor
+        self.layer.borderWidth = 3.0
         
         // Initialize the edit tap gesture
         editGesture = UITapGestureRecognizer()
@@ -34,13 +35,4 @@ class FilterRectView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }
