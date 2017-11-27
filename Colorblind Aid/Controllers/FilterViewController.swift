@@ -17,7 +17,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     @IBOutlet weak var imageViewHeight: NSLayoutConstraint!
     @IBOutlet weak var imageViewWidth: NSLayoutConstraint!
     
-    @IBOutlet weak var loadingContainerView: UIView!
+    @IBOutlet weak var containerTableView: UIView!
     
     var snapContainer: SnapContainerViewController!
     
@@ -53,9 +53,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         
         // Initialize the current rect
         currentRect = FilterRectView()
-        
-        // Initialize the activity indicator
-        showActivityIndicator()
     }
 
     // MARK: - Actions
@@ -71,6 +68,14 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     
     @IBAction func handleEditButton(_ sender: UIButton) {
         canEditFilters = !canEditFilters
+    }
+    
+    @IBAction func handleEditLongPress(_ sender: UILongPressGestureRecognizer) {
+        // Show the table smoothly
+        self.containerTableView.isHidden = false
+        UIView.animate(withDuration: 0.5, animations: {
+            self.containerTableView.alpha = 1.0
+        }, completion: nil)
     }
     
     @objc func handleEditGesture(_ sender: UITapGestureRecognizer) {
@@ -188,7 +193,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
                 
                 currentState = .drawing
                 
-                self.view.addSubview(currentRect)
+                self.view.insertSubview(currentRect, belowSubview: containerTableView)
             
             case .changed:
                 currentRect.frame = sender.rect!
@@ -201,7 +206,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
                 completedView.editGesture.addTarget(self, action: #selector(handleEditGesture(_:)))
                 completedView.editGesture.delegate = self
                 
-                self.view.addSubview(completedView)
+                self.view.insertSubview(currentRect, belowSubview: containerTableView)
                 filterViews.append(completedView)
                 
                 currentRect.frame = CGRect.zero
@@ -247,18 +252,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         return true
     }
     
-    // MARK: - Loading Activity Indicator Handlers
-    private func initActivityIndicator() {
-        //loadingView.layer.cornerRadius = 10
-        //loadingContainerView.isHidden = true
-    }
-    private func hideActivityIndicator() {
-        loadingContainerView.isHidden = true
-    }
-    private func showActivityIndicator() {
-        loadingContainerView.isHidden = false
-    }
-    
     // MARK: - Navigation Handlers
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Initialize table view controller
@@ -275,11 +268,11 @@ extension FilterViewController: UITableViewDelegate {
             return
         }
         // Hide the table smoothly
-        UIView.animate(withDuration: 2.0, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             cell.accessoryType = .checkmark
-            self.loadingContainerView.alpha = 0
+            self.containerTableView.alpha = 0
         }, completion: { _ in
-           self.loadingContainerView.isHidden = true
+           self.containerTableView.isHidden = true
         })
         
         // Change filter type to selected

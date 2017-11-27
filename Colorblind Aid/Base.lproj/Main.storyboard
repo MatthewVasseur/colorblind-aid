@@ -140,33 +140,16 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pBD-ck-aQX">
                                 <rect key="frame" x="329" y="732" width="30" height="30"/>
+                                <gestureRecognizers/>
                                 <state key="normal" title="Edit"/>
                                 <connections>
                                     <action selector="handleEditButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="cAv-EG-UfH"/>
+                                    <outletCollection property="gestureRecognizers" destination="6bD-d8-m01" appends="YES" id="JDl-Am-2sJ"/>
                                 </connections>
                             </button>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JZi-r5-uY9">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JZi-r5-uY9">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="e4a-yg-00b">
-                                        <rect key="frame" x="8" y="203" width="359" height="406"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="YYw-rz-Z37">
-                                                <rect key="frame" x="0.0" y="28" width="359" height="44"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YYw-rz-Z37" id="Xzv-6h-Aqa">
-                                                    <rect key="frame" x="0.0" y="0.0" width="359" height="43.666666666666664"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </tableViewCellContentView>
-                                            </tableViewCell>
-                                        </prototypes>
-                                        <sections/>
-                                        <connections>
-                                            <outlet property="dataSource" destination="kUK-ks-tbi" id="E0U-Fk-HRQ"/>
-                                            <outlet property="delegate" destination="kUK-ks-tbi" id="5Cv-Qn-CJx"/>
-                                        </connections>
-                                    </tableView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Njn-F3-AqI">
                                         <rect key="frame" x="8" y="90.333333333333314" width="359" height="550.33333333333348"/>
                                         <connections>
@@ -178,20 +161,10 @@
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="Njn-F3-AqI" firstAttribute="centerY" secondItem="JZi-r5-uY9" secondAttribute="centerY" multiplier="0.9" id="03y-oU-c6O"/>
-                                    <constraint firstItem="e4a-yg-00b" firstAttribute="height" secondItem="JZi-r5-uY9" secondAttribute="height" multiplier="0.5" id="4cN-QU-Anm"/>
-                                    <constraint firstItem="e4a-yg-00b" firstAttribute="centerX" secondItem="JZi-r5-uY9" secondAttribute="centerX" id="Cep-4A-hww"/>
                                     <constraint firstItem="Njn-F3-AqI" firstAttribute="leading" secondItem="JZi-r5-uY9" secondAttribute="leading" constant="8" id="Zig-QO-HsH"/>
-                                    <constraint firstAttribute="trailing" secondItem="e4a-yg-00b" secondAttribute="trailing" constant="8" id="aPU-B2-tBv"/>
                                     <constraint firstAttribute="trailing" secondItem="Njn-F3-AqI" secondAttribute="trailing" constant="8" id="dEo-al-oKP"/>
-                                    <constraint firstItem="e4a-yg-00b" firstAttribute="centerY" secondItem="JZi-r5-uY9" secondAttribute="centerY" id="kcU-s0-dgV"/>
-                                    <constraint firstItem="e4a-yg-00b" firstAttribute="leading" secondItem="JZi-r5-uY9" secondAttribute="leading" constant="8" id="vbi-dY-nFb"/>
                                     <constraint firstItem="Njn-F3-AqI" firstAttribute="centerX" secondItem="JZi-r5-uY9" secondAttribute="centerX" id="yYg-In-bzq"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="subviews">
-                                        <exclude reference="e4a-yg-00b"/>
-                                    </mask>
-                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -222,11 +195,11 @@
                         <viewLayoutGuide key="safeArea" id="BVY-AK-5Hw"/>
                     </view>
                     <connections>
+                        <outlet property="containerTableView" destination="JZi-r5-uY9" id="NuR-Rg-yN4"/>
                         <outlet property="editButton" destination="pBD-ck-aQX" id="iJC-kH-MAw"/>
                         <outlet property="imageView" destination="kzV-Cc-2eA" id="jzm-jK-Yfg"/>
                         <outlet property="imageViewHeight" destination="VG1-KG-8rO" id="INo-e9-hGk"/>
                         <outlet property="imageViewWidth" destination="hat-Rm-Geu" id="EHY-Cd-vgt"/>
-                        <outlet property="loadingContainerView" destination="JZi-r5-uY9" id="NuR-Rg-yN4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="adN-Xd-Osb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -236,6 +209,11 @@
                         <outlet property="delegate" destination="kUK-ks-tbi" id="e0P-E2-6iz"/>
                     </connections>
                 </gestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="6bD-d8-m01">
+                    <connections>
+                        <action selector="handleEditLongPress:" destination="kUK-ks-tbi" id="9bt-Qm-RxI"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="693.60000000000002" y="617.73399014778329"/>
         </scene>
@@ -572,14 +550,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Monochromacy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gA2-ps-cGT">
-                                                    <rect key="frame" x="15.999999999999993" y="5.9999999999999982" width="124.33333333333333" height="20.333333333333332"/>
+                                                    <rect key="frame" x="14.999999999999993" y="5.9999999999999982" width="124.33333333333333" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Absent or non-functionning cones" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wrn-Ax-pct">
-                                                    <rect key="frame" x="16" y="26.333333333333332" width="207" height="15.666666666666666"/>
+                                                    <rect key="frame" x="15" y="26.333333333333332" width="207" height="15.666666666666666"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -596,14 +574,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Partial Monochromacy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="o5s-k6-YfU">
-                                                    <rect key="frame" x="16" y="5.9999999999999982" width="179.66666666666666" height="20.333333333333332"/>
+                                                    <rect key="frame" x="15" y="5.9999999999999982" width="179.66666666666666" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Reduced sensitivity to colors" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jxl-dk-jAC">
-                                                    <rect key="frame" x="16" y="26.333333333333332" width="174.66666666666666" height="15.666666666666666"/>
+                                                    <rect key="frame" x="15" y="26.333333333333332" width="174.66666666666666" height="15.666666666666666"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
