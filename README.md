@@ -10,6 +10,6 @@ Language: Swift 4.0
 
 - CoreML-in-ARKit
 - ARText
+- Color Matrix Library
 - https://github.com/jakespracher/Snapchat-Swipe-View
 - https://github.com/jathu/UIImageColors
-
