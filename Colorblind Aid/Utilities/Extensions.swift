@@ -1,5 +1,5 @@
 //
-//  Utilities.swift
+//  Extensions.swift
 //  Colorblind Aid
 //
 //  Created by Matthew Vasseur on 10/10/17.

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3426EC821F8DCB76009DF0CB /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426EC811F8DCB76009DF0CB /* Utilities.swift */; };
+		3426EC821F8DCB76009DF0CB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426EC811F8DCB76009DF0CB /* Extensions.swift */; };
 		343716DC1FCB898D0085B694 /* ColorblindFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343716DB1FCB898D0085B694 /* ColorblindFilter.swift */; };
 		3462956D1FBCC12900B47113 /* FilterRectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3462956C1FBCC12900B47113 /* FilterRectView.swift */; };
 		346E9BFA1FAA42F300CA1D66 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */; };
@@ -29,7 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3426EC811F8DCB76009DF0CB /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		3426EC811F8DCB76009DF0CB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		343716DB1FCB898D0085B694 /* ColorblindFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorblindFilter.swift; sourceTree = "<group>"; };
 		3462956C1FBCC12900B47113 /* FilterRectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRectView.swift; sourceTree = "<group>"; };
 		346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +66,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		340B7DE01FCCCD6A0045878D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				34CF16931FA03F43009058B5 /* Constants.swift */,
+				3426EC811F8DCB76009DF0CB /* Extensions.swift */,
+				34BBA8101FAA1B4600BF8AF2 /* Camera.swift */,
+				34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */,
+				343716DB1FCB898D0085B694 /* ColorblindFilter.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		347DDBD41FAA26DB00DF5F08 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,11 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				347DDBD41FAA26DB00DF5F08 /* Controllers */,
-				34CF16931FA03F43009058B5 /* Constants.swift */,
-				3426EC811F8DCB76009DF0CB /* Utilities.swift */,
-				34BBA8101FAA1B4600BF8AF2 /* Camera.swift */,
-				34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */,
-				343716DB1FCB898D0085B694 /* ColorblindFilter.swift */,
+				340B7DE01FCCCD6A0045878D /* Utilities */,
 				34A9F8051FB2C488007B84BD /* Controls */,
 				AEEC85641F18B8C600D43B9B /* AppDelegate.swift */,
 				AEEC856A1F18B8C600D43B9B /* Main.storyboard */,
@@ -290,7 +298,7 @@
 				347DDBD31FAA242D00DF5F08 /* FilterViewController.swift in Sources */,
 				3462956D1FBCC12900B47113 /* FilterRectView.swift in Sources */,
 				34D166DD1FB2BBF800087233 /* DrawGestureRecognizer.swift in Sources */,
-				3426EC821F8DCB76009DF0CB /* Utilities.swift in Sources */,
+				3426EC821F8DCB76009DF0CB /* Extensions.swift in Sources */,
 				34CF16901FA0393E009058B5 /* SignInViewController.swift in Sources */,
 				343716DC1FCB898D0085B694 /* ColorblindFilter.swift in Sources */,
 				AEEC85651F18B8C600D43B9B /* AppDelegate.swift in Sources */,
