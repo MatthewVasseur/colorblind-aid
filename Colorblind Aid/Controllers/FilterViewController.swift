@@ -235,18 +235,21 @@ extension FilterViewController: UIImagePickerControllerDelegate, UINavigationCon
         filterViews.removeAll()
         canEditFilters = false
         
-        // Resize image view (aspect fill)
-        let ratio = selectedImage.size.width / selectedImage.size.height
-        if view.frame.width < view.frame.height {
-            let newHeight = view.frame.width / ratio
-            imageView.frame.size = CGSize(width: view.frame.width, height: newHeight)
-        } else {
-            let newWidth = view.frame.height * ratio
-            imageView.frame.size = CGSize(width: newWidth, height: view.frame.height)
-        }
-
         // Set photoImageView to display the selected image.
         imageView.image = selectedImage
+        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: selectedImage.size.width / selectedImage.size.height).isActive = true
+
+//
+//        // Resize image view (aspect fill)
+//        let ratio = selectedImage.size.width / selectedImage.size.height
+//        if view.frame.width < view.frame.height {
+//            let newHeight = view.frame.width / ratio
+//            imageView.frame.size = CGSize(width: view.frame.width, height: newHeight)
+//        } else {
+//            let newWidth = view.frame.height * ratio
+//            imageView.frame.size = CGSize(width: newWidth, height: view.frame.height)
+//        }
+
         
         // Dismiss the picker.
         dismiss(animated: true, completion: nil)
