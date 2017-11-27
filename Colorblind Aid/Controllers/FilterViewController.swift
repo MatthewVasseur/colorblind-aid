@@ -99,7 +99,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
                 return
             }
             
-            let filterValues = ColorblindFilter().data[.protanopia]!
+            let filterValues = ColorblindFilter().data[.achromatopsia]!
             
             let filter = CIFilter(name: "CIColorMatrix")!
             filter.setValue(ciImage, forKey: kCIInputImageKey)
@@ -127,7 +127,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
 //            print(currentFilterView.frame)
 //            print(self.imageView.frame)
 //            print(self.imageView.bounds)
-//            
+//
             let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent)!
             
             let newImage =  UIImage(cgImage: cgImage.cropping(to: extentRect)!)
