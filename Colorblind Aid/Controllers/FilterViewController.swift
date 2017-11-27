@@ -46,7 +46,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         super.viewDidLoad()
         
         // Style
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "subtleDots")!)
+        //view.backgroundColor = UIColor(patternImage: UIImage(named: "subtleDots")!)
         
         // Initialize the current rect
         currentRect = FilterRectView()
@@ -94,54 +94,24 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         let filter = UIAlertAction(title: "Filter", style: .default) {
             (alert: UIAlertAction) in
             
-            // apply a prop filter
+            // TOOD: Pick a filter
+            
+            // Apply the filter
             guard let image = self.imageView.image, let ciImage = CIImage(image: image) else {
                 return
             }
+            let filterType = Constants.ColorblindType.achromatopsia
+            let filterValues = ColorblindFilter().data[filterType]!
             
-            let filterValues = ColorblindFilter().data[.achromatopsia]!
-            
-            let filter = CIFilter(name: "CIColorMatrix")!
-            filter.setValue(ciImage, forKey: kCIInputImageKey)
-            filter.setValue(filterValues.red, forKey: "inputRVector")
-            filter.setValue(filterValues.green, forKey: "inputGVector")
-            filter.setValue(filterValues.blue, forKey: "inputBVector")
-            filter.setValue(filterValues.alpha, forKey: "inputAVector")
-            filter.setValue(filterValues.bias, forKey: "inputBiasVector")
-            
-            guard let outputImage = filter.outputImage else {
+            guard let newImage = self.createFilter(ciImage: ciImage, filterValues: filterValues, rect: currentFilterView.frame) else {
                 return
             }
-            
-//            let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent)!
-            // Convert filter view rect to image view scale
-            var extentRect = currentFilterView.frame
-            
-            extentRect.origin.y -= self.imageView.frame.origin.y
-            extentRect.origin.x -= self.imageView.frame.origin.x
-            extentRect.scale(from: self.imageView.bounds, to: outputImage.extent)
-            
-//            print(extentRect)
-//            print(outputImage.extent)
-//            print(image.size)
-//            print(currentFilterView.frame)
-//            print(self.imageView.frame)
-//            print(self.imageView.bounds)
-//
-            let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent)!
-            
-            let newImage =  UIImage(cgImage: cgImage.cropping(to: extentRect)!)
-            
-//            UIGraphicsBeginImageContext(self.imageView.frame.size)
-//            newImage.draw(in: self.imageView.frame)
-//            image.draw(in: self.imageView.frame, blendMode: CGBlendMode.normal, alpha: 0.8)
-            
-//            self.imageView.image = newImage
+
+            // Update the filter view
             currentFilterView.image = newImage
-            
-            // TODO: MAKE THIS RIGHT
-//            currentFilterView.i += 1
-//            currentFilterView.backgroundColor = currentFilterView.colors[currentFilterView.i % 7]
+            currentFilterView.layer.borderWidth = 2.0
+            currentFilterView.isFiltered = true
+            currentFilterView.filterType = filterType
             
             return
         }
@@ -185,6 +155,23 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             // Change the view's position (use the touch as center of rect)
             currentRect.frame.origin = CGPoint(x: sender.origin!.x - (currentRect.frame.width / 2.0),
                                                y: sender.origin!.y - (currentRect.frame.height / 2.0))
+            
+            // Reapply filter (is applicable)
+            if currentRect.isFiltered {
+                // Apply the filter
+                guard let image = self.imageView.image, let ciImage = CIImage(image: image) else {
+                    return
+                }
+                let filterValues = ColorblindFilter().data[currentRect.filterType]!
+                
+                guard let newImage = self.createFilter(ciImage: ciImage, filterValues: filterValues, rect: currentRect.frame) else {
+                    return
+                }
+                
+                // Update the filter view
+                currentRect.image = newImage
+            }
+            
             currentRect = FilterRectView()
             
             // Cancel the gesture
@@ -225,6 +212,31 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             
                 currentState = .normal
         }
+    }
+    
+    fileprivate func createFilter(ciImage: CIImage, filterValues: ColorblindFilter.colorblindTransform, rect: CGRect) -> UIImage? {
+        // create CIFilter
+        let filter = CIFilter(name: "CIColorMatrix")!
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        filter.setValue(filterValues.red, forKey: "inputRVector")
+        filter.setValue(filterValues.green, forKey: "inputGVector")
+        filter.setValue(filterValues.blue, forKey: "inputBVector")
+        filter.setValue(filterValues.alpha, forKey: "inputAVector")
+        filter.setValue(filterValues.bias, forKey: "inputBiasVector")
+    
+        guard let outputImage = filter.outputImage else {
+            return nil
+        }
+    
+        // Convert filter view rect to image view scale
+        var extentRect = rect
+        extentRect.origin.y -= self.imageView.frame.origin.y
+        extentRect.origin.x -= self.imageView.frame.origin.x
+        extentRect.scale(from: self.imageView.bounds, to: outputImage.extent)
+    
+        // Crop to region size
+        let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent)!
+        return UIImage(cgImage: cgImage.cropping(to: extentRect)!)
     }
     
     // MARK: - Status Bar: Hide

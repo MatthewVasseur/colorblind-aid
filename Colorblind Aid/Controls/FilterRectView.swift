@@ -13,11 +13,8 @@ class FilterRectView: UIImageView {
     // MARK: - Properties
     var editGesture: UITapGestureRecognizer!
     
-    var i: Int = 0
-    var colors = [UIColor.clear.withAlphaComponent(0.5), UIColor.blue.withAlphaComponent(0.5),
-                  UIColor.red.withAlphaComponent(0.5), UIColor.brown.withAlphaComponent(0.5),
-                  UIColor.green.withAlphaComponent(0.5), UIColor.yellow.withAlphaComponent(0.5),
-                  UIColor.purple.withAlphaComponent(0.5)]
+    var isFiltered: Bool = false
+    var filterType: Constants.ColorblindType = .normal
     
     // MARK: - Initializers
     override init(frame: CGRect) {
