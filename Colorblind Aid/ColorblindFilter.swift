@@ -21,6 +21,7 @@ class ColorblindFilter {
     
     var data: [Constants.ColorblindType: colorblindTransform] = [:]
     
+    // TODO: invert these!
     init () {
         let normalA = CIVector(x: 0, y: 0, z: 0, w: 1)
         let normalBias = CIVector(x: 0, y: 0, z: 0, w: 0)

@@ -6,6 +6,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -144,23 +145,59 @@
                                     <action selector="handleEditButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="cAv-EG-UfH"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JZi-r5-uY9">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="e4a-yg-00b">
+                                        <rect key="frame" x="8" y="203" width="359" height="406"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="YYw-rz-Z37">
+                                                <rect key="frame" x="0.0" y="28" width="359" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YYw-rz-Z37" id="Xzv-6h-Aqa">
+                                                    <rect key="frame" x="0.0" y="0.0" width="359" height="43.666666666666664"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <sections/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="kUK-ks-tbi" id="E0U-Fk-HRQ"/>
+                                            <outlet property="delegate" destination="kUK-ks-tbi" id="5Cv-Qn-CJx"/>
+                                        </connections>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="e4a-yg-00b" firstAttribute="height" secondItem="JZi-r5-uY9" secondAttribute="height" multiplier="0.5" id="4cN-QU-Anm"/>
+                                    <constraint firstItem="e4a-yg-00b" firstAttribute="centerX" secondItem="JZi-r5-uY9" secondAttribute="centerX" id="Cep-4A-hww"/>
+                                    <constraint firstAttribute="trailing" secondItem="e4a-yg-00b" secondAttribute="trailing" constant="8" id="aPU-B2-tBv"/>
+                                    <constraint firstItem="e4a-yg-00b" firstAttribute="centerY" secondItem="JZi-r5-uY9" secondAttribute="centerY" id="kcU-s0-dgV"/>
+                                    <constraint firstItem="e4a-yg-00b" firstAttribute="leading" secondItem="JZi-r5-uY9" secondAttribute="leading" constant="8" id="vbi-dY-nFb"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="BVY-AK-5Hw" secondAttribute="top" id="1CS-zk-oIB"/>
+                            <constraint firstItem="JZi-r5-uY9" firstAttribute="top" secondItem="Fl8-W5-bzf" secondAttribute="top" id="3IG-GA-CXd"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="centerX" secondItem="Fl8-W5-bzf" secondAttribute="centerX" id="87l-1K-3I0"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="centerY" secondItem="Fl8-W5-bzf" secondAttribute="centerY" id="9Hh-px-7fH"/>
                             <constraint firstItem="pBD-ck-aQX" firstAttribute="centerY" secondItem="dnp-Sm-yEZ" secondAttribute="centerY" id="BmI-vO-UYj"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="UoW-CS-vOu" secondAttribute="bottom" constant="16" id="FKD-tO-sPS"/>
                             <constraint firstItem="dnp-Sm-yEZ" firstAttribute="centerY" secondItem="UoW-CS-vOu" secondAttribute="centerY" id="H55-ll-4Ts"/>
+                            <constraint firstAttribute="trailing" secondItem="JZi-r5-uY9" secondAttribute="trailing" id="HHT-7k-Vgf"/>
                             <constraint firstItem="pBD-ck-aQX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dnp-Sm-yEZ" secondAttribute="trailing" id="Hsw-M1-sj4"/>
                             <constraint firstItem="pBD-ck-aQX" firstAttribute="centerY" secondItem="UoW-CS-vOu" secondAttribute="centerY" id="LSE-tS-K4R"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kzV-Cc-2eA" secondAttribute="trailing" id="LZp-sr-ZKk"/>
                             <constraint firstItem="dnp-Sm-yEZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="kzV-Cc-2eA" secondAttribute="bottom" constant="16" id="ML8-8s-kHh"/>
+                            <constraint firstAttribute="bottom" secondItem="JZi-r5-uY9" secondAttribute="bottom" id="UbQ-3K-HBs"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BVY-AK-5Hw" secondAttribute="leading" id="cSH-4d-FAW"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="dnp-Sm-yEZ" secondAttribute="bottom" constant="20" id="hHY-vc-WzX"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="trailing" secondItem="pBD-ck-aQX" secondAttribute="trailing" constant="16" id="jec-fT-2pk"/>
                             <constraint firstItem="dnp-Sm-yEZ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UoW-CS-vOu" secondAttribute="trailing" id="kP7-UJ-CCf"/>
+                            <constraint firstItem="JZi-r5-uY9" firstAttribute="leading" secondItem="Fl8-W5-bzf" secondAttribute="leading" id="kYv-2g-PgZ"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="pBD-ck-aQX" secondAttribute="bottom" constant="16" id="pD6-bF-o46"/>
                             <constraint firstItem="dnp-Sm-yEZ" firstAttribute="centerX" secondItem="Fl8-W5-bzf" secondAttribute="centerX" id="swP-1J-NQC"/>
                             <constraint firstItem="UoW-CS-vOu" firstAttribute="leading" secondItem="BVY-AK-5Hw" secondAttribute="leading" constant="16" id="zZE-M2-5gB"/>
@@ -172,6 +209,7 @@
                         <outlet property="imageView" destination="kzV-Cc-2eA" id="jzm-jK-Yfg"/>
                         <outlet property="imageViewHeight" destination="VG1-KG-8rO" id="INo-e9-hGk"/>
                         <outlet property="imageViewWidth" destination="hat-Rm-Geu" id="EHY-Cd-vgt"/>
+                        <outlet property="loadingContainerView" destination="JZi-r5-uY9" id="NuR-Rg-yN4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="adN-Xd-Osb" userLabel="First Responder" sceneMemberID="firstResponder"/>

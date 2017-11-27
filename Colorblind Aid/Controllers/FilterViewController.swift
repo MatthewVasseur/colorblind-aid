@@ -17,6 +17,8 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     @IBOutlet weak var imageViewHeight: NSLayoutConstraint!
     @IBOutlet weak var imageViewWidth: NSLayoutConstraint!
     
+    @IBOutlet weak var loadingContainerView: UIView!
+    
     var snapContainer: SnapContainerViewController!
     
     /// Can the filter views be editted?
@@ -50,6 +52,9 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         
         // Initialize the current rect
         currentRect = FilterRectView()
+        
+        // Initialize the activity indicator
+        showActivityIndicator()
     }
 
     // MARK: - Actions
@@ -243,6 +248,57 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     override var prefersStatusBarHidden : Bool {
         return true
     }
+    
+    // MARK: - Loading Activity Indicator Handlers
+    private func initActivityIndicator() {
+        //loadingView.layer.cornerRadius = 10
+        //loadingContainerView.isHidden = true
+    }
+    private func hideActivityIndicator() {
+        loadingContainerView.isHidden = true
+    }
+    private func showActivityIndicator() {
+        
+        loadingContainerView.isHidden = false
+    }
+}
+
+// MARK: - UITableViewDataSource & UITableViewDelegate
+extension FilterViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 4
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch component {
+        case 0:
+            return 1
+        case 1:
+            return 4
+        case 2:
+            return 2
+        case 3:
+            return 2
+        default:
+            fatalError("Should not be a component!")
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch component {
+        case 0:
+            return ""
+        case 1:
+            return "Red/Green Color Blindness"
+        case 2:
+            return "Blue/Yellow Color Blindness"
+        case 3:
+            return "Monochrome Vision"
+        default:
+            fatalError("Should not be a component!")
+        }
+    }
+    
 }
 
 // MARK: - UIImagePickerControlerDelegate
