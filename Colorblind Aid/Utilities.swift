@@ -179,15 +179,33 @@ extension CGRect {
     }
     
     /**
-     Convenience initialize to create a rectangle from a center point and a size
+     Convenience initializer to create a rectangle from a center point and a size
      - parameters:
-     - center: The center of the rectangle
-     - size: The size (height and width) of the rectangle
+        - center: The center of the rectangle
+        - size: The size (height and width) of the rectangle
      */
     init(center: CGPoint, size: CGSize) {
         let origin = CGPoint(x: center.x - (size.width / 2.0), y: center.y - (size.height / 2.0))
         
         self.init(origin: origin, size: size)
+    }
+    
+    /**
+     Scale a rectangle from one set of coordinates to another
+     - parameters:
+        - from: The original set of coordinates as a rectangle
+        - to: The new set of coordinates as a rectangle
+     */
+    mutating func scale(from: CGRect, to: CGRect) {
+        // Calculate scale factors
+        let xScale = to.width / from.width
+        let yScale = to.height / from.height
+        
+        // Scale origin and size
+        self.origin = CGPoint(x: self.origin.x * xScale, y: self.origin.y * yScale)
+        self.size = CGSize(width: self.size.width * xScale, height: self.size.height * yScale)
+        
+//        return CGRect(origin: scaledOrigin, size: scaledSize)
     }
 }
 

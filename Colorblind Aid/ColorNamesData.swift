@@ -23,7 +23,7 @@ import UIKit
 //    ["FFFFFF", "White"]
 //    ]
 
-
+/// Data for supported color names
 class ColorNamesData {
     
     struct colorName {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FilterRectView: UIView {
+class FilterRectView: UIImageView {
 
     // MARK: - Properties
     var editGesture: UITapGestureRecognizer!
@@ -23,13 +23,20 @@ class FilterRectView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        // Set style and properties
         self.backgroundColor = UIColor.clear
-        self.layer.borderColor = UIColor.black.withAlphaComponent(0.75).cgColor
-        self.layer.borderWidth = 3.0
+        self.layer.borderColor = UIColor.black.withAlphaComponent(0.6).cgColor
+        self.layer.borderWidth = 4.0
+        
+        self.isUserInteractionEnabled = true
         
         // Initialize the edit tap gesture
         editGesture = UITapGestureRecognizer()
         self.addGestureRecognizer(editGesture)
+    }
+    
+    convenience init() {
+        self.init(frame: CGRect.zero)
     }
     
     required init?(coder aDecoder: NSCoder) {

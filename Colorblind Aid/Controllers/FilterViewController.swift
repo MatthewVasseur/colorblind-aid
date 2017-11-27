@@ -16,6 +16,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     
     var snapContainer: SnapContainerViewController!
     
+    /// Can the filter views be editted?
     private var canEditFilters: Bool = false {
         /// Update edit button & touches upon set
         didSet {
@@ -92,7 +93,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
                 return
             }
             
-            let filterValues = ColorblindFilter().data[.achromatopsia]!
+            let filterValues = ColorblindFilter().data[.protanopia]!
             
             let filter = CIFilter(name: "CIColorMatrix")!
             filter.setValue(ciImage, forKey: kCIInputImageKey)
@@ -106,10 +107,21 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
                 return
             }
             
-            let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent)!
-//            let cgImage = CIContext().createCGImage(outputImage, from: currentFilterView.frame)!
+//            let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent)!
+            // Convert filter view rect to image view scale
+            var extentRect = currentFilterView.frame
+            
+//            extentRect.origin.y -= self.imageView.frame.origin.y
+            extentRect.scale(from: self.imageView.bounds, to: outputImage.extent)
+            let cgImage = CIContext().createCGImage(outputImage, from: extentRect)!
             let newImage =  UIImage(cgImage: cgImage)
-            self.imageView.image = newImage
+            
+//            UIGraphicsBeginImageContext(self.imageView.frame.size)
+//            newImage.draw(in: self.imageView.frame)
+//            image.draw(in: self.imageView.frame, blendMode: CGBlendMode.normal, alpha: 0.8)
+            
+//            self.imageView.image = newImage
+            currentFilterView.image = newImage
             
             // TODO: MAKE THIS RIGHT
 //            currentFilterView.i += 1
@@ -221,7 +233,18 @@ extension FilterViewController: UIImagePickerControllerDelegate, UINavigationCon
             filterView.removeFromSuperview()
         }
         filterViews.removeAll()
+        canEditFilters = false
         
+        // Resize image view (aspect fill)
+        let ratio = selectedImage.size.width / selectedImage.size.height
+        if view.frame.width < view.frame.height {
+            let newHeight = view.frame.width / ratio
+            imageView.frame.size = CGSize(width: view.frame.width, height: newHeight)
+        } else {
+            let newWidth = view.frame.height * ratio
+            imageView.frame.size = CGSize(width: newWidth, height: view.frame.height)
+        }
+
         // Set photoImageView to display the selected image.
         imageView.image = selectedImage
         

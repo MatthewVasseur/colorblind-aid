@@ -86,7 +86,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
                 return
             }
             let ciImage = CIImage(cvPixelBuffer: pixbuff)
-            let context = CIContext(options: nil)
+            let context = CIContext()
             
             // Created cropped image into square around center (using magic number 20)
             let imageCenter = CGPoint(x: ciImage.extent.width / 2.0, y: ciImage.extent.height / 2.0)
