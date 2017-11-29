@@ -40,8 +40,9 @@ class Constants {
         case normal, protanopia, protanomaly, deuteranopia, deuteranomaly, tritanopia, tritanomaly
         /// Monochromacy
         case achromatopsia, achromatomaly
+        /// LMS Algo matrices
+        case protanopiaLMS, deuteranopiaLMS, tritanopiaLMS
     }
-    
     enum algoTypes: String {
         case rgb = "RGBFilter", lms = "LMSFilter"
     }

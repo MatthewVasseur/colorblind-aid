@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		3426EC821F8DCB76009DF0CB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426EC811F8DCB76009DF0CB /* Extensions.swift */; };
-		343716DC1FCB898D0085B694 /* ColorblindFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343716DB1FCB898D0085B694 /* ColorblindFilter.swift */; };
+		343716DC1FCB898D0085B694 /* ColorblindFilterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343716DB1FCB898D0085B694 /* ColorblindFilterData.swift */; };
 		3462956D1FBCC12900B47113 /* FilterRectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3462956C1FBCC12900B47113 /* FilterRectView.swift */; };
 		346E9BFA1FAA42F300CA1D66 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */; };
 		347DDBD31FAA242D00DF5F08 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */; };
 		347DDBDA1FAA272200DF5F08 /* SnapContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */; };
 		3491378C1FCE666C00867641 /* ConfirmDialogue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3491378B1FCE666C00867641 /* ConfirmDialogue.swift */; };
 		3491378F1FCE86C600867641 /* LMSFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 3491378E1FCE86C600867641 /* LMSFilter.cikernel */; };
-		349137931FCE878000867641 /* ColorblindFilter2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349137921FCE878000867641 /* ColorblindFilter2.swift */; };
+		349137931FCE878000867641 /* ColorblindFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349137921FCE878000867641 /* ColorblindFilter.swift */; };
 		349137951FCF50D000867641 /* RGBFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 349137941FCF50D000867641 /* RGBFilter.cikernel */; };
 		34BBA8111FAA1B4600BF8AF2 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BBA8101FAA1B4600BF8AF2 /* Camera.swift */; };
 		34C7A4A61FACE9470056B5B1 /* ColorNamesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */; };
@@ -34,14 +34,14 @@
 
 /* Begin PBXFileReference section */
 		3426EC811F8DCB76009DF0CB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		343716DB1FCB898D0085B694 /* ColorblindFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorblindFilter.swift; sourceTree = "<group>"; };
+		343716DB1FCB898D0085B694 /* ColorblindFilterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorblindFilterData.swift; sourceTree = "<group>"; };
 		3462956C1FBCC12900B47113 /* FilterRectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRectView.swift; sourceTree = "<group>"; };
 		346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapContainerViewController.swift; sourceTree = "<group>"; };
 		3491378B1FCE666C00867641 /* ConfirmDialogue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogue.swift; sourceTree = "<group>"; };
 		3491378E1FCE86C600867641 /* LMSFilter.cikernel */ = {isa = PBXFileReference; lastKnownFileType = text; path = LMSFilter.cikernel; sourceTree = "<group>"; };
-		349137921FCE878000867641 /* ColorblindFilter2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorblindFilter2.swift; sourceTree = "<group>"; };
+		349137921FCE878000867641 /* ColorblindFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorblindFilter.swift; sourceTree = "<group>"; };
 		349137941FCF50D000867641 /* RGBFilter.cikernel */ = {isa = PBXFileReference; lastKnownFileType = text; path = RGBFilter.cikernel; sourceTree = "<group>"; };
 		34BBA8101FAA1B4600BF8AF2 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorNamesData.swift; sourceTree = "<group>"; };
@@ -79,7 +79,6 @@
 			children = (
 				34BBA8101FAA1B4600BF8AF2 /* Camera.swift */,
 				34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */,
-				343716DB1FCB898D0085B694 /* ColorblindFilter.swift */,
 				34CF16931FA03F43009058B5 /* Constants.swift */,
 				3426EC811F8DCB76009DF0CB /* Extensions.swift */,
 			);
@@ -103,7 +102,8 @@
 			children = (
 				3491378E1FCE86C600867641 /* LMSFilter.cikernel */,
 				349137941FCF50D000867641 /* RGBFilter.cikernel */,
-				349137921FCE878000867641 /* ColorblindFilter2.swift */,
+				349137921FCE878000867641 /* ColorblindFilter.swift */,
+				343716DB1FCB898D0085B694 /* ColorblindFilterData.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -316,14 +316,14 @@
 			files = (
 				34BBA8111FAA1B4600BF8AF2 /* Camera.swift in Sources */,
 				347DDBDA1FAA272200DF5F08 /* SnapContainerViewController.swift in Sources */,
-				349137931FCE878000867641 /* ColorblindFilter2.swift in Sources */,
+				349137931FCE878000867641 /* ColorblindFilter.swift in Sources */,
 				34CF16961FA04D6A009058B5 /* ARViewController.swift in Sources */,
 				347DDBD31FAA242D00DF5F08 /* FilterViewController.swift in Sources */,
 				3462956D1FBCC12900B47113 /* FilterRectView.swift in Sources */,
 				34D166DD1FB2BBF800087233 /* DrawGestureRecognizer.swift in Sources */,
 				3426EC821F8DCB76009DF0CB /* Extensions.swift in Sources */,
 				34CF16901FA0393E009058B5 /* SignInViewController.swift in Sources */,
-				343716DC1FCB898D0085B694 /* ColorblindFilter.swift in Sources */,
+				343716DC1FCB898D0085B694 /* ColorblindFilterData.swift in Sources */,
 				AEEC85651F18B8C600D43B9B /* AppDelegate.swift in Sources */,
 				3491378C1FCE666C00867641 /* ConfirmDialogue.swift in Sources */,
 				34CF16941FA03F43009058B5 /* Constants.swift in Sources */,

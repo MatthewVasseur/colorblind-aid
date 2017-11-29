@@ -119,7 +119,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             guard let image = self.imageView.image, let ciImage = CIImage(image: image) else {
                 return
             }
-            let filterValues = ColorblindFilter().data[self.filterType]!
+            let filterValues = ColorblindFilter.data[self.filterType]!
             
             guard let newImage = self.createFilter(ciImage: ciImage, filterValues: filterValues, rect: currentFilterView.frame) else {
                 return
@@ -183,7 +183,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
                 guard let image = self.imageView.image, let ciImage = CIImage(image: image) else {
                     return
                 }
-                let filterValues = ColorblindFilter().data[currentRect.filterType]!
+                let filterValues = ColorblindFilter.data[currentRect.filterType]!
                 
                 guard let newImage = self.createFilter(ciImage: ciImage, filterValues: filterValues, rect: currentRect.frame) else {
                     return
@@ -272,38 +272,19 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
     
-    fileprivate func createFilter(ciImage: CIImage, filterValues: ColorblindFilter.colorblindTransform, rect: CGRect) -> UIImage? {
+    fileprivate func createFilter(ciImage: CIImage, filterValues: ColorblindFilter.colorblindTransformMatrix, rect: CGRect) -> UIImage? {
         // create CIFilter
 //        let filter = CIFilter(name: "CIColorMatrix")!
-         let filter = ColorblindFilter2()
+        let filter = ColorblindFilter()
         
         filter.setValue(ciImage, forKey: kCIInputImageKey)
         filter.setValue(filterValues.red, forKey: "inputRVector")
         filter.setValue(filterValues.green, forKey: "inputGVector")
         filter.setValue(filterValues.blue, forKey: "inputBVector")
-        filter.setValue(Constants.algoTypes.lms, forKey: "inputAlgoType")
-//        filter.setValue(filterValues.alpha, forKey: "inputAVector")
-//        filter.setValue(filterValues.bias, forKey: "inputBiasVector")
-        
-//        "Protanope": [ // reds are greatly reduced (1% men)
-//        0.0, 2.02344, -2.52581,
-//        0.0, 1.0,      0.0,
-//        0.0, 0.0,      1.0
-//        ],
-//        "Deuteranope": [ // greens are greatly reduced (1% men)
-//        1.0,      0.0, 0.0,
-//        0.494207, 0.0, 1.24827,
-//        0.0,      0.0, 1.0
-//        ],
-//        "Tritanope": [ // blues are greatly reduced (0.003% population)
-//        1.0,       0.0,      0.0,
-//        0.0,       1.0,      0.0,
-//        -0.395913, 0.801109, 0.0
-//        ]
-       
-        filter.setValue(CIVector(x: 1.0, y: 0.0, z: 0.0), forKey: "inputLongVector")
-        filter.setValue(CIVector(x: 0.494207, y: 0.0, z: 1.24827), forKey: "inputMedVector")
-        filter.setValue(CIVector(x: 0.0, y: 0.0, z: 1.0), forKey: "inputShortVector")
+        filter.setValue(filterValues.algoType, forKey: "inputAlgoType")
+//        filter.setValue(CIVector(x: 1.0, y: 0.0, z: 0.0), forKey: "inputLongVector")
+//        filter.setValue(CIVector(x: 0.494207, y: 0.0, z: 1.24827), forKey: "inputMedVector")
+//        filter.setValue(CIVector(x: 0.0, y: 0.0, z: 1.0), forKey: "inputShortVector")
 //        filter.setValue(CIVector(x: 0.0, y: 2.02344, z: -2.52581), forKey: "inputLongVector")
 //        filter.setValue(CIVector(x: 0.0, y: 1.0, z: 0.0), forKey: "inputMedVector")
 //        filter.setValue(CIVector(x: 0.0, y: 0.0, z: 1.0), forKey: "inputShortVector")
@@ -391,6 +372,17 @@ extension FilterViewController: UITableViewDelegate {
                 return .achromatopsia
             case 1:
                 return .achromatomaly
+            default:
+                fatalError("Invalid row")
+            }
+        case 4:
+            switch indexPath.row {
+            case 0:
+                return .deuteranopiaLMS
+            case 1:
+                return .protanopiaLMS
+            case 2:
+                return .tritanopiaLMS
             default:
                 fatalError("Invalid row")
             }

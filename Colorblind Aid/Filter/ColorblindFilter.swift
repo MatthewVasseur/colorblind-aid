@@ -1,5 +1,5 @@
 //
-//  ColorblindFilter2.swift
+//  ColorblindFilter.swift
 //  Colorblind Aid
 //
 //  Created by Matthew Vasseur on 11/29/17.
@@ -9,7 +9,7 @@
 //import Foundation
 import UIKit
 
-class ColorblindFilter2: CIFilter {
+class ColorblindFilter: CIFilter {
     @objc dynamic var inputImage: CIImage?
 
     /// Transformation vector for Red or Long
@@ -57,3 +57,4 @@ class ColorblindFilter2: CIFilter {
         }
     }
 }
+
