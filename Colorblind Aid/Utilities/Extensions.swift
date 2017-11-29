@@ -13,7 +13,7 @@ extension UIImage {
     /**
      Return a cropped version of the provided image
      - parameter rect: A rectangle whose coordinates specify the area to create an image from
-     - returns: The cropped image or NIL if unable to
+     - returns: The cropped image or nil otherwise
      */
     func crop(toRect rect: CGRect) -> UIImage? {
         guard let imageRef: CGImage = self.cgImage?.cropping(to: rect) else {
@@ -29,10 +29,8 @@ extension UIFont {
     
     /**
      Convenience initializer to create a UIFont with the specified traits
-     
      - parameters:
         - traits: list of UIFontDescriptorSymbolicTraits for the font
-    
      Referenced from [Stack Overflow](https://stackoverflow.com/questions/4713236/how-do-i-set-bold-and-italic-on-uilabel-of-iphone-ipad)
      */
     func withTraits(traits: UIFontDescriptorSymbolicTraits...) -> UIFont {
@@ -63,10 +61,7 @@ extension UIColor {
     
     /**
      Return a tuple of RBGa cgfloats (Red, Green, Blue, Alpha)
-     
      - returns: (Red, Green, Blue, alpha) tuple of CGFloats
-     
-     - Author: Adopted from from: Farbtastic 1.2 (http://acko.net/dev/farbtastic)
      */
     func getRGBa() -> (CGFloat, CGFloat, CGFloat, CGFloat) {
         var red:   CGFloat = 0
@@ -81,8 +76,7 @@ extension UIColor {
     
     /**
      Return a tuple of HSL cgfloats (Hue, Saturation, Luminosity)
-     
-     - Author: Adopted from from: Farbtastic 1.2 (http://acko.net/dev/farbtastic)
+     - author: Adopted from from: Farbtastic 1.2 (http://acko.net/dev/farbtastic)
      */
     func getHSL() -> (CGFloat, CGFloat, CGFloat) {
         var (red, green, blue, _) = self.getRGBa()
@@ -120,8 +114,8 @@ extension UIColor {
     /**
      Get the name of the hue corresponding to the color
      
+     Relies upon color names struct declared in Constants
      - Author: Created by Chirag Mehta - http://chir.ag/tech/download/ntc
-     
      ntc js (Name that Color JavaScript)
      */
     func toHueName() -> String {
@@ -151,16 +145,6 @@ extension UIColor {
         }
         
         return cl < 0 ? "N/A" : Constants.colors.names[cl].hueName
-    }
-}
-
-extension UIView {
-    convenience init(from view: UIView) {
-        self.init()
-        
-        self.backgroundColor = view.backgroundColor
-        self.layer.borderColor = view.layer.borderColor
-        self.frame = view.frame
     }
 }
 
@@ -204,8 +188,6 @@ extension CGRect {
         // Scale origin and size
         self.origin = CGPoint(x: self.origin.x * xScale, y: self.origin.y * yScale)
         self.size = CGSize(width: self.size.width * xScale, height: self.size.height * yScale)
-        
-//        return CGRect(origin: scaledOrigin, size: scaledSize)
     }
 }
 

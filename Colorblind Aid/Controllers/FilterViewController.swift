@@ -174,6 +174,9 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             currentRect.frame.origin = CGPoint(x: sender.origin!.x - (currentRect.frame.width / 2.0),
                                                y: sender.origin!.y - (currentRect.frame.height / 2.0))
             
+            // Resize filter view is necessary (by using intersection)
+            currentRect.frame = currentRect.frame.intersection(imageView.frame)
+            
             // Reapply filter (is applicable)
             if currentRect.isFiltered {
                 // Apply the filter
@@ -207,12 +210,13 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             
             case .changed:
                 currentRect.frame = sender.rect!
-                if !imageView.frame.contains(sender.location(in: view)) {
-                    sender.state = .ended
-                }
+//                if !imageView.frame.contains(sender.location(in: view)) {
+//                    sender.state = .ended
+//                }
             
             case .ended:
-                let completedView = FilterRectView(frame: currentRect.frame)
+                // Take rect frame of intersection with image view (as to always be within bounds)
+                let completedView = FilterRectView(frame: currentRect.frame.intersection(imageView.frame))
                 completedView.editGesture.addTarget(self, action: #selector(handleEditGesture(_:)))
                 completedView.editGesture.delegate = self
                 
@@ -283,9 +287,9 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     
         // Convert filter view rect to image view scale
         var extentRect = rect
-        extentRect.origin.y -= self.imageView.frame.origin.y
-        extentRect.origin.x -= self.imageView.frame.origin.x
-        extentRect.scale(from: self.imageView.bounds, to: outputImage.extent)
+        extentRect.origin.y -= imageView.frame.origin.y
+        extentRect.origin.x -= imageView.frame.origin.x
+        extentRect.scale(from: imageView.bounds, to: outputImage.extent)
     
         // Crop to region size
         let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent)!
