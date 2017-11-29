@@ -70,12 +70,33 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         canEditFilters = !canEditFilters
     }
     
-    @IBAction func handleEditLongPress(_ sender: UILongPressGestureRecognizer) {
-        // Show the table smoothly
+    @IBAction func handleFilterButton(_ sender: UIButton) {
+        // Show the table smoothly (and make sure it's on top)
         self.containerTableView.isHidden = false
+        self.view.bringSubview(toFront: containerTableView)
         UIView.animate(withDuration: 0.5, animations: {
             self.containerTableView.alpha = 1.0
         }, completion: nil)
+    }
+    
+    @IBAction func handleSaveButton(_ sender: UIButton) {
+        // Save the image by merging images
+        
+        UIGraphicsBeginImageContextWithOptions(imageView.frame.size, false, 0.0)
+        imageView.superview?.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        // Clear rectangles
+        for filterView in filterViews {
+            filterView.removeFromSuperview()
+        }
+        filterViews.removeAll()
+        canEditFilters = false
+        
+        // Set photoImageView to display the selected image.
+        imageView.image = image
+        
     }
     
     @objc func handleEditGesture(_ sender: UITapGestureRecognizer) {
@@ -193,7 +214,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
                 
                 currentState = .drawing
                 
-                self.view.insertSubview(currentRect, belowSubview: containerTableView)
+                self.view.addSubview(currentRect)
             
             case .changed:
                 currentRect.frame = sender.rect!
@@ -206,7 +227,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
                 completedView.editGesture.addTarget(self, action: #selector(handleEditGesture(_:)))
                 completedView.editGesture.delegate = self
                 
-                self.view.insertSubview(currentRect, belowSubview: containerTableView)
+                self.view.addSubview(completedView)
                 filterViews.append(completedView)
                 
                 currentRect.frame = CGRect.zero

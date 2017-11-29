@@ -133,7 +133,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dnp-Sm-yEZ">
-                                <rect key="frame" x="176.66666666666666" y="736" width="22" height="22"/>
+                                <rect key="frame" x="177" y="736" width="22" height="22"/>
                                 <connections>
                                     <action selector="handleCameraButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="n1W-Cp-Q6b"/>
                                 </connections>
@@ -144,7 +144,29 @@
                                 <state key="normal" title="Edit"/>
                                 <connections>
                                     <action selector="handleEditButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="cAv-EG-UfH"/>
-                                    <outletCollection property="gestureRecognizers" destination="6bD-d8-m01" appends="YES" id="JDl-Am-2sJ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XcB-Vs-tTe" userLabel="Filter Button">
+                                <rect key="frame" x="324" y="60" width="35" height="35"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="XcB-Vs-tTe" secondAttribute="height" multiplier="1:1" id="96C-Z2-a2x"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="35" id="dQG-aQ-N5O"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="filterIcon"/>
+                                <connections>
+                                    <action selector="handleFilterButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="dSE-h4-sU3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJ0-X1-sqW" userLabel="Save Button">
+                                <rect key="frame" x="16" y="60" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="7Ie-kQ-EL0"/>
+                                    <constraint firstAttribute="width" secondItem="HJ0-X1-sqW" secondAttribute="height" multiplier="1:1" id="7Wl-w0-1qp"/>
+                                </constraints>
+                                <state key="normal" image="saveIcon"/>
+                                <connections>
+                                    <action selector="handleSaveButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="gVU-7t-q07"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JZi-r5-uY9">
@@ -171,18 +193,23 @@
                         <constraints>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="BVY-AK-5Hw" secondAttribute="top" id="1CS-zk-oIB"/>
                             <constraint firstItem="JZi-r5-uY9" firstAttribute="top" secondItem="Fl8-W5-bzf" secondAttribute="top" id="3IG-GA-CXd"/>
+                            <constraint firstItem="XcB-Vs-tTe" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="HJ0-X1-sqW" secondAttribute="trailing" id="4QL-ET-lOX"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="centerX" secondItem="Fl8-W5-bzf" secondAttribute="centerX" id="87l-1K-3I0"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="centerY" secondItem="Fl8-W5-bzf" secondAttribute="centerY" id="9Hh-px-7fH"/>
                             <constraint firstItem="pBD-ck-aQX" firstAttribute="centerY" secondItem="dnp-Sm-yEZ" secondAttribute="centerY" id="BmI-vO-UYj"/>
+                            <constraint firstItem="XcB-Vs-tTe" firstAttribute="top" secondItem="BVY-AK-5Hw" secondAttribute="top" constant="16" id="DXH-jz-Ly6"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="UoW-CS-vOu" secondAttribute="bottom" constant="16" id="FKD-tO-sPS"/>
                             <constraint firstItem="dnp-Sm-yEZ" firstAttribute="centerY" secondItem="UoW-CS-vOu" secondAttribute="centerY" id="H55-ll-4Ts"/>
                             <constraint firstAttribute="trailing" secondItem="JZi-r5-uY9" secondAttribute="trailing" id="HHT-7k-Vgf"/>
                             <constraint firstItem="pBD-ck-aQX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dnp-Sm-yEZ" secondAttribute="trailing" id="Hsw-M1-sj4"/>
+                            <constraint firstItem="HJ0-X1-sqW" firstAttribute="top" secondItem="BVY-AK-5Hw" secondAttribute="top" constant="16" id="KGw-Hf-dTT"/>
                             <constraint firstItem="pBD-ck-aQX" firstAttribute="centerY" secondItem="UoW-CS-vOu" secondAttribute="centerY" id="LSE-tS-K4R"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kzV-Cc-2eA" secondAttribute="trailing" id="LZp-sr-ZKk"/>
                             <constraint firstItem="dnp-Sm-yEZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="kzV-Cc-2eA" secondAttribute="bottom" constant="16" id="ML8-8s-kHh"/>
                             <constraint firstItem="Njn-F3-AqI" firstAttribute="height" secondItem="BVY-AK-5Hw" secondAttribute="height" multiplier="0.75" id="N66-SI-eG7"/>
+                            <constraint firstItem="HJ0-X1-sqW" firstAttribute="leading" secondItem="BVY-AK-5Hw" secondAttribute="leading" constant="16" id="Rtd-OI-ywh"/>
                             <constraint firstAttribute="bottom" secondItem="JZi-r5-uY9" secondAttribute="bottom" id="UbQ-3K-HBs"/>
+                            <constraint firstItem="BVY-AK-5Hw" firstAttribute="trailing" secondItem="XcB-Vs-tTe" secondAttribute="trailing" constant="16" id="VxJ-PS-Zdr"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BVY-AK-5Hw" secondAttribute="leading" id="cSH-4d-FAW"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="dnp-Sm-yEZ" secondAttribute="bottom" constant="20" id="hHY-vc-WzX"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="trailing" secondItem="pBD-ck-aQX" secondAttribute="trailing" constant="16" id="jec-fT-2pk"/>
@@ -209,11 +236,6 @@
                         <outlet property="delegate" destination="kUK-ks-tbi" id="e0P-E2-6iz"/>
                     </connections>
                 </gestureRecognizer>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="6bD-d8-m01">
-                    <connections>
-                        <action selector="handleEditLongPress:" destination="kUK-ks-tbi" id="9bt-Qm-RxI"/>
-                    </connections>
-                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="693.60000000000002" y="617.73399014778329"/>
         </scene>
@@ -609,6 +631,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="filterIcon" width="100" height="100"/>
         <image name="icon" width="150" height="150"/>
+        <image name="saveIcon" width="128" height="128"/>
     </resources>
 </document>
