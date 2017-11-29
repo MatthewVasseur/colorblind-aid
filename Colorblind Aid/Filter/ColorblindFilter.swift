@@ -13,11 +13,11 @@ class ColorblindFilter: CIFilter {
     @objc dynamic var inputImage: CIImage?
 
     /// Transformation vector for Red or Long
-    @objc dynamic var inputVector0: CIVector?
+    @objc dynamic var inputRVector: CIVector?
     /// Transformation vector for Green or Medium
-    @objc dynamic var inputVector1: CIVector?
+    @objc dynamic var inputGVector: CIVector?
     /// Transformation vector for Blue or Short
-    @objc dynamic var inputVector2: CIVector?
+    @objc dynamic var inputBVector: CIVector?
     
     /// Name of algorithm to use (either LMSFilter or RGBFilter)
     @objc dynamic var inputAlgoName: String?
@@ -35,44 +35,16 @@ class ColorblindFilter: CIFilter {
     
     override public var outputImage: CIImage? {
         get {
-            guard let inputImage = inputImage, let inputVector0 = inputVector0, let inputVector1 = inputVector1,
-                let inputVector2 = inputVector2, inputAlgoName != nil else {
+            guard let inputImage = inputImage, let inputRVector = inputRVector, let inputGVector = inputGVector,
+                let inputBVector = inputBVector, inputAlgoName != nil else {
                     return nil
             }
             
-            let args = [inputImage, inputVector0, inputVector1, inputVector2] as [Any]
+            let args = [inputImage, inputRVector, inputGVector, inputBVector] as [Any]
 
             return colorblindKernel().apply(extent: inputImage.extent, arguments: args)
         }
     }
-    
-//    override var attributes: [String: Any] {
-//        return [kCIAttributeFilterDisplayName: "Colorblind Filter",
-//            "inputImage": [kCIAttributeIdentity: 0,
-//                           kCIAttributeClass: "CIImage",
-//                           kCIAttributeDisplayName: "Image",
-//                           kCIAttributeType: kCIAttributeTypeImage],
-//            
-//            "inputVector0": [kCIAttributeIdentity: 0,
-//                            kCIAttributeClass: "CIVector",
-//                            kCIAttributeDisplayName: "Vector One",
-//                            kCIAttributeDefault: CIVector(x: 1.0, y: 0.0, z: 0.0)],
-//            
-//            "inputVector1": [kCIAttributeIdentity: 0,
-//                            kCIAttributeClass: "CIVector",
-//                            kCIAttributeDisplayName: "Vector Two",
-//                            kCIAttributeDefault: CIVector(x: 0.0, y: 1.0, z: 0.0)],
-//            
-//            "inputVector2": [kCIAttributeIdentity: 0,
-//                            kCIAttributeClass: "CIVector",
-//                            kCIAttributeDisplayName: "Vector Three",
-//                            kCIAttributeDefault: CIVector(x: 0.0, y: 0.0, z: 1.0)],
-//            
-//            "inputAlgoName": [kCIAttributeIdentity: 0,
-//                             kCIAttributeClass: "String",
-//                             kCIAttributeDisplayName: "Algorithm Name"]
-//        ]
-//    }
 }
 
 // MARK: - CIFilterConstructor

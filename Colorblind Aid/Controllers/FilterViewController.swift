@@ -34,6 +34,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             }
         }
     }
+    private var shouldDaltonize: Bool = true
     private var currentState: edittingState = .normal
     private var filterViews: [FilterRectView] = [] // Completed rects
     private var currentRect: FilterRectView!
@@ -78,6 +79,24 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         UIView.animate(withDuration: 0.5, animations: {
             self.containerTableView.alpha = 1.0
         }, completion: nil)
+    }
+    
+    @IBAction func handleFilterLongPress(_ sender: UILongPressGestureRecognizer) {
+        // Prompt to switch from daltonize to simulate
+        let prompt = UIAlertController(title: "Daltonize or Simulate?", message: "Would you like to simulate or correct for color blindness?", preferredStyle: .alert)
+        prompt.popoverPresentationController?.sourceView = self.view
+        
+        let dalt = UIAlertAction(title: "Daltonize", style: .default) {_ in
+            self.shouldDaltonize = true
+        }
+        let sim = UIAlertAction(title: "Simulate", style: .default) { _ in
+            self.shouldDaltonize = false
+        }
+        
+        prompt.addAction(dalt)
+        prompt.addAction(sim)
+        
+        self.present(prompt, animated: true, completion: nil)
     }
     
     @IBAction func handleSaveButton(_ sender: UIButton) {
@@ -274,24 +293,29 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     
     fileprivate func createFilter(ciImage: CIImage, filterValues: ColorblindFilter.colorblindTransformMatrix, rect: CGRect) -> UIImage? {
         // create CIFilter
-        let filter = CIFilter(name: "ColorblindFilter")!
-        
+        let filter: CIFilter
+        if shouldDaltonize {
+            filter = CIFilter(name: "ColorblindFilter")!
+
+            filter.setValue(filterValues.algoName.rawValue, forKey: "inputAlgoName")
+        } else {
+            filter = CIFilter(name: "CIColorMatrix")!
+        }
         filter.setValue(ciImage, forKey: kCIInputImageKey)
-        filter.setValue(filterValues.red, forKey: "inputVector0")
-        filter.setValue(filterValues.green, forKey: "inputVector1")
-        filter.setValue(filterValues.blue, forKey: "inputVector2")
-        filter.setValue(filterValues.algoName.rawValue, forKey: "inputAlgoName")
+        filter.setValue(filterValues.red, forKey: "inputRVector")
+        filter.setValue(filterValues.green, forKey: "inputGVector")
+        filter.setValue(filterValues.blue, forKey: "inputBVector")
         
         guard let outputImage = filter.outputImage else {
             return nil
         }
-    
+        
         // Convert filter view rect to image view scale
         var extentRect = rect
         extentRect.origin.y -= imageView.frame.origin.y
         extentRect.origin.x -= imageView.frame.origin.x
         extentRect.scale(from: imageView.bounds, to: outputImage.extent)
-    
+        
         // Crop to region size
         let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent)!
         return UIImage(cgImage: cgImage.cropping(to: extentRect)!)

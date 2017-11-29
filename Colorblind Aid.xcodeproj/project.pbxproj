@@ -150,8 +150,8 @@
 			children = (
 				347DDBD41FAA26DB00DF5F08 /* Controllers */,
 				34A9F8051FB2C488007B84BD /* Controls */,
-				340B7DE01FCCCD6A0045878D /* Utilities */,
 				349137911FCE86EA00867641 /* Filter */,
+				340B7DE01FCCCD6A0045878D /* Utilities */,
 				AEEC856A1F18B8C600D43B9B /* Main.storyboard */,
 				AEEC856F1F18B8C600D43B9B /* LaunchScreen.storyboard */,
 				AEEC85641F18B8C600D43B9B /* AppDelegate.swift */,

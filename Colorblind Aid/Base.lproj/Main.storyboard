@@ -149,6 +149,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XcB-Vs-tTe" userLabel="Filter Button">
                                 <rect key="frame" x="324" y="60" width="35" height="35"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="XcB-Vs-tTe" secondAttribute="height" multiplier="1:1" id="96C-Z2-a2x"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="35" id="dQG-aQ-N5O"/>
@@ -156,6 +157,7 @@
                                 <state key="normal" title="Button" image="filterIcon"/>
                                 <connections>
                                     <action selector="handleFilterButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="dSE-h4-sU3"/>
+                                    <outletCollection property="gestureRecognizers" destination="4uh-2t-8eM" appends="YES" id="QD7-3U-opo"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJ0-X1-sqW" userLabel="Save Button">
@@ -191,7 +193,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="kzV-Cc-2eA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="BVY-AK-5Hw" secondAttribute="top" id="1CS-zk-oIB"/>
+                            <constraint firstItem="kzV-Cc-2eA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="XcB-Vs-tTe" secondAttribute="bottom" id="1CS-zk-oIB"/>
                             <constraint firstItem="JZi-r5-uY9" firstAttribute="top" secondItem="Fl8-W5-bzf" secondAttribute="top" id="3IG-GA-CXd"/>
                             <constraint firstItem="XcB-Vs-tTe" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="HJ0-X1-sqW" secondAttribute="trailing" id="4QL-ET-lOX"/>
                             <constraint firstItem="kzV-Cc-2eA" firstAttribute="centerX" secondItem="Fl8-W5-bzf" secondAttribute="centerX" id="87l-1K-3I0"/>
@@ -236,6 +238,11 @@
                         <outlet property="delegate" destination="kUK-ks-tbi" id="e0P-E2-6iz"/>
                     </connections>
                 </gestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="4uh-2t-8eM">
+                    <connections>
+                        <action selector="handleFilterLongPress:" destination="kUK-ks-tbi" id="DvU-2L-qXU"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="693.60000000000002" y="617.73399014778329"/>
         </scene>
@@ -572,14 +579,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Monochromacy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gA2-ps-cGT">
-                                                    <rect key="frame" x="15.999999999999993" y="5.9999999999999982" width="124.33333333333333" height="20.333333333333332"/>
+                                                    <rect key="frame" x="14.999999999999993" y="5.9999999999999982" width="124.33333333333333" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Absent or non-functionning cones" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wrn-Ax-pct">
-                                                    <rect key="frame" x="16" y="26.333333333333332" width="207" height="15.666666666666666"/>
+                                                    <rect key="frame" x="15" y="26.333333333333332" width="207" height="15.666666666666666"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -596,14 +603,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Partial Monochromacy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="o5s-k6-YfU">
-                                                    <rect key="frame" x="16" y="5.9999999999999982" width="179.66666666666666" height="20.333333333333332"/>
+                                                    <rect key="frame" x="15" y="5.9999999999999982" width="179.66666666666666" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Reduced sensitivity to colors" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jxl-dk-jAC">
-                                                    <rect key="frame" x="16" y="26.333333333333332" width="174.66666666666666" height="15.666666666666666"/>
+                                                    <rect key="frame" x="15" y="26.333333333333332" width="174.66666666666666" height="15.666666666666666"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -624,14 +631,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Deuteranopia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="waV-P1-GBK">
-                                                    <rect key="frame" x="16" y="5.9999999999999982" width="108" height="20.333333333333332"/>
+                                                    <rect key="frame" x="15" y="5.9999999999999982" width="108" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZMg-1N-Jok">
-                                                    <rect key="frame" x="15.999999999999996" y="26.333333333333332" width="46.666666666666664" height="15.666666666666666"/>
+                                                    <rect key="frame" x="14.999999999999996" y="26.333333333333332" width="46.666666666666664" height="15.666666666666666"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -648,14 +655,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Protanopia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AF8-Ca-Eub">
-                                                    <rect key="frame" x="16" y="5.9999999999999982" width="87" height="20.333333333333332"/>
+                                                    <rect key="frame" x="15" y="5.9999999999999982" width="87" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RLW-5m-80h">
-                                                    <rect key="frame" x="15.999999999999996" y="26.333333333333332" width="46.666666666666664" height="15.666666666666666"/>
+                                                    <rect key="frame" x="14.999999999999996" y="26.333333333333332" width="46.666666666666664" height="15.666666666666666"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -672,14 +679,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Tritanopia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q7Q-CN-W6Z">
-                                                    <rect key="frame" x="16" y="5.9999999999999982" width="80.333333333333329" height="20.333333333333332"/>
+                                                    <rect key="frame" x="15" y="5.9999999999999982" width="80.333333333333329" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CBE-bF-nA2">
-                                                    <rect key="frame" x="15.999999999999996" y="26.333333333333332" width="46.666666666666664" height="15.666666666666666"/>
+                                                    <rect key="frame" x="14.999999999999996" y="26.333333333333332" width="46.666666666666664" height="15.666666666666666"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
