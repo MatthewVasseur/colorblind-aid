@@ -127,7 +127,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
 
             // Update the filter view
             currentFilterView.image = newImage
-            currentFilterView.layer.borderWidth = 2.0
+            currentFilterView.layer.borderWidth = 1.0
             currentFilterView.isFiltered = true
             currentFilterView.filterType = self.filterType
             
@@ -210,9 +210,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             
             case .changed:
                 currentRect.frame = sender.rect!
-//                if !imageView.frame.contains(sender.location(in: view)) {
-//                    sender.state = .ended
-//                }
             
             case .ended:
                 // Take rect frame of intersection with image view (as to always be within bounds)
@@ -239,6 +236,9 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     // MARK: - Helper Methods
     
     fileprivate func saveFilteredImage() {
+        if (imageView.image == nil || filterViews.isEmpty) {
+            return
+        }
         // Save the image by merging filtered views using a graphics context
         UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, 0.0)
         imageView.image?.draw(in: imageView.bounds)
@@ -249,7 +249,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
                 continue
             }
             let drawRect = filterView.frame.offsetBy(dx: -imageView.frame.origin.x, dy: -imageView.frame.origin.y)
-            filterView.image?.draw(in: drawRect)
+            filterView.image?.draw(in: drawRect, blendMode: CGBlendMode.difference, alpha: 1.0)//(in: drawRect)
         }
         
         // Create the new image
@@ -268,22 +268,30 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         
         // Set the image and save to photos
         imageView.image = image
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
     
     fileprivate func createFilter(ciImage: CIImage, filterValues: ColorblindFilter.colorblindTransform, rect: CGRect) -> UIImage? {
         // create CIFilter
-        let filter = CIFilter(name: "CIColorMatrix")!
+        let filter = ColorblindFilter2()//CIFilter(name: "CIColorMatrix")!
         filter.setValue(ciImage, forKey: kCIInputImageKey)
-        filter.setValue(filterValues.red, forKey: "inputRVector")
-        filter.setValue(filterValues.green, forKey: "inputGVector")
-        filter.setValue(filterValues.blue, forKey: "inputBVector")
-        filter.setValue(filterValues.alpha, forKey: "inputAVector")
-        filter.setValue(filterValues.bias, forKey: "inputBiasVector")
+//        filter.inputImage = ciImage
+//        filter.setValue(filterValues.red, forKey: "inputRVector")
+//        filter.setValue(filterValues.green, forKey: "inputGVector")
+//        filter.setValue(filterValues.blue, forKey: "inputBVector")
+//        filter.setValue(filterValues.alpha, forKey: "inputAVector")
+//        filter.setValue(filterValues.bias, forKey: "inputBiasVector")
     
+        
         guard let outputImage = filter.outputImage else {
             return nil
         }
+        
+//        let filter2 = CIFilter(name: "CIColorInvert")!
+//        filter2.setValue(outputImage1, forKey: kCIInputImageKey)
+//        guard let outputImage = filter2.outputImage else {
+//            return nil
+//        }
     
         // Convert filter view rect to image view scale
         var extentRect = rect
@@ -304,6 +312,8 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         }
     }
 }
+
+
 
 // MARK: - UITableViewDataSource & UITableViewDelegate
 extension FilterViewController: UITableViewDelegate {

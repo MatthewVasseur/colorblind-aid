@@ -123,7 +123,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         snapContainer.move(to: "left")
     }
     
-    // MARK: - Methods
+    // MARK: - Helper Methods
     fileprivate func createNewBubbleParentNode(_ text: String) -> SCNNode {
         // Warning: Creating 3D Text is susceptible to crashing. To reduce chances of crashing; reduce number of polygons, letters, smoothness, etc.
         
