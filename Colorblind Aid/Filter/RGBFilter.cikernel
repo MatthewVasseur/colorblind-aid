@@ -1,0 +1,36 @@
+/**
+A Core Image kernel routine that computes daltonize (colorblind) filter
+*/
+kernel vec4 color(__sample pixel, vec3 rSim, vec3 gSim, vec3 bSim) {
+	// Const matrices (vectors) for computations
+	vec3 err2modR = vec3(0.0, 0.0, 0.0);
+	vec3 err2modG = vec3(0.7, 1.0, 0.0);
+	vec3 err2modB = vec3(0.7, 0.0, 1.0);
+
+	// Simulate color blindness
+	float R = dot(pixel.rgb, rSim);
+	float G = dot(pixel.rgb, gSim);
+	float B = dot(pixel.rgb, bSim);
+
+	vec3 RGB = vec3(R, G, B);
+
+	// Isolate invisible colors to color vision deficiency (calculate error matrix)
+	RGB = pixel.rgb - RGB;
+
+	// Shift colors towards visible spectrum (apply error modifications)
+	float errR = dot(RGB, err2modR);
+	float errG = dot(RGB, err2modG);
+	float errB = dot(RGB, err2modB);
+
+	vec3 errRGB = vec3(errR, errG, errB);
+
+	// Add compensation to original values
+	RGB = pixel.rgb + errRGB;
+
+	// Clamp values
+	(RGB.r < 0.0) ? 0.0 : (RGB.r > 255.0) ? 255.0 : RGB.r;
+	(RGB.g < 0.0) ? 0.0 : (RGB.g > 255.0) ? 255.0 : RGB.g;	(RGB.b < 0.0) ? 0.0 : (RGB.b > 255.0) ? 255.0 : RGB.b;
+
+	// Return color
+    return vec4(RGB, pixel.a);
+}

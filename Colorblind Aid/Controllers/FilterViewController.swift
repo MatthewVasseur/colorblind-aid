@@ -249,7 +249,8 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
                 continue
             }
             let drawRect = filterView.frame.offsetBy(dx: -imageView.frame.origin.x, dy: -imageView.frame.origin.y)
-            filterView.image?.draw(in: drawRect, blendMode: CGBlendMode.difference, alpha: 1.0)//(in: drawRect)
+//            filterView.image?.draw(in: drawRect, blendMode: CGBlendMode.difference, alpha: 1.0)
+            filterView.image?.draw(in: drawRect)
         }
         
         // Create the new image
@@ -268,20 +269,43 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         
         // Set the image and save to photos
         imageView.image = image
-        //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
     
     fileprivate func createFilter(ciImage: CIImage, filterValues: ColorblindFilter.colorblindTransform, rect: CGRect) -> UIImage? {
         // create CIFilter
-        let filter = CIFilter(name: "CIColorMatrix")!
-//        let filter = ColorblindFilter2()
+//        let filter = CIFilter(name: "CIColorMatrix")!
+         let filter = ColorblindFilter2()
+        
         filter.setValue(ciImage, forKey: kCIInputImageKey)
         filter.setValue(filterValues.red, forKey: "inputRVector")
         filter.setValue(filterValues.green, forKey: "inputGVector")
         filter.setValue(filterValues.blue, forKey: "inputBVector")
-        filter.setValue(filterValues.alpha, forKey: "inputAVector")
-        filter.setValue(filterValues.bias, forKey: "inputBiasVector")
-    
+//        filter.setValue(filterValues.alpha, forKey: "inputAVector")
+//        filter.setValue(filterValues.bias, forKey: "inputBiasVector")
+        
+//        "Protanope": [ // reds are greatly reduced (1% men)
+//        0.0, 2.02344, -2.52581,
+//        0.0, 1.0,      0.0,
+//        0.0, 0.0,      1.0
+//        ],
+//        "Deuteranope": [ // greens are greatly reduced (1% men)
+//        1.0,      0.0, 0.0,
+//        0.494207, 0.0, 1.24827,
+//        0.0,      0.0, 1.0
+//        ],
+//        "Tritanope": [ // blues are greatly reduced (0.003% population)
+//        1.0,       0.0,      0.0,
+//        0.0,       1.0,      0.0,
+//        -0.395913, 0.801109, 0.0
+//        ]
+       
+        filter.setValue(CIVector(x: 1.0, y: 0.0, z: 0.0), forKey: "inputLongVector")
+        filter.setValue(CIVector(x: 0.494207, y: 0.0, z: 1.24827), forKey: "inputMedVector")
+        filter.setValue(CIVector(x: 0.0, y: 0.0, z: 1.0), forKey: "inputShortVector")
+//        filter.setValue(CIVector(x: 0.0, y: 2.02344, z: -2.52581), forKey: "inputLongVector")
+//        filter.setValue(CIVector(x: 0.0, y: 1.0, z: 0.0), forKey: "inputMedVector")
+//        filter.setValue(CIVector(x: 0.0, y: 0.0, z: 1.0), forKey: "inputShortVector")
         
         guard let outputImage = filter.outputImage else {
             return nil

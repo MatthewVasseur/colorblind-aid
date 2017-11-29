@@ -14,8 +14,9 @@
 		347DDBD31FAA242D00DF5F08 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */; };
 		347DDBDA1FAA272200DF5F08 /* SnapContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */; };
 		3491378C1FCE666C00867641 /* ConfirmDialogue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3491378B1FCE666C00867641 /* ConfirmDialogue.swift */; };
-		3491378F1FCE86C600867641 /* ColorblindFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 3491378E1FCE86C600867641 /* ColorblindFilter.cikernel */; };
+		3491378F1FCE86C600867641 /* LMSFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 3491378E1FCE86C600867641 /* LMSFilter.cikernel */; };
 		349137931FCE878000867641 /* ColorblindFilter2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349137921FCE878000867641 /* ColorblindFilter2.swift */; };
+		349137951FCF50D000867641 /* RGBFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 349137941FCF50D000867641 /* RGBFilter.cikernel */; };
 		34BBA8111FAA1B4600BF8AF2 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BBA8101FAA1B4600BF8AF2 /* Camera.swift */; };
 		34C7A4A61FACE9470056B5B1 /* ColorNamesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */; };
 		34CF168E1FA0351D009058B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */; };
@@ -39,8 +40,9 @@
 		347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapContainerViewController.swift; sourceTree = "<group>"; };
 		3491378B1FCE666C00867641 /* ConfirmDialogue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogue.swift; sourceTree = "<group>"; };
-		3491378E1FCE86C600867641 /* ColorblindFilter.cikernel */ = {isa = PBXFileReference; lastKnownFileType = text; path = ColorblindFilter.cikernel; sourceTree = "<group>"; };
+		3491378E1FCE86C600867641 /* LMSFilter.cikernel */ = {isa = PBXFileReference; lastKnownFileType = text; path = LMSFilter.cikernel; sourceTree = "<group>"; };
 		349137921FCE878000867641 /* ColorblindFilter2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorblindFilter2.swift; sourceTree = "<group>"; };
+		349137941FCF50D000867641 /* RGBFilter.cikernel */ = {isa = PBXFileReference; lastKnownFileType = text; path = RGBFilter.cikernel; sourceTree = "<group>"; };
 		34BBA8101FAA1B4600BF8AF2 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorNamesData.swift; sourceTree = "<group>"; };
 		34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -99,7 +101,8 @@
 		349137911FCE86EA00867641 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
-				3491378E1FCE86C600867641 /* ColorblindFilter.cikernel */,
+				3491378E1FCE86C600867641 /* LMSFilter.cikernel */,
+				349137941FCF50D000867641 /* RGBFilter.cikernel */,
 				349137921FCE878000867641 /* ColorblindFilter2.swift */,
 			);
 			path = Filter;
@@ -233,7 +236,8 @@
 				34DB358A1F8DC0C700C4E861 /* README.md in Resources */,
 				AEEC856E1F18B8C600D43B9B /* Assets.xcassets in Resources */,
 				AEEC856C1F18B8C600D43B9B /* Main.storyboard in Resources */,
-				3491378F1FCE86C600867641 /* ColorblindFilter.cikernel in Resources */,
+				3491378F1FCE86C600867641 /* LMSFilter.cikernel in Resources */,
+				349137951FCF50D000867641 /* RGBFilter.cikernel in Resources */,
 				34CF168E1FA0351D009058B5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,7 +1,0 @@
-kernel vec4 color(__sample s) {
-    vec4 newPixel = s.rgba;
-    newPixel[0] = 0.0;
-    newPixel[2] = newPixel[2] / 2.0;
-
-    return newPixel;
-}

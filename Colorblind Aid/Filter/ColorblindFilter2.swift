@@ -12,8 +12,16 @@ import UIKit
 class ColorblindFilter2: CIFilter {
     @objc dynamic var inputImage: CIImage?
     
+    @objc dynamic var inputLongVector: CIVector?
+    @objc dynamic var inputMedVector: CIVector?
+    @objc dynamic var inputShortVector: CIVector?
+    
+    @objc dynamic var inputRVector: CIVector?
+    @objc dynamic var inputGVector: CIVector?
+    @objc dynamic var inputBVector: CIVector?
+    
     private var colorblindKernel: CIColorKernel = {
-        let colorblindShaderPath = Bundle.main.path(forResource: "ColorblindFilter", ofType: "cikernel")
+        let colorblindShaderPath = Bundle.main.path(forResource: "LMSFilter", ofType: "cikernel")
         
         guard let path = colorblindShaderPath,
             let code = try? String(contentsOfFile: path),
@@ -28,37 +36,18 @@ class ColorblindFilter2: CIFilter {
     override public var outputImage: CIImage! {
         get {
             if let inputImage = self.inputImage {
-                let args = [inputImage as AnyObject]
+                let args = [inputImage,
+                            inputRVector!,
+                            inputGVector!,
+                            inputBVector!]
+//                            inputLongVector!,
+//                            inputMedVector!,
+//                            inputShortVector!]
+                    as [Any]
                 return colorblindKernel.apply(extent: inputImage.extent, arguments: args)
             } else {
                 return nil
             }
         }
     }
-    
-    //let kernels = CIKernel.makeKernels(source:
-    //    "kernel vec4 swapRG(sampler image) { " +
-    //        "  vec4 t = sample(image, samplerCoord(image)); float r = t.r; t.r = 0; t.g = 0; return t;" +
-    //    "}")!
-    //let myKernel = kernels[0]
-    
-
-    //    override public var outputImage: CIImage! {
-    //        get {
-    //            if let inputImage = self.inputImage {
-    //                let args = [inputImage as AnyObject]
-    //                return myKernel.apply(extent: inputImage.extent, roiCallback: callback, arguments: args)
-    //            } else {
-    //                return nil
-    //            }
-    //        }
-    //    }
-    //    override var outputImage: CIImage? {
-    //        let src = CISampler(image: self.inputImage!)
-    //        //return self.apply(myKernel, arguments: [src], options: nil)
-    //
-    //
-    //        return myKernel.apply(extent: (inputImage?.extent)!, roiCallback: callback, arguments: [src])
-    //
-    //    }
 }
