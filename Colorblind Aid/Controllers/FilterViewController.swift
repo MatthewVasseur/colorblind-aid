@@ -80,23 +80,12 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     }
     
     @IBAction func handleSaveButton(_ sender: UIButton) {
-        // Save the image by merging images
+        // Confirm save
+        let confirmDialogue = self.view.confirmDialogue(title: "Save Photo?", message: "Are you sure you'd like to save the filtered photo to your camera roll?", confirm: {
+            self.saveFilteredImage()
+        })
         
-        UIGraphicsBeginImageContextWithOptions(imageView.frame.size, false, 0.0)
-        imageView.superview?.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        // Clear rectangles
-        for filterView in filterViews {
-            filterView.removeFromSuperview()
-        }
-        filterViews.removeAll()
-        canEditFilters = false
-        
-        // Set photoImageView to display the selected image.
-        imageView.image = image
-        
+        self.present(confirmDialogue, animated: true, completion: nil)
     }
     
     @objc func handleEditGesture(_ sender: UITapGestureRecognizer) {
@@ -241,6 +230,41 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             
                 currentState = .normal
         }
+    }
+    
+    // MARK: - Helper Methods
+    
+    fileprivate func saveFilteredImage() {
+        // Save the image by merging filtered views using a graphics context
+        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, 0.0)
+        imageView.image?.draw(in: imageView.bounds)
+        
+        // Merge each filtered view
+        for filterView in filterViews {
+            if !filterView.isFiltered {
+                continue
+            }
+            let drawRect = filterView.frame.offsetBy(dx: -imageView.frame.origin.x, dy: -imageView.frame.origin.y)
+            filterView.image?.draw(in: drawRect)
+        }
+        
+        // Create the new image
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+            UIGraphicsEndImageContext()
+            return
+        }
+        UIGraphicsEndImageContext()
+        
+        // Clear rectangles
+        for filterView in filterViews {
+            filterView.removeFromSuperview()
+        }
+        filterViews.removeAll()
+        canEditFilters = false
+        
+        // Set the image and save to photos
+        imageView.image = image
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
     
     fileprivate func createFilter(ciImage: CIImage, filterValues: ColorblindFilter.colorblindTransform, rect: CGRect) -> UIImage? {

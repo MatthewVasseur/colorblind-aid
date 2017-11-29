@@ -13,6 +13,7 @@
 		346E9BFA1FAA42F300CA1D66 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */; };
 		347DDBD31FAA242D00DF5F08 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */; };
 		347DDBDA1FAA272200DF5F08 /* SnapContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */; };
+		3491378C1FCE666C00867641 /* ConfirmDialogue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3491378B1FCE666C00867641 /* ConfirmDialogue.swift */; };
 		34BBA8111FAA1B4600BF8AF2 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BBA8101FAA1B4600BF8AF2 /* Camera.swift */; };
 		34C7A4A61FACE9470056B5B1 /* ColorNamesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */; };
 		34CF168E1FA0351D009058B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */; };
@@ -35,6 +36,7 @@
 		346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapContainerViewController.swift; sourceTree = "<group>"; };
+		3491378B1FCE666C00867641 /* ConfirmDialogue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogue.swift; sourceTree = "<group>"; };
 		34BBA8101FAA1B4600BF8AF2 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorNamesData.swift; sourceTree = "<group>"; };
 		34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			children = (
 				3462956C1FBCC12900B47113 /* FilterRectView.swift */,
 				34D166DC1FB2BBF800087233 /* DrawGestureRecognizer.swift */,
+				3491378B1FCE666C00867641 /* ConfirmDialogue.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				34CF16901FA0393E009058B5 /* SignInViewController.swift in Sources */,
 				343716DC1FCB898D0085B694 /* ColorblindFilter.swift in Sources */,
 				AEEC85651F18B8C600D43B9B /* AppDelegate.swift in Sources */,
+				3491378C1FCE666C00867641 /* ConfirmDialogue.swift in Sources */,
 				34CF16941FA03F43009058B5 /* Constants.swift in Sources */,
 				34C7A4A61FACE9470056B5B1 /* ColorNamesData.swift in Sources */,
 				346E9BFA1FAA42F300CA1D66 /* SettingsViewController.swift in Sources */,
