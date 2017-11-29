@@ -398,8 +398,8 @@ extension FilterViewController: UIImagePickerControllerDelegate, UINavigationCon
         let imageRatio = selectedImage.size.ratio()
         let viewRatio = view.frame.size.ratio()
         
-        // Assume viewRatio < 1
-        if (imageRatio > viewRatio) {
+        // Determine whether width or height constrains the image size to adjust image view as needed
+        if ((viewRatio < 1) && (imageRatio > viewRatio)) || ((viewRatio > 1) && (imageRatio < viewRatio)) {
             // width constrains
             imageViewWidth.constant = view.frame.size.width
             imageViewHeight.constant = imageViewWidth.constant / imageRatio

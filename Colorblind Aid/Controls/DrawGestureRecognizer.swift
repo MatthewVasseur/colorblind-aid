@@ -6,7 +6,6 @@
 //  Copyright © 2017 CompanyName. All rights reserved.
 //
 
-import UIKit
 import UIKit.UIGestureRecognizerSubclass
 
 class DrawGestureRecognizer: UIGestureRecognizer {

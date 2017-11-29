@@ -6,10 +6,9 @@
 //  Copyright © 2017 CompanyName. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-class Constants: NSObject {
+class Constants {
     
     // MARK: - Colors
     struct colors {
