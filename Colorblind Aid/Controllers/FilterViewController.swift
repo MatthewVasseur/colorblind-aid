@@ -281,6 +281,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         filter.setValue(filterValues.red, forKey: "inputRVector")
         filter.setValue(filterValues.green, forKey: "inputGVector")
         filter.setValue(filterValues.blue, forKey: "inputBVector")
+        filter.setValue(Constants.algoTypes.lms, forKey: "inputAlgoType")
 //        filter.setValue(filterValues.alpha, forKey: "inputAVector")
 //        filter.setValue(filterValues.bias, forKey: "inputBiasVector")
         

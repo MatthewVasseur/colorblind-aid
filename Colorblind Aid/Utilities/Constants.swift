@@ -41,4 +41,8 @@ class Constants {
         /// Monochromacy
         case achromatopsia, achromatomaly
     }
+    
+    enum algoTypes: String {
+        case rgb = "RGBFilter", lms = "LMSFilter"
+    }
 }
