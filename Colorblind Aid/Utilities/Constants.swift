@@ -43,7 +43,7 @@ class Constants {
         /// LMS Algo matrices
         case protanopiaLMS, deuteranopiaLMS, tritanopiaLMS
     }
-    enum algoTypes: String {
+    enum algoNames: String {
         case rgb = "RGBFilter", lms = "LMSFilter"
     }
 }

@@ -48,7 +48,8 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Style
+        // Register the colorblind filter
+        ColorblindFilterVendor.register()
         //view.backgroundColor = UIColor(patternImage: UIImage(named: "subtleDots")!)
         
         // Initialize the current rect
@@ -249,7 +250,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
                 continue
             }
             let drawRect = filterView.frame.offsetBy(dx: -imageView.frame.origin.x, dy: -imageView.frame.origin.y)
-//            filterView.image?.draw(in: drawRect, blendMode: CGBlendMode.difference, alpha: 1.0)
             filterView.image?.draw(in: drawRect)
         }
         
@@ -274,20 +274,13 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     
     fileprivate func createFilter(ciImage: CIImage, filterValues: ColorblindFilter.colorblindTransformMatrix, rect: CGRect) -> UIImage? {
         // create CIFilter
-//        let filter = CIFilter(name: "CIColorMatrix")!
-        let filter = ColorblindFilter()
+        let filter = CIFilter(name: "ColorblindFilter")!
         
         filter.setValue(ciImage, forKey: kCIInputImageKey)
-        filter.setValue(filterValues.red, forKey: "inputRVector")
-        filter.setValue(filterValues.green, forKey: "inputGVector")
-        filter.setValue(filterValues.blue, forKey: "inputBVector")
-        filter.setValue(filterValues.algoType, forKey: "inputAlgoType")
-//        filter.setValue(CIVector(x: 1.0, y: 0.0, z: 0.0), forKey: "inputLongVector")
-//        filter.setValue(CIVector(x: 0.494207, y: 0.0, z: 1.24827), forKey: "inputMedVector")
-//        filter.setValue(CIVector(x: 0.0, y: 0.0, z: 1.0), forKey: "inputShortVector")
-//        filter.setValue(CIVector(x: 0.0, y: 2.02344, z: -2.52581), forKey: "inputLongVector")
-//        filter.setValue(CIVector(x: 0.0, y: 1.0, z: 0.0), forKey: "inputMedVector")
-//        filter.setValue(CIVector(x: 0.0, y: 0.0, z: 1.0), forKey: "inputShortVector")
+        filter.setValue(filterValues.red, forKey: "inputVector0")
+        filter.setValue(filterValues.green, forKey: "inputVector1")
+        filter.setValue(filterValues.blue, forKey: "inputVector2")
+        filter.setValue(filterValues.algoName.rawValue, forKey: "inputAlgoName")
         
         guard let outputImage = filter.outputImage else {
             return nil

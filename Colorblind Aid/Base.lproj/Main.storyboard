@@ -169,7 +169,7 @@
                                     <action selector="handleSaveButton:" destination="kUK-ks-tbi" eventType="touchUpInside" id="gVU-7t-q07"/>
                                 </connections>
                             </button>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JZi-r5-uY9">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JZi-r5-uY9">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Njn-F3-AqI">

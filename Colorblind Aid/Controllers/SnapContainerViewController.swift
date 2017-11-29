@@ -54,7 +54,7 @@ class SnapContainerViewController: UIViewController {
         rightVC.didMove(toParentViewController: self)
         
         // Begin in middle
-        scrollView.contentOffset.x = rightVC.view.frame.origin.x
+        scrollView.contentOffset.x = middleVC.view.frame.origin.x
     }
     
     // MARK: - SnapViewController

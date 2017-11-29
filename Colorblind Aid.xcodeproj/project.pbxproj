@@ -100,10 +100,10 @@
 		349137911FCE86EA00867641 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
-				3491378E1FCE86C600867641 /* LMSFilter.cikernel */,
-				349137941FCF50D000867641 /* RGBFilter.cikernel */,
 				349137921FCE878000867641 /* ColorblindFilter.swift */,
 				343716DB1FCB898D0085B694 /* ColorblindFilterData.swift */,
+				3491378E1FCE86C600867641 /* LMSFilter.cikernel */,
+				349137941FCF50D000867641 /* RGBFilter.cikernel */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
