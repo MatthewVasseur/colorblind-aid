@@ -273,25 +273,19 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     
     fileprivate func createFilter(ciImage: CIImage, filterValues: ColorblindFilter.colorblindTransform, rect: CGRect) -> UIImage? {
         // create CIFilter
-        let filter = ColorblindFilter2()//CIFilter(name: "CIColorMatrix")!
+        let filter = CIFilter(name: "CIColorMatrix")!
+//        let filter = ColorblindFilter2()
         filter.setValue(ciImage, forKey: kCIInputImageKey)
-//        filter.inputImage = ciImage
-//        filter.setValue(filterValues.red, forKey: "inputRVector")
-//        filter.setValue(filterValues.green, forKey: "inputGVector")
-//        filter.setValue(filterValues.blue, forKey: "inputBVector")
-//        filter.setValue(filterValues.alpha, forKey: "inputAVector")
-//        filter.setValue(filterValues.bias, forKey: "inputBiasVector")
+        filter.setValue(filterValues.red, forKey: "inputRVector")
+        filter.setValue(filterValues.green, forKey: "inputGVector")
+        filter.setValue(filterValues.blue, forKey: "inputBVector")
+        filter.setValue(filterValues.alpha, forKey: "inputAVector")
+        filter.setValue(filterValues.bias, forKey: "inputBiasVector")
     
         
         guard let outputImage = filter.outputImage else {
             return nil
         }
-        
-//        let filter2 = CIFilter(name: "CIColorInvert")!
-//        filter2.setValue(outputImage1, forKey: kCIInputImageKey)
-//        guard let outputImage = filter2.outputImage else {
-//            return nil
-//        }
     
         // Convert filter view rect to image view scale
         var extentRect = rect
