@@ -82,6 +82,9 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     }
     
     @IBAction func handleFilterLongPress(_ sender: UILongPressGestureRecognizer) {
+        if self.presentedViewController != nil {
+            return
+        }
         // Prompt to switch from daltonize to simulate
         let prompt = UIAlertController(title: "Daltonize or Simulate?", message: "Would you like to simulate or correct for color blindness?", preferredStyle: .alert)
         prompt.popoverPresentationController?.sourceView = self.view
@@ -428,7 +431,7 @@ extension FilterViewController: UIImagePickerControllerDelegate, UINavigationCon
             filterView.removeFromSuperview()
         }
         filterViews.removeAll()
-        canEditFilters = false
+        canEditFilters = true
         
         // Set photoImageView to display the selected image.
         imageView.image = selectedImage
