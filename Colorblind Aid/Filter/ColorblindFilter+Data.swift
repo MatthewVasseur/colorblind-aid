@@ -1,5 +1,5 @@
 //
-//  ColorblindFilterData.swift
+//  ColorblindFilter+Data.swift
 //  Colorblind Aid
 //
 //  Created by Matthew Vasseur on 11/26/17.
