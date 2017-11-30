@@ -14,8 +14,8 @@ class RoomsViewController: UIViewController, SnapContainerViewElement {
     var snapContainer: SnapContainerViewController!
     
     fileprivate let reuseIdentifier = "RoomCell"
-    fileprivate let sectionInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 16.0, right: 8.0)
-    fileprivate let itemsPerRow: CGFloat = 3
+    fileprivate let sectionInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+    fileprivate let itemsPerRow: CGFloat = 2
     
     // MARK: - UIViewController
     override func viewDidLoad() {
@@ -48,9 +48,6 @@ extension RoomsViewController: UICollectionViewDataSource, UICollectionViewDeleg
 
         cell.imageView.image = room.image
         cell.label.text = room.name
-        
-//        cell.imageView.image = #imageLiteral(resourceName: "icon")
-//        cell.label.text = "Hello World"
         
         return cell
     }

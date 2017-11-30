@@ -36,8 +36,8 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     }
     private var shouldDaltonize: Bool = true
     private var currentState: edittingState = .normal
-    private var filterViews: [FilterRectView] = [] // Completed rects
     private var currentRect: FilterRectView!
+    private var filterViews: [FilterRectView] = [] // Completed rects
     private var filterType: Constants.ColorblindType = .normal
     
     // MARK: Enumerations
