@@ -97,12 +97,6 @@
                             <constraint firstItem="XMs-gA-sya" firstAttribute="bottom" secondItem="W2V-Gj-Pwx" secondAttribute="bottom" id="zam-8D-9DF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="W2V-Gj-Pwx"/>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="hWs-m5-HIX"/>
-                                <exclude reference="05C-ba-L3F"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="debugTextView" destination="hWs-m5-HIX" id="aW0-YQ-CNv"/>
