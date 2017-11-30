@@ -14,7 +14,7 @@ class RoomsViewController: UIViewController, SnapContainerViewElement {
     var snapContainer: SnapContainerViewController!
     
     fileprivate let reuseIdentifier = "RoomCell"
-    fileprivate let sectionInsets = UIEdgeInsets(top: 16.0, left: 4.0, bottom: 16.0, right: 4.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 16.0, left: 8.0, bottom: 16.0, right: 8.0)
     fileprivate let itemsPerRow: CGFloat = 3
     
     // MARK: - UIViewController
@@ -60,7 +60,7 @@ extension RoomsViewController: UICollectionViewDataSource, UICollectionViewDeleg
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.left
+        return sectionInsets.bottom/2
     }
     
 }
