@@ -16,14 +16,15 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     
     // Mark: - Properties
     @IBOutlet var sceneView: ARSCNView!
-    @IBOutlet weak var debugTextView: UITextView!
-    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var targetButton: UIButton!
     
     var snapContainer: SnapContainerViewController!
     var targetCenter: CGPoint!
-    var latestColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.52)
-    var uiImage: UIImage!
+    
+    //private var room: Room!
+    private var nodes: [Room.Node]!
+    
+    //var uiImage: UIImage!
     
     // MARK: - UIViewController
     override func viewDidLoad() {
@@ -86,34 +87,56 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
                 return
             }
             let ciImage = CIImage(cvPixelBuffer: pixbuff)
-            let context = CIContext()
+            //let context = CIContext()
             
             // Created cropped image into square around center (using magic number 20)
             let imageCenter = CGPoint(x: ciImage.extent.width / 2.0, y: ciImage.extent.height / 2.0)
             let croppedSize = CGSize(forSquare: ciImage.extent.width / 20.0)
             let croppedRect = CGRect(center: imageCenter, size: croppedSize)
             let croppedCIImage = ciImage.cropped(to: croppedRect)
-            guard let cgImage = context.createCGImage(croppedCIImage, from: croppedCIImage.extent) else {
+            guard let cgImage = CIContext().createCGImage(croppedCIImage, from: croppedCIImage.extent) else {
                 return
             }
-            uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
+            let uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
             
             // Get image color and hue name
             let colors = uiImage.getColors()
-            self.latestColor = colors.background
             let colorText = colors.background.toHueName()
-            //            print(colors.background.getRGBa())
-            
-            // Display debugging info on screen
-            self.debugTextView.text = colorText
-            debugTextView.backgroundColor = latestColor
-            imageView.image = uiImage
             
             // Create 3D text node
             let node = createNewBubbleParentNode(colorText)
             sceneView.scene.rootNode.addChildNode(node)
             node.position = worldCoord
+            
+            // Add to nodes
+            nodes.append(Room.Node(title: colorText, coord: Room.Position(vector: worldCoord)))
         }
+    }
+    
+    @IBAction func handleSaveButton(_ sender: UIButton) {
+        // Use prompt for saving the room
+        let savePrompt = UIAlertController(title: "Save Room", message: "Save the labels in this room?", preferredStyle: .alert)
+        savePrompt.popoverPresentationController?.sourceView = self.view
+        
+        let save = UIAlertAction(title: "Save", style: .default) { _ in
+            // Get title and create
+            guard let title = savePrompt.textFields?.first?.text, !title.isEmpty else {
+                return
+            }
+            let room = Room(name: title, nodes: self.nodes)
+            
+            // Save the room
+            AppState.sharedInstance.rooms.append(room)
+            Room.saveRooms()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        savePrompt.addTextField { (textField) in
+            textField.placeholder = "Name of Room"
+        }
+        savePrompt.addAction(save)
+        savePrompt.addAction(cancel)
+        
     }
     
     @IBAction func showFilter(_ sender: Any) {

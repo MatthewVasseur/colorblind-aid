@@ -18,6 +18,8 @@
 		349137931FCE878000867641 /* ColorblindFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349137921FCE878000867641 /* ColorblindFilter.swift */; };
 		349137951FCF50D000867641 /* RGBFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 349137941FCF50D000867641 /* RGBFilter.cikernel */; };
 		34BBA8111FAA1B4600BF8AF2 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BBA8101FAA1B4600BF8AF2 /* Camera.swift */; };
+		34C446B61FCF9CD3005E8D0F /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C446B51FCF9CD3005E8D0F /* Room.swift */; };
+		34C446B81FCFA8B3005E8D0F /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C446B71FCFA8B3005E8D0F /* AppState.swift */; };
 		34C7A4A61FACE9470056B5B1 /* ColorNamesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */; };
 		34CF168E1FA0351D009058B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */; };
 		34CF16901FA0393E009058B5 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CF168F1FA0393E009058B5 /* SignInViewController.swift */; };
@@ -44,6 +46,8 @@
 		349137921FCE878000867641 /* ColorblindFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorblindFilter.swift; sourceTree = "<group>"; };
 		349137941FCF50D000867641 /* RGBFilter.cikernel */ = {isa = PBXFileReference; lastKnownFileType = text; path = RGBFilter.cikernel; sourceTree = "<group>"; };
 		34BBA8101FAA1B4600BF8AF2 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		34C446B51FCF9CD3005E8D0F /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		34C446B71FCFA8B3005E8D0F /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		34C7A4A51FACE9470056B5B1 /* ColorNamesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorNamesData.swift; sourceTree = "<group>"; };
 		34CF168D1FA0351D009058B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		34CF168F1FA0393E009058B5 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -152,8 +156,10 @@
 				34A9F8051FB2C488007B84BD /* Controls */,
 				349137911FCE86EA00867641 /* Filter */,
 				340B7DE01FCCCD6A0045878D /* Utilities */,
+				34C446B51FCF9CD3005E8D0F /* Room.swift */,
 				AEEC856A1F18B8C600D43B9B /* Main.storyboard */,
 				AEEC856F1F18B8C600D43B9B /* LaunchScreen.storyboard */,
+				34C446B71FCFA8B3005E8D0F /* AppState.swift */,
 				AEEC85641F18B8C600D43B9B /* AppDelegate.swift */,
 				AEEC856D1F18B8C600D43B9B /* Assets.xcassets */,
 				AEEC85721F18B8C600D43B9B /* Info.plist */,
@@ -316,9 +322,11 @@
 			files = (
 				34BBA8111FAA1B4600BF8AF2 /* Camera.swift in Sources */,
 				347DDBDA1FAA272200DF5F08 /* SnapContainerViewController.swift in Sources */,
+				34C446B61FCF9CD3005E8D0F /* Room.swift in Sources */,
 				349137931FCE878000867641 /* ColorblindFilter.swift in Sources */,
 				34CF16961FA04D6A009058B5 /* ARViewController.swift in Sources */,
 				347DDBD31FAA242D00DF5F08 /* FilterViewController.swift in Sources */,
+				34C446B81FCFA8B3005E8D0F /* AppState.swift in Sources */,
 				3462956D1FBCC12900B47113 /* FilterRectView.swift in Sources */,
 				34D166DD1FB2BBF800087233 /* DrawGestureRecognizer.swift in Sources */,
 				3426EC821F8DCB76009DF0CB /* Extensions.swift in Sources */,
