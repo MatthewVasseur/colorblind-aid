@@ -77,7 +77,16 @@ class Room: NSObject, NSCoding {
     
     // Load the rooms
     static func loadRooms() -> [Room]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: Room.ArchiveURL.path) as? [Room]
+//        let rooms = NSKeyedUnarchiver.unarchiveObject(withFile: Room.ArchiveURL.path) as? [Room]
+        var rooms: [Room] = []
+        rooms.append(Room(name: "Title", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
+        rooms.append(Room(name: "Title2", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
+        rooms.append(Room(name: "Title3", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "settingsIcon")))
+        rooms.append(Room(name: "Title4", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
+        rooms.append(Room(name: "Title5", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
+        rooms.append(Room(name: "Title6", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
+        
+        return rooms
     }
     
     // MARK: - Node Structure
@@ -87,6 +96,13 @@ class Room: NSObject, NSCoding {
         var x: Float
         var y: Float
         var z: Float
+        
+        init(title: String, x: Float, y: Float, z: Float) {
+            self.title = title
+            self.x = x
+            self.y = y
+            self.z = z
+        }
         
         init(title: String, vector: SCNVector3) {
             self.title = title

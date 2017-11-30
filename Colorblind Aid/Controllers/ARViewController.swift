@@ -15,7 +15,7 @@ import UIImageColors
 class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewElement {
     
     // Mark: - Properties
-    @IBOutlet var sceneView: ARSCNView!
+    @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var targetButton: UIButton!
     
     var snapContainer: SnapContainerViewController!
