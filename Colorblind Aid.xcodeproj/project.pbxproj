@@ -10,7 +10,7 @@
 		3426EC821F8DCB76009DF0CB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3426EC811F8DCB76009DF0CB /* Extensions.swift */; };
 		343716DC1FCB898D0085B694 /* ColorblindFilter+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343716DB1FCB898D0085B694 /* ColorblindFilter+Data.swift */; };
 		3462956D1FBCC12900B47113 /* FilterRectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3462956C1FBCC12900B47113 /* FilterRectView.swift */; };
-		346E9BFA1FAA42F300CA1D66 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */; };
+		346E9BFA1FAA42F300CA1D66 /* RoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346E9BF91FAA42F300CA1D66 /* RoomsViewController.swift */; };
 		347DDBD31FAA242D00DF5F08 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */; };
 		347DDBDA1FAA272200DF5F08 /* SnapContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */; };
 		3491378C1FCE666C00867641 /* ConfirmDialogue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3491378B1FCE666C00867641 /* ConfirmDialogue.swift */; };
@@ -38,7 +38,7 @@
 		3426EC811F8DCB76009DF0CB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		343716DB1FCB898D0085B694 /* ColorblindFilter+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ColorblindFilter+Data.swift"; sourceTree = "<group>"; };
 		3462956C1FBCC12900B47113 /* FilterRectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRectView.swift; sourceTree = "<group>"; };
-		346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		346E9BF91FAA42F300CA1D66 /* RoomsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsViewController.swift; sourceTree = "<group>"; };
 		347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapContainerViewController.swift; sourceTree = "<group>"; };
 		3491378B1FCE666C00867641 /* ConfirmDialogue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogue.swift; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 				34CF168F1FA0393E009058B5 /* SignInViewController.swift */,
 				34CF16951FA04D6A009058B5 /* ARViewController.swift */,
 				347DDBD21FAA242D00DF5F08 /* FilterViewController.swift */,
-				346E9BF91FAA42F300CA1D66 /* SettingsViewController.swift */,
+				346E9BF91FAA42F300CA1D66 /* RoomsViewController.swift */,
 				347DDBD91FAA272200DF5F08 /* SnapContainerViewController.swift */,
 			);
 			path = Controllers;
@@ -336,7 +336,7 @@
 				3491378C1FCE666C00867641 /* ConfirmDialogue.swift in Sources */,
 				34CF16941FA03F43009058B5 /* Constants.swift in Sources */,
 				34C7A4A61FACE9470056B5B1 /* ColorNamesData.swift in Sources */,
-				346E9BFA1FAA42F300CA1D66 /* SettingsViewController.swift in Sources */,
+				346E9BFA1FAA42F300CA1D66 /* RoomsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

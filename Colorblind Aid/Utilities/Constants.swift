@@ -23,7 +23,7 @@ class Constants {
     struct storyboardIDs {
         static let main = "Main"
         
-        static let left = "Settings"
+        static let left = "Rooms"
         static let middle = "AR"
         static let right = "Filter"
     }

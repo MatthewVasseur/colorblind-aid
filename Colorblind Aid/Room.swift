@@ -14,11 +14,13 @@ class Room: NSObject, NSCoding {
     // MARK: - Properties
     var name: String
     var nodes: [Node]
+    var image: UIImage
     
     // MARK: - Types
     struct PropertyKey {
         static let name = "name"
         static let nodes = "nodes"
+        static let image = "image"
     }
     
     //MARK: - Archiving Paths
@@ -27,31 +29,39 @@ class Room: NSObject, NSCoding {
 
     
     // MARK: - Initializers
-    init(name: String, nodes: [Node]) {
+    init(name: String, nodes: [Node], image: UIImage) {
         self.name = name
         self.nodes = nodes
+        self.image = image
     }
     
     // MARK: - NSCoding
     func encode(with aCoder: NSCoder) {
         aCoder.encode(name, forKey: PropertyKey.name)
         aCoder.encode(nodes, forKey: PropertyKey.nodes)
+        aCoder.encode(image, forKey: PropertyKey.image)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
         // The name is required
         guard let name = aDecoder.decodeObject(forKey: PropertyKey.name) as? String else {
-            os_log("Unable to decode the name for a Meal object.", log: OSLog.default, type: .debug)
+            os_log("Unable to decode the name for a Room object.", log: OSLog.default, type: .debug)
             return nil
         }
         
         // The nodes are required
         guard let nodes = aDecoder.decodeObject(forKey: PropertyKey.nodes) as? [Node] else {
-            os_log("Unable to decode the name for a Meal object.", log: OSLog.default, type: .debug)
+            os_log("Unable to decode the nodes for a Room object.", log: OSLog.default, type: .debug)
             return nil
         }
         
-        self.init(name: name, nodes: nodes)
+        // The image is required
+        guard let image = aDecoder.decodeObject(forKey: PropertyKey.image) as? UIImage else {
+            os_log("Unable to decode the image for a Room object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        
+        self.init(name: name, nodes: nodes, image: image)
     }
     
     /// Save the rooms
@@ -73,16 +83,13 @@ class Room: NSObject, NSCoding {
     // MARK: - Node Structure
     struct Node {
         var title: String
-        var coord: Position
-    }
-    
-    // MARK: - Position Structure
-    struct Position {
+        // Coord
         var x: Float
         var y: Float
         var z: Float
         
-        init(vector: SCNVector3) {
+        init(title: String, vector: SCNVector3) {
+            self.title = title
             self.x = vector.x
             self.y = vector.y
             self.z = vector.z

@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Load rooms
         if let rooms = Room.loadRooms() {
+            print("loaded rooms")
             AppState.sharedInstance.rooms = rooms
         }
         

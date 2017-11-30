@@ -19,23 +19,23 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     @IBOutlet weak var targetButton: UIButton!
     
     var snapContainer: SnapContainerViewController!
-    var targetCenter: CGPoint!
     
+    private var targetCenter: CGPoint!
     //private var room: Room!
     private var nodes: [Room.Node]!
-    
-    //var uiImage: UIImage!
+    private var lastUIImage: UIImage!
     
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set up Room
+        nodes = []
+        
         // Set up the scene and scene view
         let scene = SCNScene()
         sceneView.scene = scene
         
-        // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
         // Enable Default Lighting - makes the 3D text a bit poppier
         sceneView.autoenablesDefaultLighting = true
         // Enable debug options
@@ -87,14 +87,14 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
                 return
             }
             let ciImage = CIImage(cvPixelBuffer: pixbuff)
-            //let context = CIContext()
+            let context = CIContext()
             
             // Created cropped image into square around center (using magic number 20)
             let imageCenter = CGPoint(x: ciImage.extent.width / 2.0, y: ciImage.extent.height / 2.0)
             let croppedSize = CGSize(forSquare: ciImage.extent.width / 20.0)
             let croppedRect = CGRect(center: imageCenter, size: croppedSize)
             let croppedCIImage = ciImage.cropped(to: croppedRect)
-            guard let cgImage = CIContext().createCGImage(croppedCIImage, from: croppedCIImage.extent) else {
+            guard let cgImage = context.createCGImage(croppedCIImage, from: croppedCIImage.extent) else {
                 return
             }
             let uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
@@ -108,12 +108,18 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             sceneView.scene.rootNode.addChildNode(node)
             node.position = worldCoord
             
-            // Add to nodes
-            nodes.append(Room.Node(title: colorText, coord: Room.Position(vector: worldCoord)))
+            // Add to nodes and save image
+            lastUIImage = UIImage(ciImage: ciImage)
+            nodes.append(Room.Node(title: colorText, vector: worldCoord))
         }
     }
     
     @IBAction func handleSaveButton(_ sender: UIButton) {
+        // Ensure we have values
+        if (nodes.isEmpty || lastUIImage == nil) {
+            return
+        }
+        
         // Use prompt for saving the room
         let savePrompt = UIAlertController(title: "Save Room", message: "Save the labels in this room?", preferredStyle: .alert)
         savePrompt.popoverPresentationController?.sourceView = self.view
@@ -123,7 +129,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             guard let title = savePrompt.textFields?.first?.text, !title.isEmpty else {
                 return
             }
-            let room = Room(name: title, nodes: self.nodes)
+            let room = Room(name: title, nodes: self.nodes, image: self.lastUIImage)
             
             // Save the room
             AppState.sharedInstance.rooms.append(room)
@@ -137,6 +143,15 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         savePrompt.addAction(save)
         savePrompt.addAction(cancel)
         
+        self.present(savePrompt, animated: true, completion: nil)
+    }
+    
+    @IBAction func handleRemoveButton(_ sender: UIButton) {
+        // Remove all nodes
+        for node in sceneView.scene.rootNode.childNodes {
+            node.removeFromParentNode()
+        }
+        nodes.removeAll()
     }
     
     @IBAction func showFilter(_ sender: Any) {
