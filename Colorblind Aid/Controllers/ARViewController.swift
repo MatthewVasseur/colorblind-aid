@@ -15,26 +15,27 @@ import UIImageColors
 class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewElement {
     
     // Mark: - Properties
-    @IBOutlet var sceneView: ARSCNView!
-    @IBOutlet weak var debugTextView: UITextView!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var targetButton: UIButton!
     
     var snapContainer: SnapContainerViewController!
-    var targetCenter: CGPoint!
-    var latestColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.52)
-    var uiImage: UIImage!
+    
+    private var targetCenter: CGPoint!
+    //private var room: Room!
+    private var nodes: [Room.Node]!
+    private var lastUIImage: UIImage!
     
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set up Room
+        nodes = []
+        
         // Set up the scene and scene view
         let scene = SCNScene()
         sceneView.scene = scene
         
-        // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
         // Enable Default Lighting - makes the 3D text a bit poppier
         sceneView.autoenablesDefaultLighting = true
         // Enable debug options
@@ -96,24 +97,78 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             guard let cgImage = context.createCGImage(croppedCIImage, from: croppedCIImage.extent) else {
                 return
             }
-            uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
+            let uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
             
             // Get image color and hue name
             let colors = uiImage.getColors()
-            self.latestColor = colors.background
             let colorText = colors.background.toHueName()
-            //            print(colors.background.getRGBa())
-            
-            // Display debugging info on screen
-            self.debugTextView.text = colorText
-            debugTextView.backgroundColor = latestColor
-            imageView.image = uiImage
             
             // Create 3D text node
             let node = createNewBubbleParentNode(colorText)
             sceneView.scene.rootNode.addChildNode(node)
             node.position = worldCoord
+            
+            // Add to nodes and save image
+            lastUIImage = UIImage(ciImage: ciImage)
+            nodes.append(Room.Node(title: colorText, vector: worldCoord))
         }
+    }
+    
+    @IBAction func handleSaveButton(_ sender: UIButton) {
+        // Ensure we have values
+        if (nodes.isEmpty || lastUIImage == nil) {
+            return
+        }
+        
+        // Use prompt for saving the room
+        let savePrompt = UIAlertController(title: "Save Room", message: "Save the labels in this room?", preferredStyle: .alert)
+        savePrompt.popoverPresentationController?.sourceView = self.view
+        
+        let save = UIAlertAction(title: "Save", style: .default) { _ in
+            // Get title and create
+            guard let title = savePrompt.textFields?.first?.text, !title.isEmpty else {
+                return
+            }
+            let room = Room(name: title, nodes: self.nodes, image: self.lastUIImage)
+            
+            // Save the room
+            AppState.sharedInstance.rooms.append(room)
+            Room.saveRooms()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        savePrompt.addTextField { (textField) in
+            textField.placeholder = "Name of Room"
+        }
+        savePrompt.addAction(save)
+        savePrompt.addAction(cancel)
+        
+        self.present(savePrompt, animated: true, completion: nil)
+    }
+    
+    @IBAction func handleRemoveButton(_ sender: UIButton) {
+        // Remove all nodes
+        for node in sceneView.scene.rootNode.childNodes {
+            node.removeFromParentNode()
+        }
+        nodes.removeAll()
+    }
+    
+    @IBAction func handleCaptureButton(_ sender: UIButton) {
+        // Get Camera Image as pixel data and create ciImage
+        guard let pixbuff = (sceneView.session.currentFrame?.capturedImage) else {
+            return
+        }
+        let ciImage = CIImage(cvPixelBuffer: pixbuff)
+        let uiImage = UIImage(ciImage: ciImage)
+        
+        guard let filterVC = snapContainer.rightVC as? FilterViewController else {
+            fatalError("Wrong VC type.")
+        }
+        
+        filterVC.imageView.image = uiImage
+        filterVC.adjustImageViewSize()
+        snapContainer.move(to: "right")
     }
     
     @IBAction func showFilter(_ sender: Any) {

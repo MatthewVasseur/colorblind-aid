@@ -23,6 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Enable Google Sign In
         //GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         
+        // Load rooms
+        if let rooms = Room.loadRooms() {
+            print("loaded rooms")
+            AppState.sharedInstance.rooms = rooms
+        }
+        
         // Enable and present snapchat-esque swiping around
         guard let snapContainer = SnapContainerViewController.containerViewWith(left: Constants.storyboardIDs.left, middle: Constants.storyboardIDs.middle, right: Constants.storyboardIDs.right) else {
             fatalError("Not proper snap container elements")
