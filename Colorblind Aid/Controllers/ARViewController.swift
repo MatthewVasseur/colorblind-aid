@@ -154,6 +154,23 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         nodes.removeAll()
     }
     
+    @IBAction func handleCaptureButton(_ sender: UIButton) {
+        // Get Camera Image as pixel data and create ciImage
+        guard let pixbuff = (sceneView.session.currentFrame?.capturedImage) else {
+            return
+        }
+        let ciImage = CIImage(cvPixelBuffer: pixbuff)
+        let uiImage = UIImage(ciImage: ciImage)
+        
+        guard let filterVC = snapContainer.rightVC as? FilterViewController else {
+            fatalError("Wrong VC type.")
+        }
+        
+        filterVC.imageView.image = uiImage
+        filterVC.adjustImageViewSize()
+        snapContainer.move(to: "right")
+    }
+    
     @IBAction func showFilter(_ sender: Any) {
         snapContainer.move(to: "right")
     }

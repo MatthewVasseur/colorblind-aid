@@ -324,6 +324,27 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         return UIImage(cgImage: cgImage.cropping(to: extentRect)!)
     }
     
+    /// Adjust the image view to contain the whole image with proper aspect ratio
+    func adjustImageViewSize() {
+        guard let image = imageView.image else {
+            return
+        }
+        let imageRatio = image.size.ratio()
+        let viewRatio = view.frame.size.ratio()
+        
+        // Determine whether width or height constrains the image size to adjust image view as needed
+        if ((viewRatio < 1) && (imageRatio > viewRatio)) || ((viewRatio > 1) && (imageRatio < viewRatio)) {
+            // width constrains
+            imageViewWidth.constant = view.frame.size.width
+            imageViewHeight.constant = imageViewWidth.constant / imageRatio
+        } else {
+            // height constrains
+            imageViewHeight.constant = view.frame.size.height
+            imageViewWidth.constant = imageViewHeight.constant * imageRatio
+        }
+        imageView.layoutIfNeeded()
+    }
+    
     // MARK: - Navigation Handlers
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Initialize table view controller
@@ -436,20 +457,7 @@ extension FilterViewController: UIImagePickerControllerDelegate, UINavigationCon
         // Set photoImageView to display the selected image.
         imageView.image = selectedImage
         
-        let imageRatio = selectedImage.size.ratio()
-        let viewRatio = view.frame.size.ratio()
-        
-        // Determine whether width or height constrains the image size to adjust image view as needed
-        if ((viewRatio < 1) && (imageRatio > viewRatio)) || ((viewRatio > 1) && (imageRatio < viewRatio)) {
-            // width constrains
-            imageViewWidth.constant = view.frame.size.width
-            imageViewHeight.constant = imageViewWidth.constant / imageRatio
-        } else {
-            // height constrains
-            imageViewHeight.constant = view.frame.size.height
-            imageViewWidth.constant = imageViewHeight.constant * imageRatio
-        }
-        imageView.layoutIfNeeded()
+        adjustImageViewSize()
         
         // Dismiss the picker.
         dismiss(animated: true, completion: nil)

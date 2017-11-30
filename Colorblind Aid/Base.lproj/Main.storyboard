@@ -82,14 +82,27 @@
                                     <action selector="showFilter:" destination="BV1-FR-VrT" eventType="touchUpInside" id="Ypg-WW-KbU"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGu-1b-a79" userLabel="Capture Button">
+                                <rect key="frame" x="170" y="727" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="MGu-1b-a79" secondAttribute="height" multiplier="1:1" id="cP8-Wv-JF4"/>
+                                    <constraint firstAttribute="height" constant="35" id="g6P-sJ-rsV"/>
+                                </constraints>
+                                <state key="normal" image="captureIcon"/>
+                                <connections>
+                                    <action selector="handleCaptureButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="LFi-m5-V9g"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="XMS-LF-wda" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="IIc-zy-sgs" secondAttribute="trailing" id="4fi-wG-ytm"/>
+                            <constraint firstItem="dR5-7S-NpA" firstAttribute="centerY" secondItem="MGu-1b-a79" secondAttribute="centerY" id="8Ev-p3-X5p"/>
                             <constraint firstItem="W2V-Gj-Pwx" firstAttribute="trailing" secondItem="dR5-7S-NpA" secondAttribute="trailing" constant="16" id="8Or-sJ-TrM"/>
                             <constraint firstItem="fsc-JN-lWZ" firstAttribute="centerY" secondItem="XMs-gA-sya" secondAttribute="centerY" constant="-5" id="F1P-V6-WRz"/>
                             <constraint firstItem="fsc-JN-lWZ" firstAttribute="centerX" secondItem="XMs-gA-sya" secondAttribute="centerX" id="FRB-xB-mYc"/>
                             <constraint firstItem="XMs-gA-sya" firstAttribute="top" secondItem="W2V-Gj-Pwx" secondAttribute="top" id="Fo7-Ch-6FA"/>
+                            <constraint firstItem="MGu-1b-a79" firstAttribute="centerX" secondItem="W2V-Gj-Pwx" secondAttribute="centerX" id="Jhi-QO-frp"/>
                             <constraint firstItem="W2V-Gj-Pwx" firstAttribute="trailing" secondItem="XMS-LF-wda" secondAttribute="trailing" constant="16" id="SyP-kf-cpq"/>
                             <constraint firstItem="W2V-Gj-Pwx" firstAttribute="bottom" secondItem="dR5-7S-NpA" secondAttribute="bottom" constant="16" id="Tta-ti-Bip"/>
                             <constraint firstItem="IIc-zy-sgs" firstAttribute="leading" secondItem="W2V-Gj-Pwx" secondAttribute="leading" constant="16" id="UmA-S7-HvZ"/>
@@ -100,6 +113,7 @@
                             <constraint firstItem="XMs-gA-sya" firstAttribute="leading" secondItem="W2V-Gj-Pwx" secondAttribute="leading" id="fgq-Rs-G2A"/>
                             <constraint firstItem="qbV-Az-2JJ" firstAttribute="centerX" secondItem="IIc-zy-sgs" secondAttribute="centerX" id="nQB-bC-Xza"/>
                             <constraint firstItem="dR5-7S-NpA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qbV-Az-2JJ" secondAttribute="trailing" id="o89-gu-DdV"/>
+                            <constraint firstItem="qbV-Az-2JJ" firstAttribute="centerY" secondItem="MGu-1b-a79" secondAttribute="centerY" id="qxM-nT-5VY"/>
                             <constraint firstItem="XMs-gA-sya" firstAttribute="trailing" secondItem="W2V-Gj-Pwx" secondAttribute="trailing" id="wDe-hU-FQa"/>
                             <constraint firstItem="XMs-gA-sya" firstAttribute="bottom" secondItem="W2V-Gj-Pwx" secondAttribute="bottom" id="zam-8D-9DF"/>
                         </constraints>
@@ -773,6 +787,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="captureIcon" width="63" height="63"/>
         <image name="filterIcon" width="100" height="100"/>
         <image name="icon" width="150" height="150"/>
         <image name="removeIcon" width="50" height="50"/>
