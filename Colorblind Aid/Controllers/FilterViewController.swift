@@ -17,6 +17,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
     @IBOutlet weak var imageViewHeight: NSLayoutConstraint!
     @IBOutlet weak var imageViewWidth: NSLayoutConstraint!
     
+    @IBOutlet weak var boundsView: UIView!
     @IBOutlet weak var containerTableView: UIView!
     
     var snapContainer: SnapContainerViewController!
@@ -324,22 +325,30 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         return UIImage(cgImage: cgImage.cropping(to: extentRect)!)
     }
     
-    /// Adjust the image view to contain the whole image with proper aspect ratio
-    func adjustImageViewSize() {
-        guard let image = imageView.image else {
-            return
+    /// Set the image and adjust the image view to contain the whole image with proper aspect ratio
+    func setImage(_ image: UIImage) {
+        // Clear rectangles
+        for filterView in filterViews {
+            filterView.removeFromSuperview()
         }
+        filterViews.removeAll()
+        canEditFilters = true
+        
+        imageView.image = image
+        
+        //adjustImageViewSize()
+        
         let imageRatio = image.size.ratio()
-        let viewRatio = view.frame.size.ratio()
+        let viewRatio = boundsView.frame.size.ratio()
         
         // Determine whether width or height constrains the image size to adjust image view as needed
         if ((viewRatio < 1) && (imageRatio > viewRatio)) || ((viewRatio > 1) && (imageRatio < viewRatio)) {
             // width constrains
-            imageViewWidth.constant = view.frame.size.width
+            imageViewWidth.constant = boundsView.frame.size.width
             imageViewHeight.constant = imageViewWidth.constant / imageRatio
         } else {
             // height constrains
-            imageViewHeight.constant = view.frame.size.height
+            imageViewHeight.constant = boundsView.frame.size.height
             imageViewWidth.constant = imageViewHeight.constant * imageRatio
         }
         imageView.layoutIfNeeded()
@@ -447,17 +456,8 @@ extension FilterViewController: UIImagePickerControllerDelegate, UINavigationCon
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
         
-        // Clear rectangles
-        for filterView in filterViews {
-            filterView.removeFromSuperview()
-        }
-        filterViews.removeAll()
-        canEditFilters = true
-        
         // Set photoImageView to display the selected image.
-        imageView.image = selectedImage
-        
-        adjustImageViewSize()
+        setImage(selectedImage)
         
         // Dismiss the picker.
         dismiss(animated: true, completion: nil)

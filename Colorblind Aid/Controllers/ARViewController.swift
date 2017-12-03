@@ -97,7 +97,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             guard let cgImage = context.createCGImage(croppedCIImage, from: croppedCIImage.extent) else {
                 return
             }
-            let uiImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
+            let uiImage = UIImage(cgImage: cgImage)//, scale: 1.0, orientation: .right)
             
             // Get image color and hue name
             let colors = uiImage.getColors()
@@ -155,19 +155,14 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     }
     
     @IBAction func handleCaptureButton(_ sender: UIButton) {
-        // Get Camera Image as pixel data and create ciImage
-        guard let pixbuff = (sceneView.session.currentFrame?.capturedImage) else {
-            return
-        }
-        let ciImage = CIImage(cvPixelBuffer: pixbuff)
-        let uiImage = UIImage(ciImage: ciImage)
+        // Get camera image
+        let uiImage = sceneView.snapshot()
         
         guard let filterVC = snapContainer.rightVC as? FilterViewController else {
             fatalError("Wrong VC type.")
         }
         
-        filterVC.imageView.image = uiImage
-        filterVC.adjustImageViewSize()
+        filterVC.setImage(uiImage)
         snapContainer.move(to: "right")
     }
     
