@@ -1,0 +1,62 @@
+/**
+A Core Image kernel routine that computes daltonize (colorblind) filter
+*/
+kernel vec4 color(__sample pixel, vec3 longSim, vec3 medSim, vec3 shortSim) {
+	// Const matrices (vectors) for computations
+	vec3 rgb2L = vec3(17.8824, 43.5161, 4.11935);
+	vec3 rgb2M = vec3(3.45565, 27.1554, 3.86714);
+	vec3 rgb2S = vec3(0.0299566, 0.184309, 1.46709);
+
+	vec3 lms2R = vec3(0.0809444479, -0.130504409, 0.116721066);
+	vec3 lms2G = vec3(-0.0102485335, 0.0540193266, -0.113614708);
+	vec3 lms2B = vec3(-0.000365296938, -0.00412161469, 0.693511405);
+
+	vec3 err2modR = vec3(0.0, 0.0, 0.0);
+	vec3 err2modG = vec3(0.7, 1.0, 0.0);
+	vec3 err2modB = vec3(0.7, 0.0, 1.0);
+
+	// Function expects RGB [0, 255], not [0, 1]
+	pixel.rgb *= 255.0;
+
+	// RGB to LMS matrix conversion
+	float L = dot(pixel.rgb, rgb2L);
+	float M = dot(pixel.rgb, rgb2M);
+	float S = dot(pixel.rgb, rgb2S);
+
+	vec3 LMS = vec3(L, M, S);
+
+	// Simulate color blindness
+	float lCB = dot(longSim, LMS);
+	float mCB = dot(medSim, LMS);
+	float sCB = dot(shortSim, LMS);
+
+	vec3 lmsCB = vec3(lCB, mCB, sCB);
+
+	// LMS to RGB matrix conversion
+	float R = dot(lmsCB, lms2R);
+	float G = dot(lmsCB, lms2G);
+	float B = dot(lmsCB, lms2B);
+
+	vec3 RGB = vec3(R, G, B);
+
+	// Isolate invisible colors to color vision deficiency (calculate error matrix)
+	RGB = pixel.rgb - RGB;
+
+	// Shift colors towards visible spectrum (apply error modifications)
+	float errR = dot(RGB, err2modR);
+	float errG = dot(RGB, err2modG);
+	float errB = dot(RGB, err2modB);
+
+	vec3 errRGB = vec3(errR, errG, errB);
+
+	// Add compensation to original values
+	RGB = pixel.rgb + errRGB;
+
+	// Clamp values
+	(RGB.r < 0.0) ? 0.0 : (RGB.r > 255.0) ? 255.0 : RGB.r;
+	(RGB.g < 0.0) ? 0.0 : (RGB.g > 255.0) ? 255.0 : RGB.g;	(RGB.b < 0.0) ? 0.0 : (RGB.b > 255.0) ? 255.0 : RGB.b;
+
+	// Return color
+    return vec4(RGB / 255.0, pixel.a);
+}
+
