@@ -145,7 +145,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             guard let roomsCollection = (self.snapContainer.leftVC as? RoomsViewController)?.collectionView else {
                 fatalError("Big error in left VC!")
             }
-            roomsCollection.reloadItems(at: [IndexPath(row: AppState.sharedInstance.rooms.count, section: 0)])
+            roomsCollection.reloadData()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         

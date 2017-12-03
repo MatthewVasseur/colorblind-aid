@@ -460,13 +460,13 @@
                                         <connections>
                                             <outlet property="imageView" destination="fpz-2q-9Ef" id="Ur7-4W-kbe"/>
                                             <outlet property="label" destination="2In-UG-IFQ" id="kT5-2w-x1u"/>
-                                            <outletCollection property="gestureRecognizers" destination="OM2-ZR-dj5" appends="YES" id="B0A-Kt-Va2"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
                                     <outlet property="dataSource" destination="Vy5-mF-aUO" id="0Sc-o9-JWR"/>
                                     <outlet property="delegate" destination="Vy5-mF-aUO" id="lyR-Ts-eJY"/>
+                                    <outletCollection property="gestureRecognizers" destination="OM2-ZR-dj5" appends="YES" id="U7g-8z-hxy"/>
                                 </connections>
                             </collectionView>
                         </subviews>
@@ -490,9 +490,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="juz-0T-Wsa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="OM2-ZR-dj5">
+                <pongPressGestureRecognizer delaysTouchesBegan="YES" allowableMovement="10" minimumPressDuration="0.5" id="OM2-ZR-dj5">
                     <connections>
-                        <action selector="handleLongPress:" destination="Vy5-mF-aUO" id="xb3-Zh-G4E"/>
+                        <action selector="handleLongPress:" destination="Vy5-mF-aUO" id="Xi2-fO-pLp"/>
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>

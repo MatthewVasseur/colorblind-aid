@@ -30,30 +30,24 @@ class RoomsViewController: UIViewController, SnapContainerViewElement {
     }
     
     @IBAction func handleLongPress(_ sender: UILongPressGestureRecognizer) {
+        if self.presentedViewController != nil {
+            return
+        }
+        // Get index path of selected cell
+        guard let indexPath = collectionView.indexPathForItem(at: sender.location(in: collectionView)) else {
+            return
+        }
+        
         // Action menu
         let menu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         menu.popoverPresentationController?.sourceView = self.view
         
         let load = UIAlertAction(title: "Load", style: .default, handler: { _ in
-            // Get the indexPath
-            guard let indexPath = self.collectionView.indexPathForItem(at: sender.location(in: self.collectionView)) else {
-                return
-            }
-            
             // Load the cell
             let room = AppState.sharedInstance.rooms[indexPath.row]
             self.loadRoom(room)
         })
         let delete = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-            if (sender.state != .ended) {
-                return
-            }
-            
-            // Get the index path
-            guard let indexPath = self.collectionView.indexPathForItem(at: sender.location(in: self.collectionView)) else {
-                return
-            }
-            
             // Delete the cell
             AppState.sharedInstance.rooms.remove(at: indexPath.row)
             self.collectionView.reloadData()
@@ -132,5 +126,6 @@ extension RoomsViewController: UICollectionViewDataSource, UICollectionViewDeleg
         
         loadRoom(room)
     }
+    
     
 }
