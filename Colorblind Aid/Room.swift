@@ -77,14 +77,14 @@ class Room: NSObject, NSCoding {
     
     // Load the rooms
     static func loadRooms() -> [Room]? {
-        var rooms = NSKeyedUnarchiver.unarchiveObject(withFile: Room.ArchiveURL.path) as? [Room]
-        
-        rooms?.append(Room(name: "Title", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
-        rooms?.append(Room(name: "Title2", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
-        rooms?.append(Room(name: "Title3", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "settingsIcon")))
-        rooms?.append(Room(name: "Title4", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
-        rooms?.append(Room(name: "Title5", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
-        rooms?.append(Room(name: "Title6", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
+        let rooms = NSKeyedUnarchiver.unarchiveObject(withFile: Room.ArchiveURL.path) as? [Room]
+//        var rooms: [Room] = []
+//        rooms.append(Room(name: "Title", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "subtleDots")))
+//        rooms?.append(Room(name: "Title2", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
+//        rooms?.append(Room(name: "Title3", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "settingsIcon")))
+//        rooms?.append(Room(name: "Title4", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
+//        rooms?.append(Room(name: "Title5", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
+//        rooms?.append(Room(name: "Title6", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
         
         return rooms
     }
@@ -95,9 +95,9 @@ class Node: NSObject, NSCoding {
     // MARK: - Properties
     var title: String
     // Coord
-    var x: Float
-    var y: Float
-    var z: Float
+    var x: CGFloat
+    var y: CGFloat
+    var z: CGFloat
     
     // MARK: - Types
     struct PropertyKey {
@@ -110,12 +110,12 @@ class Node: NSObject, NSCoding {
     // MARK: - Initializers
     init(title: String, vector: SCNVector3) {
         self.title = title
-        self.x = vector.x
-        self.y = vector.y
-        self.z = vector.z
+        self.x = CGFloat(vector.x)
+        self.y = CGFloat(vector.y)
+        self.z = CGFloat(vector.z)
     }
     
-    init(title: String, x: Float, y: Float, z: Float) {
+    init(title: String, x: CGFloat, y: CGFloat, z: CGFloat) {
         self.title = title
         self.x = x
         self.y = y
@@ -138,19 +138,19 @@ class Node: NSObject, NSCoding {
         }
         
         // The x coord is required
-        guard let x = aDecoder.decodeObject(forKey: PropertyKey.xCoord) as? Float else {
+        guard let x = aDecoder.decodeObject(forKey: PropertyKey.xCoord) as? CGFloat else {
             os_log("Unable to decode the xCoord for a Node object.", log: OSLog.default, type: .debug)
             return nil
         }
         
         // The y coord is required
-        guard let y = aDecoder.decodeObject(forKey: PropertyKey.yCoord) as? Float else {
+        guard let y = aDecoder.decodeObject(forKey: PropertyKey.yCoord) as? CGFloat else {
             os_log("Unable to decode the yCoord for a Node object.", log: OSLog.default, type: .debug)
             return nil
         }
         
         // The x coord is required
-        guard let z = aDecoder.decodeObject(forKey: PropertyKey.zCoord) as? Float else {
+        guard let z = aDecoder.decodeObject(forKey: PropertyKey.zCoord) as? CGFloat else {
             os_log("Unable to decode the zCoord for a Node object.", log: OSLog.default, type: .debug)
             return nil
         }

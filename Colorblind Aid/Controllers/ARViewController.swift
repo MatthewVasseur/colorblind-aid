@@ -109,7 +109,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             node.position = worldCoord
             
             // Add to nodes and save image
-            lastUIImage = UIImage(ciImage: ciImage)
+            lastUIImage = sceneView.snapshot()
             nodes.append(Node(title: colorText, vector: worldCoord))
 //            nodes.append(Node(title: colorText, x: Double(worldCoord.x), y: Double(worldCoord.y), z: Double(worldCoord.z)))
         }
@@ -118,7 +118,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     @IBAction func handleSaveButton(_ sender: UIButton) {
         // Ensure we have values
         if (nodes.isEmpty || lastUIImage == nil) {
-            //return
+            return
         }
         
         // Use prompt for saving the room
@@ -133,8 +133,15 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             let room = Room(name: title, nodes: self.nodes, image: self.lastUIImage)
             
             // Save the room
-            AppState.sharedInstance.rooms.append(room)
+            //AppState.sharedInstance.rooms.append(room)
+            AppState.sharedInstance.rooms = [room]
             Room.saveRooms()
+            
+            // Reload saved rooms
+            guard let roomsCollection = (self.snapContainer.leftVC as? RoomsViewController)?.collectionView else {
+                fatalError("Big error in left VC!")
+            }
+            roomsCollection.reloadData()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         

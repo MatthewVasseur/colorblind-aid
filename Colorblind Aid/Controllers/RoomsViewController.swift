@@ -11,6 +11,8 @@ import UIKit
 class RoomsViewController: UIViewController, SnapContainerViewElement {
 
     // MARK: - Properties
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     var snapContainer: SnapContainerViewController!
     
     fileprivate let reuseIdentifier = "RoomCell"
@@ -20,8 +22,6 @@ class RoomsViewController: UIViewController, SnapContainerViewElement {
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
 
     // MARK: - Actions
@@ -46,8 +46,11 @@ extension RoomsViewController: UICollectionViewDataSource, UICollectionViewDeleg
         }
         let room = AppState.sharedInstance.rooms[indexPath.row]
 
+        // Set fields and autolayout
         cell.imageView.image = room.image
         cell.label.text = room.name
+        cell.label.layoutIfNeeded()
+        cell.imageView.layoutIfNeeded()
         
         return cell
     }
