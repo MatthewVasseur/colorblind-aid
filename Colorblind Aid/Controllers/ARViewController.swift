@@ -21,16 +21,13 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     var snapContainer: SnapContainerViewController!
     
     private var targetCenter: CGPoint!
-    //private var room: Room!
-    private var nodes: [Node]!
+    
+    private var nodes: [Node] = []
     private var lastUIImage: UIImage!
     
     // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Set up Room
-        nodes = []
         
         // Set up the scene and scene view
         let scene = SCNScene()
@@ -148,7 +145,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             guard let roomsCollection = (self.snapContainer.leftVC as? RoomsViewController)?.collectionView else {
                 fatalError("Big error in left VC!")
             }
-            roomsCollection.reloadData()
+            roomsCollection.reloadItems(at: [IndexPath(row: AppState.sharedInstance.rooms.count, section: 0)])
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
@@ -189,7 +186,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     }
     
     // MARK: - Helper Methods
-    func setNodes(nodes: [Node]) {
+    func setNodes(_ newNodes: [Node]) {
         // Remove all existing nodes
         for node in sceneView.scene.rootNode.childNodes {
             node.removeFromParentNode()
@@ -197,7 +194,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         self.nodes.removeAll()
         
         // Draw new nodes
-        for node in nodes {
+        for node in newNodes {
             let position = SCNVector3(node.x, node.y, node.z)
             drawNode(title: node.title, position: position)
         }

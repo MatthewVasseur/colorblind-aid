@@ -447,6 +447,7 @@
                                                 </label>
                                             </subviews>
                                         </view>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstItem="fpz-2q-9Ef" firstAttribute="leading" secondItem="aRB-oB-yZm" secondAttribute="leading" id="46x-ft-Jm8"/>
                                             <constraint firstItem="2In-UG-IFQ" firstAttribute="top" secondItem="fpz-2q-9Ef" secondAttribute="bottom" constant="8" id="I4i-oq-OOl"/>
@@ -459,6 +460,7 @@
                                         <connections>
                                             <outlet property="imageView" destination="fpz-2q-9Ef" id="Ur7-4W-kbe"/>
                                             <outlet property="label" destination="2In-UG-IFQ" id="kT5-2w-x1u"/>
+                                            <outletCollection property="gestureRecognizers" destination="OM2-ZR-dj5" appends="YES" id="B0A-Kt-Va2"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -469,6 +471,7 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="euZ-wU-HhA" firstAttribute="trailing" secondItem="hOI-0x-fUU" secondAttribute="trailing" constant="16" id="4TQ-uS-yRd"/>
                             <constraint firstItem="n2b-X1-hr9" firstAttribute="leading" secondItem="euZ-wU-HhA" secondAttribute="leading" constant="8" id="6AN-Sr-EGM"/>
@@ -487,6 +490,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="juz-0T-Wsa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="OM2-ZR-dj5">
+                    <connections>
+                        <action selector="handleLongPress:" destination="Vy5-mF-aUO" id="xb3-Zh-G4E"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-530.39999999999998" y="617.73399014778329"/>
         </scene>
