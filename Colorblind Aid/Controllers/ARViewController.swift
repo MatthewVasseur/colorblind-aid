@@ -66,6 +66,21 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
         sceneView.session.pause()
     }
     
+    func session(_ session: ARSession, didFailWithError error: Error) {
+        // Present an error message to the user
+        print("hi")
+    }
+    
+    func sessionWasInterrupted(_ session: ARSession) {
+        // Inform the user that the session has been interrupted, for example, by presenting an overlay
+        print("uh oh")
+    }
+    
+    func sessionInterruptionEnded(_ session: ARSession) {
+        // Reset tracking and/or remove existing anchors if consistent tracking is required
+        
+    }
+    
     // MARK: - Actions
     
     @IBAction func handleTap(_ gestureRecognize: UITapGestureRecognizer) {
@@ -103,15 +118,8 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             let colors = uiImage.getColors()
             let colorText = colors.background.toHueName()
             
-            // Create 3D text node
-            let node = createNewBubbleParentNode(colorText)
-            sceneView.scene.rootNode.addChildNode(node)
-            node.position = worldCoord
-            
-            // Add to nodes and save image
-            lastUIImage = sceneView.snapshot()
-            nodes.append(Node(title: colorText, vector: worldCoord))
-//            nodes.append(Node(title: colorText, x: Double(worldCoord.x), y: Double(worldCoord.y), z: Double(worldCoord.z)))
+            // Create node
+            drawNode(title: colorText, position: worldCoord)
         }
     }
     
@@ -133,8 +141,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             let room = Room(name: title, nodes: self.nodes, image: self.lastUIImage)
             
             // Save the room
-            //AppState.sharedInstance.rooms.append(room)
-            AppState.sharedInstance.rooms = [room]
+            AppState.sharedInstance.rooms.append(room)
             Room.saveRooms()
             
             // Reload saved rooms
@@ -182,6 +189,32 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     }
     
     // MARK: - Helper Methods
+    func setNodes(nodes: [Node]) {
+        // Remove all existing nodes
+        for node in sceneView.scene.rootNode.childNodes {
+            node.removeFromParentNode()
+        }
+        self.nodes.removeAll()
+        
+        // Draw new nodes
+        for node in nodes {
+            let position = SCNVector3(node.x, node.y, node.z)
+            drawNode(title: node.title, position: position)
+        }
+    }
+    
+    func drawNode(title: String, position: SCNVector3) {
+        // Create and draw 3D bubble node
+        let node = createNewBubbleParentNode(title)
+        sceneView.scene.rootNode.addChildNode(node)
+        node.position = position
+        
+        // Add to nodes and save image
+        lastUIImage = sceneView.snapshot()
+        nodes.append(Node(title: title, vector: position))
+        //            nodes.append(Node(title: colorText, x: Double(worldCoord.x), y: Double(worldCoord.y), z: Double(worldCoord.z)))
+    }
+    
     fileprivate func createNewBubbleParentNode(_ text: String) -> SCNNode {
         // Warning: Creating 3D Text is susceptible to crashing. To reduce chances of crashing; reduce number of polygons, letters, smoothness, etc.
         

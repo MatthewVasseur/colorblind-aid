@@ -30,7 +30,7 @@ class RoomsViewController: UIViewController, SnapContainerViewElement {
     }
 }
 
-// MARK: - UICollectionViewDataSource & UICollectionViewDelegateFlowLayout
+// MARK: - UICollectionViewDataSource & UICollectionViewDelegateFlowLayout & UICollectionViewDelegate
 extension RoomsViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -73,6 +73,17 @@ extension RoomsViewController: UICollectionViewDataSource, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.left
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Load the nodes
+        let room = AppState.sharedInstance.rooms[indexPath.row]
+        
+        // Set the nodes
+        guard let ARVC = snapContainer.middleVC as? ARViewController else {
+            fatalError("Incorrect view controllers")
+        }
+        ARVC.setNodes(nodes: room.nodes)
     }
     
 }
