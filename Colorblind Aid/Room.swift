@@ -77,38 +77,38 @@ class Room: NSObject, NSCoding {
     
     // Load the rooms
     static func loadRooms() -> [Room]? {
-//        let rooms = NSKeyedUnarchiver.unarchiveObject(withFile: Room.ArchiveURL.path) as? [Room]
-        var rooms: [Room] = []
-        rooms.append(Room(name: "Title", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
-        rooms.append(Room(name: "Title2", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
-        rooms.append(Room(name: "Title3", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "settingsIcon")))
-        rooms.append(Room(name: "Title4", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
-        rooms.append(Room(name: "Title5", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
-        rooms.append(Room(name: "Title6", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
+        var rooms = NSKeyedUnarchiver.unarchiveObject(withFile: Room.ArchiveURL.path) as? [Room]
+        
+        rooms?.append(Room(name: "Title", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
+        rooms?.append(Room(name: "Title2", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
+        rooms?.append(Room(name: "Title3", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "settingsIcon")))
+        rooms?.append(Room(name: "Title4", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
+        rooms?.append(Room(name: "Title5", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
+        rooms?.append(Room(name: "Title6", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
         
         return rooms
     }
     
     // MARK: - Node Structure
-    struct Node {
+    struct Node: Codable {
         var title: String
         // Coord
-        var x: Float
-        var y: Float
-        var z: Float
+        var x: Double
+        var y: Double
+        var z: Double
         
         init(title: String, x: Float, y: Float, z: Float) {
             self.title = title
-            self.x = x
-            self.y = y
-            self.z = z
+            self.x = Double(x)
+            self.y = Double(y)
+            self.z = Double(z)
         }
         
         init(title: String, vector: SCNVector3) {
             self.title = title
-            self.x = vector.x
-            self.y = vector.y
-            self.z = vector.z
+            self.x = Double(vector.x)
+            self.y = Double(vector.y)
+            self.z = Double(vector.z)
         }
     }
 }

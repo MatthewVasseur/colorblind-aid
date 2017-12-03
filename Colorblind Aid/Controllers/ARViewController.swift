@@ -68,7 +68,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     
     // MARK: - Actions
     
-    @IBAction func handleTap(gestureRecognize: UITapGestureRecognizer) {
+    @IBAction func handleTap(_ gestureRecognize: UITapGestureRecognizer) {
         // Get nearest object to center screen to color lable
         //        let touchLocation = sender.location(in: self.sceneView)
         
@@ -111,13 +111,14 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             // Add to nodes and save image
             lastUIImage = UIImage(ciImage: ciImage)
             nodes.append(Room.Node(title: colorText, vector: worldCoord))
+//            nodes.append(Room.Node(title: colorText, x: Double(worldCoord.x), y: Double(worldCoord.y), z: Double(worldCoord.z)))
         }
     }
     
     @IBAction func handleSaveButton(_ sender: UIButton) {
         // Ensure we have values
         if (nodes.isEmpty || lastUIImage == nil) {
-            return
+            //return
         }
         
         // Use prompt for saving the room

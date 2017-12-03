@@ -128,7 +128,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="gtY-0k-Woh">
                     <connections>
-                        <action selector="handleTapWithGestureRecognize:" destination="BV1-FR-VrT" id="gh2-kS-Zd7"/>
+                        <action selector="handleTap:" destination="BV1-FR-VrT" id="wDe-lN-14k"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

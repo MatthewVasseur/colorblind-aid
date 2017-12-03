@@ -143,6 +143,7 @@ extension UIColor {
             }
         }
         
+        print(Constants.colors.names[cl].colorName)
         return cl < 0 ? "N/A" : Constants.colors.names[cl].hueName
     }
 }
