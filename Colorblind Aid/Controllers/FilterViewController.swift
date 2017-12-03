@@ -140,12 +140,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             (alert: UIAlertAction) in
             
             // Apply the filter
-            guard let image = self.imageView.image, let ciImage = CIImage(image: image) else {
-                return
-            }
-            let filterValues = ColorblindFilter.data[self.filterType]!
-            
-            guard let newImage = self.createFilter(ciImage: ciImage, filterValues: filterValues, rect: currentFilterView.frame) else {
+            guard let newImage = self.createFilter(filterValues: ColorblindFilter.data[self.filterType]!, rect: currentFilterView.frame) else {
                 return
             }
 
@@ -204,12 +199,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
             // Reapply filter (is applicable)
             if currentRect.isFiltered {
                 // Apply the filter
-                guard let image = self.imageView.image, let ciImage = CIImage(image: image) else {
-                    return
-                }
-                let filterValues = ColorblindFilter.data[currentRect.filterType]!
-                
-                guard let newImage = self.createFilter(ciImage: ciImage, filterValues: filterValues, rect: currentRect.frame) else {
+                guard let newImage = self.createFilter(filterValues: ColorblindFilter.data[currentRect.filterType]!, rect: currentRect.frame) else {
                     return
                 }
                 
@@ -295,7 +285,12 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
     
-    fileprivate func createFilter(ciImage: CIImage, filterValues: ColorblindFilter.colorblindTransformMatrix, rect: CGRect) -> UIImage? {
+    fileprivate func createFilter(filterValues: ColorblindFilter.colorblindTransformMatrix, rect: CGRect) -> UIImage? {
+        // Get image
+        guard let image = imageView.image, let ciImage = CIImage(image: image) else {
+            return nil
+        }
+        
         // create CIFilter
         let filter: CIFilter
         if shouldDaltonize {
@@ -322,7 +317,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         
         // Crop to region size
         let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent)!
-        return UIImage(cgImage: cgImage.cropping(to: extentRect)!)
+        return UIImage(cgImage: cgImage.cropping(to: extentRect)!, scale: image.scale, orientation: image.imageOrientation)
     }
     
     /// Set the image and adjust the image view to contain the whole image with proper aspect ratio
@@ -336,8 +331,7 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         
         imageView.image = image
         
-        //adjustImageViewSize()
-        
+        // Adjust the image view size to fit perfectly!
         let imageRatio = image.size.ratio()
         let viewRatio = boundsView.frame.size.ratio()
         
@@ -362,8 +356,6 @@ class FilterViewController: UIViewController, SnapContainerViewElement, UIGestur
         }
     }
 }
-
-
 
 // MARK: - UITableViewDataSource & UITableViewDelegate
 extension FilterViewController: UITableViewDelegate {
