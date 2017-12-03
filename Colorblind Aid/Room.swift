@@ -79,36 +79,82 @@ class Room: NSObject, NSCoding {
     static func loadRooms() -> [Room]? {
         var rooms = NSKeyedUnarchiver.unarchiveObject(withFile: Room.ArchiveURL.path) as? [Room]
         
-        rooms?.append(Room(name: "Title", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
-        rooms?.append(Room(name: "Title2", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
-        rooms?.append(Room(name: "Title3", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "settingsIcon")))
-        rooms?.append(Room(name: "Title4", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
-        rooms?.append(Room(name: "Title5", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
-        rooms?.append(Room(name: "Title6", nodes: [Room.Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
+        rooms?.append(Room(name: "Title", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
+        rooms?.append(Room(name: "Title2", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "icon")))
+        rooms?.append(Room(name: "Title3", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "settingsIcon")))
+        rooms?.append(Room(name: "Title4", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
+        rooms?.append(Room(name: "Title5", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
+        rooms?.append(Room(name: "Title6", nodes: [Node(title: "x", x: 1, y: 1, z: 1)], image: #imageLiteral(resourceName: "filterIcon")))
         
         return rooms
     }
+}
+
+// MARK: - Node Class
+class Node: NSObject, NSCoding {
+    // MARK: - Properties
+    var title: String
+    // Coord
+    var x: Float
+    var y: Float
+    var z: Float
     
-    // MARK: - Node Structure
-    struct Node: Codable {
-        var title: String
-        // Coord
-        var x: Double
-        var y: Double
-        var z: Double
-        
-        init(title: String, x: Float, y: Float, z: Float) {
-            self.title = title
-            self.x = Double(x)
-            self.y = Double(y)
-            self.z = Double(z)
+    // MARK: - Types
+    struct PropertyKey {
+        static let title = "title"
+        static let xCoord = "x"
+        static let yCoord = "y"
+        static let zCoord = "z"
+    }
+    
+    // MARK: - Initializers
+    init(title: String, vector: SCNVector3) {
+        self.title = title
+        self.x = vector.x
+        self.y = vector.y
+        self.z = vector.z
+    }
+    
+    init(title: String, x: Float, y: Float, z: Float) {
+        self.title = title
+        self.x = x
+        self.y = y
+        self.z = z
+    }
+    
+    // MARK: - NSCoding
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(title, forKey: PropertyKey.title)
+        aCoder.encode(x, forKey: PropertyKey.xCoord)
+        aCoder.encode(y, forKey: PropertyKey.yCoord)
+        aCoder.encode(z, forKey: PropertyKey.zCoord)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        // The name is required
+        guard let title = aDecoder.decodeObject(forKey: PropertyKey.title) as? String else {
+            os_log("Unable to decode the title for a Node object.", log: OSLog.default, type: .debug)
+            return nil
         }
         
-        init(title: String, vector: SCNVector3) {
-            self.title = title
-            self.x = Double(vector.x)
-            self.y = Double(vector.y)
-            self.z = Double(vector.z)
+        // The x coord is required
+        guard let x = aDecoder.decodeObject(forKey: PropertyKey.xCoord) as? Float else {
+            os_log("Unable to decode the xCoord for a Node object.", log: OSLog.default, type: .debug)
+            return nil
         }
+        
+        // The y coord is required
+        guard let y = aDecoder.decodeObject(forKey: PropertyKey.yCoord) as? Float else {
+            os_log("Unable to decode the yCoord for a Node object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        
+        // The x coord is required
+        guard let z = aDecoder.decodeObject(forKey: PropertyKey.zCoord) as? Float else {
+            os_log("Unable to decode the zCoord for a Node object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        
+        self.init(title: title, x: x, y: y, z: z)
     }
 }

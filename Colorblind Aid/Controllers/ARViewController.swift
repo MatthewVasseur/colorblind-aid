@@ -22,7 +22,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
     
     private var targetCenter: CGPoint!
     //private var room: Room!
-    private var nodes: [Room.Node]!
+    private var nodes: [Node]!
     private var lastUIImage: UIImage!
     
     // MARK: - UIViewController
@@ -110,8 +110,8 @@ class ARViewController: UIViewController, ARSCNViewDelegate, SnapContainerViewEl
             
             // Add to nodes and save image
             lastUIImage = UIImage(ciImage: ciImage)
-            nodes.append(Room.Node(title: colorText, vector: worldCoord))
-//            nodes.append(Room.Node(title: colorText, x: Double(worldCoord.x), y: Double(worldCoord.y), z: Double(worldCoord.z)))
+            nodes.append(Node(title: colorText, vector: worldCoord))
+//            nodes.append(Node(title: colorText, x: Double(worldCoord.x), y: Double(worldCoord.y), z: Double(worldCoord.z)))
         }
     }
     
