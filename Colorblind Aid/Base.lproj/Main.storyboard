@@ -147,7 +147,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image Filter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ywM-vd-VCV">
-                                <rect key="frame" x="51" y="65.666666666666671" width="273" height="24"/>
+                                <rect key="frame" x="51" y="66" width="273.33333333333331" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -156,8 +156,8 @@
                                 <rect key="frame" x="112.66666666666669" y="336" width="150" height="150"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="VG1-KG-8rO"/>
-                                    <constraint firstAttribute="width" constant="150" id="hat-Rm-Geu"/>
+                                    <constraint firstAttribute="width" constant="150" id="f4c-a9-tHA"/>
+                                    <constraint firstAttribute="height" constant="150" id="hw1-TD-ePl"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="6cM-zg-mBm" appends="YES" id="lOq-g5-hey"/>
@@ -231,14 +231,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="kzV-Cc-2eA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="XcB-Vs-tTe" secondAttribute="bottom" constant="8" id="1CS-zk-oIB"/>
+                            <constraint firstItem="kzV-Cc-2eA" firstAttribute="centerX" secondItem="BVY-AK-5Hw" secondAttribute="centerX" id="0zf-aN-cj9"/>
+                            <constraint firstItem="kzV-Cc-2eA" firstAttribute="width" relation="lessThanOrEqual" secondItem="GLT-hJ-Cmh" secondAttribute="width" id="1NB-Qv-QWi"/>
                             <constraint firstItem="HJ0-X1-sqW" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ywM-vd-VCV" secondAttribute="leading" id="385-Ve-zYU"/>
                             <constraint firstItem="JZi-r5-uY9" firstAttribute="top" secondItem="Fl8-W5-bzf" secondAttribute="top" id="3IG-GA-CXd"/>
                             <constraint firstItem="GLT-hJ-Cmh" firstAttribute="top" secondItem="XcB-Vs-tTe" secondAttribute="bottom" constant="8" id="3zt-cM-nOf"/>
                             <constraint firstItem="GLT-hJ-Cmh" firstAttribute="centerX" secondItem="BVY-AK-5Hw" secondAttribute="centerX" id="5WW-eg-YoA"/>
                             <constraint firstItem="ywM-vd-VCV" firstAttribute="centerY" secondItem="HJ0-X1-sqW" secondAttribute="centerY" id="7w2-K7-CJx"/>
-                            <constraint firstItem="kzV-Cc-2eA" firstAttribute="centerX" secondItem="BVY-AK-5Hw" secondAttribute="centerX" id="87l-1K-3I0"/>
-                            <constraint firstItem="kzV-Cc-2eA" firstAttribute="centerY" secondItem="BVY-AK-5Hw" secondAttribute="centerY" id="9Hh-px-7fH"/>
+                            <constraint firstItem="kzV-Cc-2eA" firstAttribute="height" relation="lessThanOrEqual" secondItem="GLT-hJ-Cmh" secondAttribute="height" id="9a5-7x-MFj"/>
                             <constraint firstItem="pBD-ck-aQX" firstAttribute="centerY" secondItem="dnp-Sm-yEZ" secondAttribute="centerY" id="BmI-vO-UYj"/>
                             <constraint firstItem="XcB-Vs-tTe" firstAttribute="top" secondItem="BVY-AK-5Hw" secondAttribute="top" constant="16" id="DXH-jz-Ly6"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="UoW-CS-vOu" secondAttribute="bottom" constant="16" id="FKD-tO-sPS"/>
@@ -247,8 +247,6 @@
                             <constraint firstItem="pBD-ck-aQX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dnp-Sm-yEZ" secondAttribute="trailing" id="Hsw-M1-sj4"/>
                             <constraint firstItem="HJ0-X1-sqW" firstAttribute="top" secondItem="BVY-AK-5Hw" secondAttribute="top" constant="16" id="KGw-Hf-dTT"/>
                             <constraint firstItem="pBD-ck-aQX" firstAttribute="centerY" secondItem="UoW-CS-vOu" secondAttribute="centerY" id="LSE-tS-K4R"/>
-                            <constraint firstItem="BVY-AK-5Hw" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kzV-Cc-2eA" secondAttribute="trailing" id="LZp-sr-ZKk"/>
-                            <constraint firstItem="dnp-Sm-yEZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="kzV-Cc-2eA" secondAttribute="bottom" constant="16" id="ML8-8s-kHh"/>
                             <constraint firstItem="Njn-F3-AqI" firstAttribute="height" secondItem="BVY-AK-5Hw" secondAttribute="height" multiplier="0.75" id="N66-SI-eG7"/>
                             <constraint firstItem="HJ0-X1-sqW" firstAttribute="leading" secondItem="BVY-AK-5Hw" secondAttribute="leading" constant="16" id="Rtd-OI-ywh"/>
                             <constraint firstItem="dnp-Sm-yEZ" firstAttribute="top" secondItem="GLT-hJ-Cmh" secondAttribute="bottom" constant="16" id="SoX-8s-ytX"/>
@@ -256,8 +254,8 @@
                             <constraint firstAttribute="bottom" secondItem="JZi-r5-uY9" secondAttribute="bottom" id="UbQ-3K-HBs"/>
                             <constraint firstItem="GLT-hJ-Cmh" firstAttribute="leading" secondItem="BVY-AK-5Hw" secondAttribute="leading" id="VtQ-ZT-Ag9"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="trailing" secondItem="XcB-Vs-tTe" secondAttribute="trailing" constant="16" id="VxJ-PS-Zdr"/>
-                            <constraint firstItem="kzV-Cc-2eA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BVY-AK-5Hw" secondAttribute="leading" id="cSH-4d-FAW"/>
                             <constraint firstItem="XcB-Vs-tTe" firstAttribute="centerY" secondItem="HJ0-X1-sqW" secondAttribute="centerY" id="fc0-BR-NNg"/>
+                            <constraint firstItem="kzV-Cc-2eA" firstAttribute="centerY" secondItem="BVY-AK-5Hw" secondAttribute="centerY" id="gct-2W-alC"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="bottom" secondItem="dnp-Sm-yEZ" secondAttribute="bottom" constant="20" id="hHY-vc-WzX"/>
                             <constraint firstItem="BVY-AK-5Hw" firstAttribute="trailing" secondItem="pBD-ck-aQX" secondAttribute="trailing" constant="16" id="jec-fT-2pk"/>
                             <constraint firstItem="dnp-Sm-yEZ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UoW-CS-vOu" secondAttribute="trailing" id="kP7-UJ-CCf"/>
@@ -270,19 +268,14 @@
                             <constraint firstItem="UoW-CS-vOu" firstAttribute="leading" secondItem="BVY-AK-5Hw" secondAttribute="leading" constant="16" id="zZE-M2-5gB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BVY-AK-5Hw"/>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="JZi-r5-uY9"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="boundsView" destination="GLT-hJ-Cmh" id="xJ8-qM-o6i"/>
                         <outlet property="containerTableView" destination="JZi-r5-uY9" id="NuR-Rg-yN4"/>
                         <outlet property="editButton" destination="pBD-ck-aQX" id="iJC-kH-MAw"/>
                         <outlet property="imageView" destination="kzV-Cc-2eA" id="jzm-jK-Yfg"/>
-                        <outlet property="imageViewHeight" destination="VG1-KG-8rO" id="INo-e9-hGk"/>
-                        <outlet property="imageViewWidth" destination="hat-Rm-Geu" id="EHY-Cd-vgt"/>
+                        <outlet property="imageViewHeight" destination="hw1-TD-ePl" id="P5x-3V-RH3"/>
+                        <outlet property="imageViewWidth" destination="f4c-a9-tHA" id="GJG-J7-hM3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="adN-Xd-Osb" userLabel="First Responder" sceneMemberID="firstResponder"/>
