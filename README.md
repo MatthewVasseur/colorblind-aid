@@ -16,7 +16,7 @@ opening the door to new and unique transformations to the experience of color bl
 
 ###### Language: Swift 4.0
 
-###### Version: 1.0
+###### Version: 1.1
 
 ### Resources
 
