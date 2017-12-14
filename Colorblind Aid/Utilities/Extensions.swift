@@ -3,7 +3,7 @@
 //  Colorblind Aid
 //
 //  Created by Matthew Vasseur on 10/10/17.
-//  Copyright © 2017 CompanyName. All rights reserved.
+//  Copyright © 2017 Matthew Vasseur. All rights reserved.
 //
 
 import UIKit
